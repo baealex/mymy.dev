@@ -1,3 +1,4 @@
+import os
 import subprocess
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
@@ -12,11 +13,12 @@ def save_file(file_name, source_code):
 
 def run_code(code_type, file_name):
     try:
-        data = subprocess.check_output([code_type, file_name], universal_newlines=True, timeout=1)
+        data = subprocess.check_output([code_type, file_name], universal_newlines=True, timeout=0.5)
     except subprocess.TimeoutExpired:
-        data = 'TimeOut'
+        data = 'Timeout'
     except:
         data = 'Error'
+    os.remove(file_name) 
     return data
 
 @app.route("/py", methods=['GET','POST'])
