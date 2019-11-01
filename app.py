@@ -1,15 +1,14 @@
 import os
 import subprocess
-from flask import Flask, request, render_template
+from flask import Flask, request
 from flask_cors import CORS, cross_origin
-from flask_socketio import SocketIO, send, emit
 
 app = Flask(__name__)
 cors = CORS(app)
-app.secret_key = "mysecret"
 
-socket_io = SocketIO(app)
-socket_io.run(app, debug=True, port=5000)
+@app.route('/ide')
+def socket_ide():
+    return render_template('ide.html')
 
 def save_file(file_name, source_code):
     source_file = open(file_name, 'w', encoding='utf-8')
@@ -25,41 +24,6 @@ def run_code(code_type, file_name):
         data = 'Error'
     os.remove(file_name) 
     return data
-
-@app.route('/')
-def root_index():
-    return "HELLO"
-
-@app.route('/one')
-def single_ide():
-    return render_template('single.ide.html')
-
-@app.route('/mul')
-def socket_ide():
-    return render_template('socket.ide.html')
-
-"""
-@socket_io.on("message")
-def request(message):
-    print("message : "+ message)
-    to_client = dict()
-    if message == 'new_connect':
-        to_client['message'] = "새로운 유저가 난입하였다!!"
-        to_client['type'] = 'connect'
-    else:
-        to_client['message'] = message
-        to_client['type'] = 'normal'
-    emit("response", {'data': message['data'], 'username': session['username']}, broadcast=True)
-    send(to_client, broadcast=True)
-"""
-
-@socket_io.on('connect')
-def user_connect():
-    emit('welcome', {'message':'welcome'})
-
-@socket_io.on('code_change')
-def code_change(data):
-    emit('code_change_others', data, broadcast=True)
 
 @app.route("/py", methods=['GET','POST'])
 @cross_origin()

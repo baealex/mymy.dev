@@ -124,7 +124,7 @@
         function send_py_source() {
             setCookie('code', $('#source').val(), 7);
             $.ajax({
-                url: 'http://127.0.0.1:5000/py?name=' + name,
+                url: '/py?name=' + name,
                 type: 'post',
                 data: { 'source': $('#source').val() },
             }).done(function (data) {
@@ -135,7 +135,7 @@
         function send_js_source() {
             setCookie('code', $('#source').val(), 7);
             $.ajax({
-                url: 'http://127.0.0.1:5000/js?name=' + name,
+                url: '/js?name=' + name,
                 type: 'post',
                 data: { 'source': $('#source').val() },
             }).done(function (data) {
