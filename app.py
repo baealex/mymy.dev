@@ -15,15 +15,68 @@ def save_file(file_name, source_code):
     source_file.write(source_code)
     source_file.close()
 
-def run_code(code_type, file_name):
+def run_code(command, file_name):
     try:
-        data = subprocess.check_output([code_type, file_name], universal_newlines=True, timeout=0.5)
+        data = subprocess.check_output(command, universal_newlines=True, timeout=0.5)
     except subprocess.TimeoutExpired:
         data = 'Timeout'
     except:
         data = 'Error'
-    os.remove(file_name) 
+    	
+    try:
+        os.remove(file_name)
+    except FileNotFoundError:
+        data = 'Compile Error'
+    
     return data
+
+@app.route("/c", methods=['GET','POST'])
+@cross_origin()
+def c_run():
+    if request.method =='GET':
+        return 'C'
+    if request.method =='POST':
+        c_code = request.form['source']
+
+        """C FILTERING"""
+        c_code = c_code.replace('#include', '')
+        c_code = c_code.replace('<stdio.h>', '')
+
+        """C HEADER INCLUDE"""
+        c_code = "#include <stdio.h>\n" + c_code
+        username = request.args.get('name')
+
+        file_name = str(username) + '.c'
+        save_file(file_name, c_code)
+
+        """C COMPILE"""
+        run_code(['gcc', file_name, '-o', username], file_name)
+        
+        return run_code(['./'+username], username)
+
+@app.route("/cpp", methods=['GET','POST'])
+@cross_origin()
+def cpp_run():
+    if request.method =='GET':
+        return 'C++'
+    if request.method =='POST':
+        c_code = request.form['source']
+
+        """C++ FILTERING"""
+        c_code = c_code.replace('#include', '')
+        c_code = c_code.replace('<iostream>', '')
+
+        """C++ HEADER INCLUDE"""
+        c_code = "#include <iostream>\n" + c_code
+        username = request.args.get('name')
+
+        file_name = str(username) + '.cpp'
+        save_file(file_name, c_code)
+
+        """C++ COMPILE"""
+        run_code(['g++', file_name, '-o', username], file_name)
+        
+        return run_code(['./'+username], username)
 
 @app.route("/py", methods=['GET','POST'])
 @cross_origin()
@@ -43,7 +96,7 @@ def pyrun():
         file_name = str(username) + '.py'
         save_file(file_name, pycode)
 
-        return run_code('python', file_name)
+        return run_code(['python', file_name], file_name)
 
 @app.route("/js", methods=['GET','POST'])
 @cross_origin()
@@ -63,4 +116,4 @@ def jsrun():
         file_name = str(username) + '.js'
         save_file(file_name, jscode)
 
-        return run_code('node', file_name)
+        return run_code(['node', file_name], file_name)
