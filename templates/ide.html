@@ -1,27 +1,22 @@
-<!DOCTYPE html>
-<html lang="ko">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="theme-color" content="#333">
-	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-	<link href="/static/css/main.css" rel="stylesheet">
-	<link href="/static/logo.png" rel="icon">
-    <title>Code Runner</title>
-</head>
+{% block title %}Code Runner - IDE{% endblock %}
 
-<body>
+{% block stylesheet %}
+    <link href="/static/css/ide-style.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
     <textarea name="code" class="code-area brush:cpp" id="source" onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"></textarea>
 	<button class="code-btn" type="button" onclick="send_c_source()">C</button>
 	<button class="code-btn" type="button" onclick="send_cpp_source()">C++</button>
-    <button class="code-btn" type="button" onclick="send_py_source()">Python</button>
+    <button class="code-btn" type="button" onclick="send_py_source()">Python3</button>
     <button class="code-btn" type="button" onclick="send_js_source()">JavaScript</button>
     <div class="code-console" id="result"></div>
     <div class="code-footer">Copyright &copy; BaeJino.</div>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="/static/js/init.js"></script>
-	<script src="/static/js/runner.js"></script>
-</body>
+{% endblock %}
 
-</html>
+{% block script %}
+    <script src="/static/js/ide-init.js"></script>
+    <script src="/static/js/ide-runner.js"></script>
+{% endblock %}

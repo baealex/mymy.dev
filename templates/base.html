@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#333">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <link href="/static/logo.png" rel="icon">
+    {% block stylesheet %}{% endblock %}
+</head>
+
+<body {% block bodyclass %}{% endblock %}>
+    {% block content %}{% endblock %}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    {% block script %}{% endblock %}
+</body>
+
+</html>

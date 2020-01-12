@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Code Runner{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://baejino.com/baealex.css">
+    <style>
+    .article {
+        margin-top: 150px;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 1.028em;
+        line-height: 1.865;
+        word-break: break-all;
+    }
+    </style>
+{% endblock %}
+
+{% block bodyclass %}class="bg-dark"{% endblock %}
+{% block content %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top border-bottom border-secondary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/static/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                Code Runner
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ide">Run IDE</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <article class="article">
+        <div class="mx-auto col-lg-6 text-light">
+            <h3>재미있게 코딩하려면?</h3>
+            <p>
+                어떻게하면 프로그래밍에 더 쉽고 재미있게 접근할 수 있을까요?
+                저는 프로그래밍 튜토리얼을 작성하면서 고민했습니다.
+                요즘 프로그래밍 튜토리얼을 살펴보면 그저 따라하기에 불과합니다.
+                하지만 코드의 동작 원리를 알아야 프로그래밍이 재밌어지기 시작합니다.
+                방문자가 눈으로 보기보단 직접 코드를 돌려보는 것을 권장하는 이유죠.
+                그 과정을 Coding On Web이 해결하려 합니다.
+                튜토리얼에 실행가능한 코드를 올려두고 사용자가 코드를 수정하면서 원리를 이해할 수 있도록 말이죠.
+            </p>
+        </div>
+        <div class="fill-image mt-5 mb-5" style="height: 50vh; background-image: url(/static/images/intro/1.jpg);"></div>
+        <div class="mx-auto col-lg-6 text-light">
+            <h3>코드를 공유하세요!</h3>
+            <p>
+                당신이 작성하는 튜토리얼의 코드를 Coding On Web에 올려 저장하고 해당 링크를 사용자에게 제공해 보세요.
+                사용자는 해당 링크를 통해 코드를 직접보고 코드를 바꿔보면서 코드의 원리와 동작을 이해할 수 있게 됩니다.
+                또한 당신의 웹사이트가 굉장히 트랜디하고 기술적이라고 느낄 수 있을 것이며,
+                멋진 정보를 찾아냈다고 느낄 당신의 방문자는 웹사이트의 참여율을 더욱 높여줄 것 입니다.
+            </p>
+        </div>
+        <div class="fill-image mt-5 mb-5" style="height: 50vh; background-image: url(/static/images/intro/2.jpg);"></div>
+        <div class="mx-auto col-lg-6 text-light">
+            <h3>언제나 무료입니다!</h3>
+            <p>
+                Coding On Web은 C, C++의 include, Python의 import, JavaScript의 require을 지원하지 않습니다.
+                즉 고수준의 라이브러리를 활용할 수 없으며 아주 기본적인 프로그래밍 로직만을 사용하여 코드를 구성시킬 수 있습니다.
+                Coding On Web에서 사용자가 구동한 코드는 즉시 파기하는 등 사용자 데이터를 전혀 수집하지 않습니다.
+                이렇듯 Coding On Web은 필수적이고 단순한 기능들만 구성하여 언제나 무료로 제공됩니다.
+            </p>
+        </div>
+        </div>
+            <div class="text-center text-light py-3"><a class="text-white" href="/ide">IDE 실행하기</a>
+        </div>
+    </article>
+    <footer class="page-footer font-small">
+        </div>
+            <div class="footer-copyright text-center text-light py-3">Copyright 2020 &copy; <a class="text-white" href="https://im.baejino.com">BaeJino</a>.
+        </div>
+    </footer>
+{% endblock %}
+
+{% block script %}
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+{% endblock %}

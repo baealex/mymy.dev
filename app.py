@@ -6,8 +6,12 @@ from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 cors = CORS(app)
 
+@app.route('/')
+def intro():
+    return render_template('intro.html')
+
 @app.route('/ide')
-def socket_ide():
+def ide_form():
     return render_template('ide.html')
 
 def save_file(file_name, source_code):
@@ -30,7 +34,7 @@ def run_code(command, file_name):
     
     return data
 
-@app.route("/c", methods=['GET','POST'])
+@app.route("/run/c", methods=['GET','POST'])
 @cross_origin()
 def c_run():
     if request.method =='GET':
@@ -54,7 +58,7 @@ def c_run():
         
         return run_code(['./'+username], username)
 
-@app.route("/cpp", methods=['GET','POST'])
+@app.route("/run/cpp", methods=['GET','POST'])
 @cross_origin()
 def cpp_run():
     if request.method =='GET':
@@ -78,7 +82,7 @@ def cpp_run():
         
         return run_code(['./'+username], username)
 
-@app.route("/py", methods=['GET','POST'])
+@app.route("/run/py3", methods=['GET','POST'])
 @cross_origin()
 def pyrun():
     if request.method =='GET':
@@ -98,7 +102,7 @@ def pyrun():
 
         return run_code(['python', file_name], file_name)
 
-@app.route("/js", methods=['GET','POST'])
+@app.route("/run/js", methods=['GET','POST'])
 @cross_origin()
 def jsrun():
     if request.method =='GET':

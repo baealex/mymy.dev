@@ -1,8 +1,8 @@
-var name = randstr(10);
+var name = randstr(20);
 function send_c_source() {
 	setCookie('code', $('#source').val(), 7);
 	$.ajax({
-		url: '/c?name=' + name,
+		url: '/run/c?name=' + name,
 		type: 'post',
 		data: { source: $('#source').val() }
 	}).done(function(data) {
@@ -13,7 +13,7 @@ function send_c_source() {
 function send_cpp_source() {
 	setCookie('code', $('#source').val(), 7);
 	$.ajax({
-		url: '/cpp?name=' + name,
+		url: '/run/cpp?name=' + name,
 		type: 'post',
 		data: { source: $('#source').val() }
 	}).done(function(data) {
@@ -24,7 +24,7 @@ function send_cpp_source() {
 function send_py_source() {
 	setCookie('code', $('#source').val(), 7);
 	$.ajax({
-		url: '/py?name=' + name,
+		url: '/run/py3?name=' + name,
 		type: 'post',
 		data: { source: $('#source').val() }
 	}).done(function(data) {
@@ -35,7 +35,7 @@ function send_py_source() {
 function send_js_source() {
 	setCookie('code', $('#source').val(), 7);
 	$.ajax({
-		url: '/js?name=' + name,
+		url: '/run/js?name=' + name,
 		type: 'post',
 		data: { source: $('#source').val() }
 	}).done(function(data) {
