@@ -78,3 +78,6 @@ def run(type):
             return run_code(['python', file_name], file_name)
         if type == 'js':
             return run_code(['node', file_name], file_name)
+    
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=True)
