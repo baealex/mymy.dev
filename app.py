@@ -1,4 +1,5 @@
 import os
+import re
 import time
 import subprocess
 
@@ -12,30 +13,37 @@ def save_file(file_name, source_code):
     source_file.write(source_code)
     source_file.close()
 
-def run_code(command, file_name):
+def run_code(command, file_name, compile_check=False):
     start_time = time.time() * 1000
+    compile_status = False
+
     try:
-        data = subprocess.check_output(command, universal_newlines=True, timeout=5)
+        data = subprocess.check_output(command, stderr=subprocess.STDOUT, universal_newlines=True, timeout=5)
+        if compile_check:
+            compile_status = True
+    except subprocess.CalledProcessError as e:
+        data = str(e.output)
+        data = data.replace(file_name.split('.')[0], 'source')
     except subprocess.TimeoutExpired:
         data = 'Timeout'
     except:
-        data = 'Error'
-    	
+        data = 'Something wrong!'
+    
     try:
         os.remove(file_name)
-    except FileNotFoundError:
-        data = 'Compile Error'
+    except :
+        pass
     
-    return {
+    result = {
         'result': data,
         'time': str( round( (time.time() * 1000 - start_time), 4) ) + 'ms'
     }
+    if compile_check:
+        result.update({'compile_status': compile_status})
+
+    return result
 
 @app.route('/')
-def intro():
-    return render_template('intro.html')
-
-@app.route('/ide')
 def ide():
     return render_template('ide.html')
 
@@ -60,6 +68,7 @@ def run(type):
             code = "#include <iostream>\n" + code
             file_name += '.cpp'
         if type == 'py3':
+            code = code.replace('open', '')
             code = code.replace('import', '')
             file_name += '.py'
         if type == 'js':
@@ -69,10 +78,17 @@ def run(type):
         save_file(file_name, code)
         
         if type == 'c':
-            run_code(['gcc', file_name, '-o', intt], file_name)
-            return run_code(['./' + intt], intt)
+            
+            result = run_code(['gcc', file_name, '-o', intt], file_name, compile_check=True)
+            if result['compile_status'] == False:
+                return result
+            else:
+                return run_code(['./' + intt], intt)
+            
         if type == 'cpp':
-            run_code(['g++', file_name, '-o', intt], file_name)
+            result = run_code(['g++', file_name, '-o', intt], file_name, compile_check=True)
+            if result['compile_status'] == False:
+                return result
             return run_code(['./' + intt], intt)
         if type == 'py3':
             return run_code(['python', file_name], file_name)

@@ -1,21 +1,31 @@
 {% extends "base.html" %}
 
-{% block title %}Code Runner - IDE{% endblock %}
+{% block title %}코딩 도우미{% endblock %}
 
 {% block stylesheet %}
     <link href="/static/css/ide-style.css" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-    <textarea name="code" class="code-area brush:cpp" id="source" onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"></textarea>
+    <textarea name="code" class="code-area brush:cpp" id="source"></textarea>
 	<button class="code-btn" type="button" onclick="IDE.c()">C</button>
 	<button class="code-btn" type="button" onclick="IDE.cpp()">C++</button>
     <button class="code-btn" type="button" onclick="IDE.py3()">Python3</button>
     <button class="code-btn" type="button" onclick="IDE.js()">JavaScript</button>
     <div class="code-console" id="result"></div>
-    <div class="code-footer">Copyright &copy; BaeJino.</div>
+    <div class="code-footer">Copyright 2020 &copy; BaeJino.</div>
 {% endblock %}
 
 {% block script %}
     <script src="/static/js/ide.js"></script>
+    <script>
+        document.querySelector('#source').addEventListener('onkeydown', function() {
+            if(event.keyCode===9) {
+                var v = this.value, s=this.selectionStart, e=this.selectionEnd;
+                this.value = v.substring(0, s) + '\t' + v.substring(e);
+                this.selectionStart = this.selectionEnd=s+1;
+                return false;
+            }
+        });
+    </script>
 {% endblock %}
