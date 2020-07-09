@@ -67,6 +67,9 @@ def run(type):
             code = code.replace('<iostream>', '')
             code = "#include <iostream>\n" + code
             file_name += '.cpp'
+        if type == 'rs':
+            code = code.replace('std::', '')
+            file_name += '.rs'
         if type == 'py3':
             code = code.replace('open', '')
             code = code.replace('import', '')
@@ -78,15 +81,18 @@ def run(type):
         save_file(file_name, code)
         
         if type == 'c':
-            
             result = run_code(['gcc', file_name, '-o', intt], file_name, compile_check=True)
             if result['compile_status'] == False:
                 return result
             else:
                 return run_code(['./' + intt], intt)
-            
         if type == 'cpp':
             result = run_code(['g++', file_name, '-o', intt], file_name, compile_check=True)
+            if result['compile_status'] == False:
+                return result
+            return run_code(['./' + intt], intt)
+        if type == 'rs':
+            result = run_code(['rustc', file_name], file_name, compile_check=True)
             if result['compile_status'] == False:
                 return result
             return run_code(['./' + intt], intt)

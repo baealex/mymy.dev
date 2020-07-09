@@ -24,8 +24,6 @@ const IDE = (function() {
 		localStorage.clear();
 	}
 
-	console.log(result);
-
 	const makeResult = function(element) {
 		return element.result.replace(/\n/g, '<br />') + '<br />Run Time : '+ element.time;
 	}
@@ -59,6 +57,9 @@ const IDE = (function() {
 		},
 		cpp: function() {
 			run('cpp');
+		},
+		rs: function() {
+			run('rs');
 		},
 		py3: function() {
 			run('py3');

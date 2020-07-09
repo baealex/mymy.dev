@@ -11,14 +11,9 @@
     {% block stylesheet %}{% endblock %}
 </head>
 
-<body {% block bodyclass %}{% endblock %}>
+<body>
     {% block content %}{% endblock %}
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script>
-        if(location.protocol == 'http:') {
-            location.replace('https:' + location.hostname + location.pathname);
-        }
-    </script>
     {% block script %}{% endblock %}
 </body>
 
