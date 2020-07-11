@@ -12,21 +12,31 @@ const randstr = (function() {
 })();
 
 const IDE = (function() {
+	const makeResult = function(element) {
+		return element.result.replace(/\n/g, '<br />') + '<br />Run Time : '+ element.time;
+	}
+
 	const intt = randstr(20);
 	let code = undefined;
 	let result = undefined;
 	try {
 		code = localStorage.getItem('code');
 		result = JSON.parse(localStorage.getItem('result'));
+
+		$('#source').val(code)
+		$('#result')[0].innerHTML = makeResult(result)
 	} catch {
 		code = undefined;
 		result = undefined;
 		localStorage.clear();
 	}
 
-	const makeResult = function(element) {
-		return element.result.replace(/\n/g, '<br />') + '<br />Run Time : '+ element.time;
-	}
+	var editor = CodeMirror.fromTextArea(document.getElementById('source'), {
+		lineNumbers: true,
+		theme: 'material-darker',
+		textWrapping: true,
+		mode: "javascript"
+	});
 
 	const saveState = function(code, result) {
 		localStorage.setItem('code', code);
@@ -34,22 +44,18 @@ const IDE = (function() {
 	}
 
 	const run = function(type) {
+		const source = editor.getValue(); 
 		$.ajax({
 			url: '/run/'+ type +'?intt=' + intt,
 			type: 'POST',
 			data: {
-				source: $('#source').val()
+				source: source
 			}
 		}).done(function(data) {
 			$('#result')[0].innerHTML = makeResult(data);
-			saveState($('#source').val(), data);
+			saveState(source, data);
 		});
 	}
-
-	if(code)
-		$('#source').val(code);
-	if(result)
-		$('#result')[0].innerHTML = makeResult(result);
 
 	return {
 		c: function() {

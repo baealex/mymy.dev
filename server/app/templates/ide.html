@@ -3,7 +3,15 @@
 {% block title %}코딩 도우미{% endblock %}
 
 {% block stylesheet %}
-    <link href="/static/css/ide-style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/ide-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.css">
+    <link rel="stylesheet" href="/static/lib/codemirror/theme/material-darker.css">
+    <style>
+        .CodeMirror {
+            height: 75vh;
+            font-size: 16px;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -18,15 +26,7 @@
 {% endblock %}
 
 {% block script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.js"></script>
+    <script src="/static/lib/codemirror/mode/javascript.js"></script>
     <script src="/static/js/ide.js"></script>
-    <script>
-        document.querySelector('#source').addEventListener('onkeydown', function() {
-            if(event.keyCode===9) {
-                var v = this.value, s=this.selectionStart, e=this.selectionEnd;
-                this.value = v.substring(0, s) + '\t' + v.substring(e);
-                this.selectionStart = this.selectionEnd=s+1;
-                return false;
-            }
-        });
-    </script>
 {% endblock %}
