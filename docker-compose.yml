@@ -3,7 +3,7 @@ version: "2.0"
 services:
   app:
     build:
-      context: .
+      context: ./server
       dockerfile: ./Dockerfile
     ports:
-      - 5000:5000
+      - 17000:5000

@@ -6,7 +6,8 @@ import subprocess
 from flask import Flask, request, render_template
 from flask_cors import CORS, cross_origin
 
-app = Flask(__name__)
+application = Flask(__name__)
+application.debug = True
 
 def save_file(file_name, source_code):
     source_file = open(file_name, 'w', encoding='utf-8')
@@ -43,11 +44,11 @@ def run_code(command, file_name, compile_check=False):
 
     return result
 
-@app.route('/')
+@application.route('/')
 def ide():
     return render_template('ide.html')
 
-@app.route("/run/<type>", methods=['GET','POST'])
+@application.route("/run/<type>", methods=['GET','POST'])
 def run(type):
     if request.method =='GET':
         return str(type)
@@ -102,4 +103,4 @@ def run(type):
             return run_code(['node', file_name], file_name)
     
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    application.run(host='0.0.0.0', port=5000)

@@ -11,11 +11,11 @@ RUN apt-get install -y nodejs
 RUN apt-get install -y rustc cargo
 RUN apt-get install -y python3-pip python3-dev
 
-COPY ./requirements.txt /app/
+COPY ./app/requirements.txt /app/
 WORKDIR /app
 RUN pip3 install -r requirements.txt
 
-COPY . /app
+COPY ./app /app
 
-ENTRYPOINT ["python3"]
-CMD ["app.py"]
+ENTRYPOINT ["uwsgi"]
+CMD ["--socket", ":5000", "--module", "wsgi", "--enable-threads", "-b", "32768"]
