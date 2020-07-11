@@ -19,7 +19,7 @@ def run_code(command, file_name, compile_check=False):
     compile_status = False
 
     try:
-        data = subprocess.check_output(command, stderr=subprocess.STDOUT, universal_newlines=True, timeout=5)
+        data = subprocess.check_output(command, stderr=subprocess.STDOUT, universal_newlines=True, timeout=5, encoding='utf8')
         if compile_check:
             compile_status = True
     except subprocess.CalledProcessError as e:
