@@ -35,7 +35,8 @@ const IDE = (function() {
 		lineNumbers: true,
 		theme: 'material-darker',
 		textWrapping: true,
-		mode: "javascript"
+		mode: 'javascript',
+		indentUnit: 4,
 	});
 
 	const saveState = function(code, result) {
