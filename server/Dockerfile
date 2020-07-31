@@ -14,6 +14,8 @@ RUN apt-get install -y nodejs
 RUN apt-get install -y rustc cargo
 RUN apt-get install -y python3-pip python3-dev
 
+ENV PYTHONIOENCODING=utf-8
+
 COPY ./app/requirements.txt /app/
 WORKDIR /app
 RUN pip3 install -r requirements.txt
