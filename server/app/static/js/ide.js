@@ -73,6 +73,9 @@ const IDE = (function() {
 		},
 		js: function() {
 			run('js');
-		}
+        },
+        ts: function() {
+			run('ts');
+        }
 	}
 })();

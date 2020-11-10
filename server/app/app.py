@@ -78,6 +78,10 @@ def run(type):
         if type == 'js':
             code = code.replace('require', '')
             file_name += '.js'
+        if type == 'ts':
+            code = code.replace('require', '')
+            code = code.replace('import', '')
+            file_name += '.ts'
         
         save_file(file_name, code)
         
@@ -101,6 +105,11 @@ def run(type):
             return run_code(['python', file_name], file_name)
         if type == 'js':
             return run_code(['node', file_name], file_name)
+        if type == 'ts':
+            result = run_code(['tsc', file_name], file_name, compile_check=True)
+            if result['compile_status'] == False:
+                return result
+            return run_code(['node', intt + '.js'], file_name)
     
 if __name__ == '__main__':
     application.run(host='0.0.0.0', port=5000)
