@@ -11,6 +11,27 @@ const randstr = (function() {
 	};
 })();
 
+function loading(isStart) {
+    if (isStart) {
+        var number = 2;
+        var squre = '';
+        switch (number) {
+            case 0:
+                squre = 'dot-revolution';
+                break;
+            case 1:
+                squre = 'dot-pulse';
+                break;
+            case 2:
+                squre = 'dot-bricks';
+                break;
+        }
+        $('#loading').html(`<div style="position: fixed; top: 0; left: 0; width: 100vw; heigth: 100vh; background-color: rgba(255, 255, 255, 0.90); z-index: 9999;"><div style="margin: 48vh auto;" class="${squre}"></div></div>`);
+    }
+    else
+        $('#loading').html('');
+}
+
 const IDE = (function() {
 	const makeResult = function(element) {
 		return element.result.replace(/\n/g, '<br />') + '<br />Run Time : '+ element.time;
@@ -45,7 +66,8 @@ const IDE = (function() {
 	}
 
 	const run = function(type) {
-		const source = editor.getValue(); 
+        const source = editor.getValue();
+        loading(true);
 		$.ajax({
 			url: '/run/'+ type +'?intt=' + intt,
 			type: 'POST',
@@ -54,7 +76,8 @@ const IDE = (function() {
 			}
 		}).done(function(data) {
 			$('#result')[0].innerHTML = makeResult(data);
-			saveState(source, data);
+            saveState(source, data);
+            loading(false);
 		});
 	}
 
