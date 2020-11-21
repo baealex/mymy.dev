@@ -42,7 +42,7 @@ def run_code(command, file_name, compile_check=False):
         pass
     
     result = {
-        'result': data,
+        'result': data[:1000],
         'time': str( round( (time.time() * 1000 - start_time), 4) ) + 'ms'
     }
     if compile_check:
