@@ -79,7 +79,24 @@ const IDE = (function() {
             saveState(source, data);
             loading(false);
 		});
-	}
+    }
+    
+    const saveCode = function() {
+        loading(true);
+        const source = editor.getValue();
+        $.ajax({
+            url: '/save',
+            type: 'POST',
+            data: {
+                intt: intt,
+                type: 'py3',
+                source: source,
+            }
+        }).done(function(data) {
+            loading(false);
+            console.log(data);
+        });
+    }
 
 	return {
 		c: function() {
@@ -99,6 +116,9 @@ const IDE = (function() {
         },
         ts: function() {
 			run('ts');
+        },
+        save: function() {
+            saveCode();
         }
 	}
 })();
