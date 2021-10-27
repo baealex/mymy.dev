@@ -1,6 +1,6 @@
 Click==7.0
 Flask==1.1.1
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 Flask-SocketIO==4.2.1
 google-auth==1.20.1
 google-auth-oauthlib==0.4.1
