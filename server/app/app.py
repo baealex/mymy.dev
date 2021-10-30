@@ -4,6 +4,7 @@ import time
 import json
 import base64
 import hashlib
+import traceback
 import subprocess
 
 from flask import Flask, request, render_template
@@ -34,16 +35,18 @@ def run_code(command, file_name, compile_check=False):
         data = 'Timeout'
     except:
         data = 'Something wrong!'
-    
-    os.remove(file_name)
+
     try:
         os.remove(file_name)
+        if not compile_status:
+            if '.ts' in file_name:
+                os.remove(file_name.replace('.ts', '.js'))
     except :
-        pass
+        traceback.print_exc()
     
     result = {
         'result': data[:1000],
-        'time': str( round( (time.time() * 1000 - start_time), 4) ) + 'ms'
+        'time': str(round((time.time() * 1000 - start_time), 4)) + 'ms'
     }
     if compile_check:
         result.update({'compile_status': compile_status})
@@ -142,6 +145,6 @@ def run(type):
         code = request.form['source']
         intt = request.args.get('intt')
         return get_result(type, intt, code)
-    
+
 if __name__ == '__main__':
-    application.run(host='0.0.0.0', port=5000)
+    application.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
