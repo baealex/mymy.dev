@@ -2,7 +2,7 @@ import App, { AppProps } from 'next/app'
 import Head from 'next/head'
 
 import '../styles/main.scss'
-
+import 'three-dots/dist/three-dots.css'
 import 'codemirror/lib/codemirror.css'
 
 class Main extends App<AppProps> {

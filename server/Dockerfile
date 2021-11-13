@@ -4,15 +4,17 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 
-# install Compiler
+# install C, C++
 RUN apt-get install -y \
     gcc g++ build-essential libssl-dev zlib1g-dev libbz2-dev \
     libreadline-dev libsqlite3-dev wget curl llvm \
     libncurses5-dev libncursesw5-dev xz-utils tk-dev \
     libffi-dev liblzma-dev python-openssl git
 
+# install Rust
 RUN apt-get install -y rustc cargo
 
+# install Python
 ENV LANG="C.UTF-8" \
     LC_ALL="C.UTF-8" \
     PATH="/root/.pyenv/shims:/root/.pyenv/bin:$PATH" \
@@ -24,6 +26,7 @@ RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT \
     && pyenv global $PYTHON_VERSION
 ENV PYTHONIOENCODING=utf-8
 
+# install Node
 RUN mkdir /usr/local/nvm
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION 12.16.2
@@ -37,6 +40,7 @@ RUN source $NVM_DIR/nvm.sh \
 ENV NODE_PATH $NVM_INSTALL_PATH/lib/node_modules
 ENV PATH $NVM_INSTALL_PATH/bin:$PATH
 
+# install TypeScript
 RUN npm i -g typescript
 
 WORKDIR /app

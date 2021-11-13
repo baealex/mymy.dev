@@ -7,10 +7,14 @@ import dynamic from 'next/dynamic'
 
 import axios from 'axios'
 
+import { Lang, initCode } from '@modules/init-code';
+
 const CodeMirror = dynamic(() => {
+    import('codemirror/mode/rust/rust' as any)
+    import('codemirror/mode/python/python' as any)
     import('codemirror/mode/javascript/javascript' as any)
     import('codemirror/theme/material-darker.css' as any)
-    return import('react-codemirror')
+    return import('@components/code-mirror')
 }, {ssr: false})
 
 function getParameter(name: string) {
@@ -27,13 +31,13 @@ function getParameter(name: string) {
 }
 
 export default function Home() {
-    const [ isReady, setIsReady ] = useState(false);
-    const [ isLoading, setIsLoading ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(true);
 
-    const [ source, setSource ] = useState('hello world');
+    const [ lang, setLang ] = useState<Lang>('c');
+    const [ source, setSource ] = useState('');
     const [ result, setResult ] = useState('');
 
-    const postSource = async (lang: string) => {
+    const postSource = async () => {
         setIsLoading(true)
         const { data } = await axios.request({
             method: 'POST',
@@ -50,7 +54,6 @@ export default function Home() {
         const raw = getParameter('raw')
 
         if (raw) {
-            setIsLoading(true)
             axios.request({
                 method: 'POST',
                 url: '/github/raw',
@@ -60,11 +63,16 @@ export default function Home() {
             }).then(({ data }) => {
                 setSource(data)
             }).finally(() => {
-                setIsReady(true)
                 setIsLoading(false)
             })
         } else {
-            setIsReady(true)
+            const keys = Object.keys(initCode)
+            const chooseLang = keys[
+                Math.floor(Math.random() * keys.length)
+            ] as Lang
+            setLang(chooseLang)
+            setSource(initCode[chooseLang])
+            setIsLoading(false)
         }
     }, []);
     
@@ -72,25 +80,30 @@ export default function Home() {
         <>
             <>
                 <div className="main">
-                    {isReady && (
-                        <CodeMirror
-                            value={source}
-                            className="code-top"
-                            onChange={(text) => setSource(text)}
-                            options={{
-                                theme: 'material-darker',
-                                lineNumbers: true,
-                                mode: 'javascript'
-                            }}
-                        />
-                    )}
+                    <CodeMirror
+                        value={source}
+                        className="code-top"
+                        onBeforeChange={(_, __, value) => {
+                            setSource(value)
+                        }}
+                        options={{
+                            theme: 'material-darker',
+                            lineNumbers: true,
+                            mode: 'javascript'
+                        }}
+                    />
                     <div className="code-bottom">
                         <div>
-                            <button className="lang-btn" type="button" onClick={() => postSource('c')}>C</button>
-                            <button className="lang-btn" type="button" onClick={() => postSource('cpp')}>C++</button>
-                            <button className="lang-btn" type="button" onClick={() => postSource('rs')}>Rust</button>
-                            <button className="lang-btn" type="button" onClick={() => postSource('py')}>Python3</button>
-                            <button className="lang-btn" type="button" onClick={() => postSource('js')}>JavaScript</button>
+                            <select value={lang} onChange={(e) => setLang(e.target.value as Lang)}>
+                                <option value="c">C</option>
+                                <option value="cpp">C++</option>
+                                <option value="rs">Rust</option>
+                                <option value="js">JavaScript</option>
+                                <option value="py">Python3</option>
+                            </select>
+                            <button className="lang-btn" type="button" onClick={() => postSource()}>
+                                Run
+                            </button>
                         </div>
                         <div className="code-console">
                             {result}
@@ -103,18 +116,9 @@ export default function Home() {
             </>
             {isLoading && (
                 <>
-                    <div/>
-                    <style jsx>{`
-                        div {
-                            position: fixed;
-                            top: 0;
-                            left: 0;
-                            width: 100%;
-                            height: 100%;
-                            z-index: 9999;
-                            background: rgba(255, 255, 255, 0.8);
-                        }
-                    `}</style>
+                    <div className="loading">
+                        <div className="dot-bricks"/>
+                    </div>
                 </>
             )}
         </>
