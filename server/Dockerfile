@@ -26,7 +26,7 @@ ENV PYTHONIOENCODING=utf-8
 
 RUN mkdir /usr/local/nvm
 ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 16.13.0
+ENV NODE_VERSION 12.16.2
 ENV NVM_INSTALL_PATH $NVM_DIR/versions/node/v$NODE_VERSION
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
