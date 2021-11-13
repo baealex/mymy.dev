@@ -1,5 +1,5 @@
 {
-  "name": "code-runner-screen",
+  "name": "codebean-screen",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/baealex/code-runner.git"
+    "url": "git+https://github.com/baealex/codebean.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/baealex/code-runner/issues"
+    "url": "https://github.com/baealex/codebean/issues"
   },
-  "homepage": "https://github.com/baealex/code-runner#readme",
+  "homepage": "https://github.com/baealex/codebean#readme",
   "dependencies": {
     "axios": "^0.24.0",
     "bstate": "^1.1.0",
