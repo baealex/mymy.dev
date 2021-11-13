@@ -3,6 +3,8 @@ import Head from 'next/head'
 
 import '../styles/main.scss'
 
+import 'codemirror/lib/codemirror.css'
+
 class Main extends App<AppProps> {
     constructor(props: AppProps) {
         super(props);

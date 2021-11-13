@@ -63,24 +63,22 @@ html, body, #__next, .main {
     font-family: 'Spoqa Han Sans Neo', sans-serif;
     line-height: 1.5;
     font-size: 16px;
-    overflow-y: scroll;
+    overflow-y: hidden;
     border-bottom: 1px solid #aaa;
-    padding: 10px;
     box-sizing: border-box;
+
+    .CodeMirror {
+        height: 100%;
+    }
 }
 
 .code-bottom {
-    height: 300px;
+    height: 250px;
     display: flex;
     flex-direction: column;
 }
 
 .code-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    text-align: left;
-    width: 100%;
     border: none;
     color: #fff;
     padding: 5px;
@@ -112,4 +110,5 @@ html, body, #__next, .main {
     overflow-y: scroll;
     padding: 10px;
     box-sizing: border-box;
+    white-space: pre-wrap;
 }

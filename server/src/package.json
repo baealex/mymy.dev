@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/baealex/code-runner#readme",
   "dependencies": {
+    "axios": "^0.24.0",
     "express": "^4.17.1",
     "socket.io": "^4.2.0",
     "uuid": "^8.3.2"
