@@ -1,0 +1,20 @@
+$COLOR_DEFAULT_PRIMARY: #ffd460;
+$COLOR_DEFAULT_SECONDARY: #9c56d4;
+$COLOR_DEFAULT_POINT: #b181da;
+$COLOR_DEFAULT_BACKGROUND: #F7F8FB;
+
+$FONT_SERIF: 'Noto Serif KR', serif;
+$FONT_GOTHIC: -apple-system, BlinkMacSystemFont, 'Spoqa Han Sans Neo', sans-serif;
+
+@mixin MAIN_SHADOW {
+    box-shadow: 0 2px 16px 0 hsla(0, 0%, 0%, 0.1);
+}
+
+@mixin SUB_SHADOW {
+    box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.1);
+}
+
+@mixin CARD {
+    @include MAIN_SHADOW;
+    border-radius: 8px;
+}

@@ -1,0 +1,115 @@
+@import 'var';
+
+@font-face {
+    font-family: 'Spoqa Han Sans Neo';
+    font-weight: 700;
+    src: local('Spoqa Han Sans Bold'),
+    url('/assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.woff2') format('woff2'),
+    url('/assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.woff') format('woff'),
+    url('/assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Spoqa Han Sans Neo';
+    font-weight: 400;
+    src: local('Spoqa Han Sans Regular'),
+    url('/assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.woff2') format('woff2'),
+    url('/assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.woff') format('woff'),
+    url('/assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.ttf') format('truetype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgb(45, 45, 45);
+}
+
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+::-webkit-scrollbar-track {
+    background: #555;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #fff;
+}
+
+html, body, #__next, .main {
+    height: 100%;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
+.code-top {
+    resize: none;
+    width: 100%;
+    outline: none;
+    border: none;
+    flex: 1;
+    background-color: rgb(30, 30, 30);
+    color: #eee;
+    font-family: 'Spoqa Han Sans Neo', sans-serif;
+    line-height: 1.5;
+    font-size: 16px;
+    overflow-y: scroll;
+    border-bottom: 1px solid #aaa;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.code-bottom {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.code-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    text-align: left;
+    width: 100%;
+    border: none;
+    color: #fff;
+    padding: 5px;
+    font-size: 12px;
+    background-color: rgb(0, 122, 204);
+}
+
+.lang-btn {
+    color: #aaa;
+    background: none;
+    border: none;
+    padding: 5px;
+
+    &:hover {
+        color: #ccc;    
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.code-console {
+    background-color: rgb(30, 30, 30);
+    width: 100%;
+    flex: 1;
+    font-weight: bold;
+    color: #5c5;
+    overflow-y: scroll;
+    padding: 10px;
+    box-sizing: border-box;
+}

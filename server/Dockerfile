@@ -11,10 +11,6 @@ RUN apt-get install -y \
     libncurses5-dev libncursesw5-dev xz-utils tk-dev \
     libffi-dev liblzma-dev python-openssl git
 
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN apt-get install -y nodejs
-RUN npm i -g typescript
-
 RUN apt-get install -y rustc cargo
 
 ENV LANG="C.UTF-8" \
@@ -22,23 +18,47 @@ ENV LANG="C.UTF-8" \
     PATH="/root/.pyenv/shims:/root/.pyenv/bin:$PATH" \
     PYENV_ROOT="/root/.pyenv" \
     PYENV_SHELL="bash"
-
 ENV PYTHON_VERSION=3.8.5
-
 RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT \
     && pyenv install $PYTHON_VERSION \
     && pyenv global $PYTHON_VERSION
-
 ENV PYTHONIOENCODING=utf-8
 
-COPY ./app/requirements.txt /app/
+RUN mkdir /usr/local/nvm
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION 16.13.0
+ENV NVM_INSTALL_PATH $NVM_DIR/versions/node/v$NODE_VERSION
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+RUN source $NVM_DIR/nvm.sh \
+   && nvm install $NODE_VERSION \
+   && nvm alias default $NODE_VERSION \
+   && nvm use default
+ENV NODE_PATH $NVM_INSTALL_PATH/lib/node_modules
+ENV PATH $NVM_INSTALL_PATH/bin:$PATH
+
+RUN npm i -g typescript
+
 WORKDIR /app
-RUN pip3 install -r requirements.txt
 
-COPY ./app /app
+COPY ./src/package.json ./
+COPY ./src/package-lock.json ./
 
-ENTRYPOINT ["python"]
-CMD ["app.py"]
+RUN npm i
 
-# ENTRYPOINT ["uwsgi"]
-# CMD ["--socket", ":5000", "--module", "wsgi", "--enable-threads", "-b", "32768"]
+WORKDIR /app/screen
+
+COPY ./src/screen/package.json ./
+COPY ./src/screen/package-lock.json ./
+
+RUN npm i
+
+WORKDIR /app
+
+COPY ./src/ ./
+
+RUN npm run screen-build
+RUN npm run server-build
+
+ENTRYPOINT ["npm", "run"]
+CMD ["start"]
