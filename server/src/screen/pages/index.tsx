@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic'
 
 import axios from 'axios'
 
-import { Lang, initCode } from '@modules/init-code';
+import { Lang, langs, initCode } from '@modules/init-code';
 
 const CodeMirror = dynamic(() => {
     import('codemirror/mode/rust/rust' as any)
@@ -54,6 +54,12 @@ export default function Home() {
         const raw = getParameter('raw')
 
         if (raw) {
+            const [ filename ] = decodeURIComponent(raw).split('/').slice(-1)
+            const [ fileLang ] = filename.split('.').slice(-1)
+            if (langs.includes(fileLang)) {
+                setLang(fileLang as Lang)
+            }
+
             axios.request({
                 method: 'POST',
                 url: '/github/raw',
@@ -66,9 +72,8 @@ export default function Home() {
                 setIsLoading(false)
             })
         } else {
-            const keys = Object.keys(initCode)
-            const chooseLang = keys[
-                Math.floor(Math.random() * keys.length)
+            const chooseLang = langs[
+                Math.floor(Math.random() * langs.length)
             ] as Lang
             setLang(chooseLang)
             setSource(initCode[chooseLang])
