@@ -31,7 +31,7 @@ export async function runLanguage(req: Request, res: Response) {
             source = '#include <stdio.h>\n' + source
             fs.writeFileSync(filename, source)
 
-            const compileFailed = runCode(['gcc', filename, '-o', uuid], true)
+            const compileFailed = runCode(['gcc', filename, '-o', uuid], { isCompile: true })
             if (compileFailed) {
                 res.send(compileFailed).end()
             }
@@ -43,7 +43,7 @@ export async function runLanguage(req: Request, res: Response) {
             source = '#include <iostream>\n' + source
             fs.writeFileSync(filename, source)
 
-            const compileFailed = runCode(['g++', filename, '-o', uuid], true)
+            const compileFailed = runCode(['g++', filename, '-o', uuid], { isCompile: true })
             if (compileFailed) {
                 res.send(compileFailed).end()
             }
@@ -54,7 +54,7 @@ export async function runLanguage(req: Request, res: Response) {
             source = safety(source, ['std::'])
             fs.writeFileSync(filename, source)
 
-            const compileFailed = runCode(['rustc', filename], true)
+            const compileFailed = runCode(['rustc', filename], { isCompile: true })
             if (compileFailed) {
                 res.send(compileFailed).end()
             }

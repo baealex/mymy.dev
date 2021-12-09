@@ -1,12 +1,16 @@
 import fs from 'fs'
 import subprocess from 'child_process'
 
-export function runCode(commands: string[], isCompile=false) {
+interface RunCodeOption {
+    isCompile: boolean;
+}
+
+export function runCode(commands: string[], option?: RunCodeOption) {
     try {
         const result = subprocess.execSync(commands.join(' '), {
             timeout: 5000
         })
-        if (isCompile) {
+        if (option?.isCompile) {
             return ''
         }
         return(result.toString())
