@@ -16,7 +16,7 @@ class Main extends App<AppProps> {
         return (
             <>
                 <Head>
-                    <title>CodeBean</title>
+                    <title>Mymy Dev</title>
                     <meta name="theme-color" content="#000"/>
                     <meta name="msapplication-TileColor" content="#000"/>
                     <link rel="icon" href="/favicon.ico"/>
