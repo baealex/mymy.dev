@@ -19,7 +19,7 @@ class Main extends App<AppProps> {
                     <title>Mymy Dev</title>
                     <meta name="theme-color" content="#000"/>
                     <meta name="msapplication-TileColor" content="#000"/>
-                    <link rel="icon" href="/favicon.ico"/>
+                    <link rel="icon" href="/logo.png"/>
                 </Head>
 
                 <Component {...pageProps}/>
