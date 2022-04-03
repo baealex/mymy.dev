@@ -73,7 +73,7 @@ export function App($app: HTMLElement) {
         <div class="github modal hidden">
             <div class="header">
                 <div class="title">
-                    GitHub
+                    <i class="fab fa-github"></i> GitHub
                 </div>
                 <div class="close">
                     <i class="fas fa-times"></i>
@@ -86,7 +86,7 @@ export function App($app: HTMLElement) {
         <div class="setting modal hidden">
             <div class="header">
                 <div class="title">
-                    Setting
+                    <i class="fas fa-cog"></i> Setting
                 </div>
                 <div class="close">
                     <i class="fas fa-times"></i>
