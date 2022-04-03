@@ -1,5 +1,5 @@
-import { App } from './App';
+import { App } from './components/App';
 
 import './main.scss';
 
-App(document.getElementById('root') as HTMLElement);
+new App(document.body);
