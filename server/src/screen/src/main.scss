@@ -76,6 +76,32 @@ body {
         color: #ddd;
         overflow-y: auto;
         min-height: 280px;
-        max-height: 80%;
+        max-height: 75vh;
+
+        & > :not(:first-child) {
+            margin-top: 16px;
+        }
+
+        .section {
+            label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 4px;
+            }
+
+            input {
+                display: block;
+                color: #eee;
+                background: none;
+                border: 1px solid #666;
+                padding: 4px 8px;
+                font-size: 16px;
+                outline: none;
+
+                &:focus {
+                    border: 1px solid #8e44ad;
+                }
+            }
+        }
     }
 }

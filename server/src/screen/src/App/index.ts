@@ -104,7 +104,7 @@ export function App($app: HTMLElement) {
                 </div>
             </div>
             <div class="content">
-                준비중입니다.
+                😅 준비중입니다.
             </div>
         </div>
         <div class="setting modal hidden">
@@ -117,7 +117,7 @@ export function App($app: HTMLElement) {
                 </div>
             </div>
             <div class="content">
-                준비중입니다.
+                😅 준비중입니다.
             </div>
         </div>
     `;
