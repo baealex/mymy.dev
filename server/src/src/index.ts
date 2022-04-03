@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000
 express()
     .use(logging())
     .use(express.json())
-    .use(express.static(path.resolve('screen/out'), {
+    .use(express.static(path.resolve('screen/dist'), {
         extensions: ['html']
     }))
     .post('/github/raw', asyncWrap(views.getGitHubRaw))

@@ -2,12 +2,11 @@
   "name": "codebean",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "screen-init": "cd screen && npm i && npm run deploy && cd ..",
-    "screen-build": "cd screen && npm run deploy && cd ..",
-    "screen-dev": "nodemon --watch screen/components --watch screen/modules --watch screen/pages --watch screen/styles --watch screen/public --watch screen/state --ext tsx,ts --delay 3 --exec npm run screen-build",
-    "server-dev": "nodemon --watch src --delay 1 --exec ts-node src/index.ts",
+    "screen-init": "cd screen && npm i && npm run build && cd ..",
+    "screen-build": "cd screen && npm run build && cd ..",
+    "screen-dev": "nodemon --watch screen/src --delay 5 --exec npm run screen-build",
+    "server-dev": "nodemon --watch src --delay 5 --exec ts-node src/index.ts",
     "server-build": "tsc",
     "dev": "concurrently \"npm run server-dev\" \"npm run screen-dev\"",
     "start": "node dist"
