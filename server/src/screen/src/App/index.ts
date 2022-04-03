@@ -28,8 +28,6 @@ function getParameter(name: string) {
     return result;
 }
 
-let isRunning = false;
-
 const runCode = (() => {
     let isRunning = false;
 
@@ -128,6 +126,7 @@ export function App($app: HTMLElement) {
     const editor = (() => {
         const _editor = CodeMirror.fromTextArea($textarea, {
             lineNumbers: true,
+            indentUnit: 4,
             theme: 'material-darker',
         });
 
