@@ -53,6 +53,7 @@
         padding: 8px;
 
         select, button {
+            font-size: 14px;
             background: #212121;
             border: none;
             color: #ccc;
@@ -64,9 +65,8 @@
     }
 
     .terminal {
-        overflow-y: scroll;
         font-family: Menlo, Monaco, 'Courier New', monospace;
-        font-size: 12px;
+        overflow-y: scroll;
         height: 200px;
         padding: 8px;
         color: #ccc;

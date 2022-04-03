@@ -28,6 +28,32 @@ function getParameter(name: string) {
     return result;
 }
 
+let isRunning = false;
+
+const runCode = (() => {
+    let isRunning = false;
+
+    return () => {
+        if (!isRunning) {
+            isRunning = true;
+            terminalStore.set(() => ({ data: 'Running...' }));
+            axios.request({
+                method: 'POST',
+                url: '/run/' + langStore.state.data,
+                data: {
+                    source: sourceStore.state.data,
+                }
+            }).then(({ data }) => {
+                terminalStore.set(() => ({ data }));
+            }).catch(() => {
+                terminalStore.set(() => ({ data: 'Error!' }));
+            }).finally(() => {
+                isRunning = false;
+            });
+        }
+    }
+})();
+
 export function App($app: HTMLElement) {
     $app.innerHTML = `
         <div class="${cx('container')}">
@@ -153,17 +179,14 @@ export function App($app: HTMLElement) {
     });
 
     const $button = document.querySelector(`.${cx('container')} button`) as HTMLButtonElement;
-    $button.addEventListener('click', () => {
-        axios.request({
-            method: 'POST',
-            url: '/run/' + langStore.state.data,
-            data: {
-                source: sourceStore.state.data,
-            }
-        }).then(({ data }) => {
-            terminalStore.set(() => ({ data }));
-        });
-    });
+    $button.addEventListener('click', runCode);
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === configureStore.state.runShortcut) {
+            e.preventDefault();
+            runCode();
+        }
+    })
 
     const $icons = document.querySelectorAll(
         `.${cx('icons')} .${cx('top')} > div,` +
