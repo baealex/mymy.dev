@@ -27,5 +27,6 @@ html, body, #root {
 }
 
 body {
+    background: #212121;
     font-family: -apple-system, BlinkMacSystemFont, Spoqa Han Sans Neo, sans-serif;
 }

@@ -13,6 +13,8 @@ export function createStore<T>(initialState: T) {
             observers = observers.filter(({ key }) => key !== removeKey);
         },
         subscribe(fn: (state: T) => void): string {
+            fn(state);
+            
             const key = '' + Math.random();
             observers.push({ key, fn });
             return key;

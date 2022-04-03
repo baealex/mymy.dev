@@ -72,36 +72,40 @@ export function App($app: HTMLElement) {
     `;
 
     const $textarea = document.querySelector(`.${cx('container')} textarea`) as HTMLTextAreaElement;
-    const editor = CodeMirror.fromTextArea($textarea, {
-        lineNumbers: true,
-        theme: 'material-darker',
-    });
+    const editor = (() => {
+        const _editor = CodeMirror.fromTextArea($textarea, {
+            lineNumbers: true,
+            theme: 'material-darker',
+        });
 
-    const setEditorMode = (lang: Lang) => {
-        if (lang === 'c') {
-            editor.setOption('mode', 'clike');
-            return;
-        }
-        if (lang === 'cpp') {
-            editor.setOption('mode', 'clike');
-            return;
-        }
-        if (lang === 'js') {
-            editor.setOption('mode', 'javascript');
-            return;
-        }
-        if (lang === 'py') {
-            editor.setOption('mode', 'python');
-            return;
-        }
-        if (lang === 'rs') {
-            editor.setOption('mode', 'rust');
-            return;
-        }
-    }
+        return Object.assign(_editor, {
+            setEditorMode(lang: Lang) {
+                if (lang === 'c') {
+                    _editor.setOption('mode', 'clike');
+                    return;
+                }
+                if (lang === 'cpp') {
+                    _editor.setOption('mode', 'clike');
+                    return;
+                }
+                if (lang === 'js') {
+                    _editor.setOption('mode', 'javascript');
+                    return;
+                }
+                if (lang === 'py') {
+                    _editor.setOption('mode', 'python');
+                    return;
+                }
+                if (lang === 'rs') {
+                    _editor.setOption('mode', 'rust');
+                    return;
+                }
+            }
+        })
+    })()
 
     langStore.subscribe(({ data }) => {
-        setEditorMode(data);
+        editor.setEditorMode(data);
         $select.selectedIndex = langs.findIndex((name) => {
             return name === data;
         });
