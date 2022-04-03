@@ -5,18 +5,19 @@ const cx = classNames.bind(style);
 import axios from 'axios';
 import { initCode, Lang, langs } from '../lib/init-code';
 
+import { configureStore } from '../store/configure';
 import { langStore } from '../store/lang';
+import { modalStore } from '../store/modal';
 import { sourceStore } from '../store/source';
 import { terminalStore } from '../store/terminal';
 
 import * as CodeMirror from 'codemirror';
-import 'codemirror/lib/codemirror.css';
 import 'codemirror/mode/clike/clike';
-import 'codemirror/mode/rust/rust';
-import 'codemirror/mode/python/python';
 import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/python/python';
+import 'codemirror/mode/rust/rust';
+import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material-darker.css';
-import 'codemirror/addon/hint/show-hint';
 
 function getParameter(name: string) {
     const [ result ] = location.search
@@ -69,6 +70,32 @@ export function App($app: HTMLElement) {
                 </div>
             </div>
         </div>
+        <div class="github modal hidden">
+            <div class="header">
+                <div class="title">
+                    GitHub
+                </div>
+                <div class="close">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <div class="content">
+                준비중입니다.
+            </div>
+        </div>
+        <div class="setting modal hidden">
+            <div class="header">
+                <div class="title">
+                    Setting
+                </div>
+                <div class="close">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <div class="content">
+                준비중입니다.
+            </div>
+        </div>
     `;
 
     const $textarea = document.querySelector(`.${cx('container')} textarea`) as HTMLTextAreaElement;
@@ -102,18 +129,13 @@ export function App($app: HTMLElement) {
                 }
             }
         })
-    })()
-
-    langStore.subscribe(({ data }) => {
-        editor.setEditorMode(data);
-        $select.selectedIndex = langs.findIndex((name) => {
-            return name === data;
-        });
-    });
-
+    })();
     editor.on('change', (editor) => {
         sourceStore.set(() => ({ data: editor.getValue() }));
-    })
+    });
+    langStore.subscribe(({ data }) => {
+        editor.setEditorMode(data);
+    });
 
     const $terminal = document.querySelector(`.${cx('terminal')}`) as HTMLDivElement;
     terminalStore.subscribe(({ data }) => {
@@ -123,6 +145,11 @@ export function App($app: HTMLElement) {
     const $select = document.querySelector(`.${cx('container')} select`) as HTMLSelectElement;
     $select.addEventListener('change', (e: any) => {
         langStore.set(() => ({ data: e.target.value as Lang}));
+    });
+    langStore.subscribe(({ data }) => {
+        $select.selectedIndex = langs.findIndex((name) => {
+            return name === data;
+        });
     });
 
     const $button = document.querySelector(`.${cx('container')} button`) as HTMLButtonElement;
@@ -137,6 +164,47 @@ export function App($app: HTMLElement) {
             terminalStore.set(() => ({ data }));
         });
     });
+
+    const $icons = document.querySelectorAll(
+        `.${cx('icons')} .${cx('top')} > div,` +
+        `.${cx('icons')} .${cx('bottom')} > div`
+    );
+    for (const $icon of $icons) {
+        $icon.addEventListener('click', (e: any) => {
+            const modalName = e.currentTarget.dataset['on'];
+            modalStore.set((prevState) => {
+                Object.keys(prevState).forEach((key) => {
+                    prevState[key as keyof typeof prevState] = false;
+                });
+                return {
+                    ...prevState,
+                    [modalName]: true,
+                }
+            });
+        });
+    }
+
+    const $modal = {
+        github: document.querySelector('.github.modal'),
+        setting: document.querySelector('.setting.modal'),
+    };
+    Object.keys($modal).forEach(_key => {
+        const key = _key as keyof typeof $modal;
+        $modal[key]?.querySelector('.close')?.addEventListener('click', () => {
+            modalStore.set((prevState) => ({
+                ...prevState,
+                [key]: false,
+            }));
+        })
+    });
+    modalStore.subscribe((state) => {
+        Object.keys(state).forEach(_key => {
+            const key = _key as keyof typeof state;
+            state[key]
+                ? $modal[key]?.classList.remove('hidden')
+                : $modal[key]?.classList.add('hidden')
+        });
+    })
 
     const raw = getParameter('raw');
 
