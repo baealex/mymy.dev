@@ -3,7 +3,11 @@ import classNames from 'classnames/bind';
 const cx = classNames.bind(style);
 
 import axios from 'axios';
-import { initCode, Lang, langs } from '../init-code';
+import { initCode, Lang, langs } from '../lib/init-code';
+
+import { langStore } from '../store/lang';
+import { sourceStore } from '../store/source';
+import { terminalStore } from '../store/terminal';
 
 import * as CodeMirror from 'codemirror';
 import 'codemirror/lib/codemirror.css';
@@ -23,9 +27,6 @@ function getParameter(name: string) {
     return result;
 }
 
-let lang = langs[Math.round(Math.random() * (langs.length - 1))];
-let source = initCode[lang];
-
 export function App($app: HTMLElement) {
     $app.innerHTML = `
         <div class="${cx('container')}">
@@ -44,14 +45,14 @@ export function App($app: HTMLElement) {
                 </div>
             </div>
             <div class="${cx('main')}">
-                <textarea>${source}</textarea>
+                <textarea></textarea>
                 <div class="${cx('tools')}">
                     <select>
-                        <option ${lang === 'c'   ? 'selected' : ''} value="c">C</option>
-                        <option ${lang === 'cpp' ? 'selected' : ''} value="cpp">C++</option>
-                        <option ${lang === 'rs'  ? 'selected' : ''} value="rs">Rust</option>
-                        <option ${lang === 'js'  ? 'selected' : ''} value="js">JavaScript</option>
-                        <option ${lang === 'py'  ? 'selected' : ''} value="py">Python3</option>
+                        <option selected value="c">C</option>
+                        <option value="cpp">C++</option>
+                        <option value="rs">Rust</option>
+                        <option value="js">JavaScript</option>
+                        <option value="py">Python3</option>
                     </select>
                     <button>
                         Run
@@ -99,30 +100,37 @@ export function App($app: HTMLElement) {
         }
     }
 
-    setEditorMode(lang);
+    langStore.subscribe(({ data }) => {
+        setEditorMode(data);
+        $select.selectedIndex = langs.findIndex((name) => {
+            return name === data;
+        });
+    });
 
     editor.on('change', (editor) => {
-        source = editor.getValue();
+        sourceStore.set(() => ({ data: editor.getValue() }));
     })
 
     const $terminal = document.querySelector(`.${cx('terminal')}`) as HTMLDivElement;
+    terminalStore.subscribe(({ data }) => {
+        $terminal.textContent = data;
+    });
     
     const $select = document.querySelector(`.${cx('container')} select`) as HTMLSelectElement;
     $select.addEventListener('change', (e: any) => {
-        lang = e.target.value;
-        setEditorMode(lang);
+        langStore.set(() => ({ data: e.target.value as Lang}));
     });
 
     const $button = document.querySelector(`.${cx('container')} button`) as HTMLButtonElement;
     $button.addEventListener('click', () => {
         axios.request({
             method: 'POST',
-            url: '/run/' + lang,
+            url: '/run/' + langStore.state.data,
             data: {
-                source: source,
+                source: sourceStore.state.data,
             }
         }).then(({ data }) => {
-            $terminal.textContent = data;
+            terminalStore.set(() => ({ data }));
         });
     });
 
@@ -130,11 +138,9 @@ export function App($app: HTMLElement) {
 
     if (raw) {
         const [ filename ] = decodeURIComponent(raw).split('/').slice(-1);
-        const [ fileLang ] = filename.split('.').slice(-1);
+        const [ fileLang ] = filename.split('.').slice(-1) as Lang[];
 
-        lang = fileLang as Lang;
-        setEditorMode(lang);
-        $select.selectedIndex = langs.findIndex((name) => name === fileLang);
+        langStore.set(() => ({ data: fileLang }));
 
         axios.request({
             method: 'POST',
@@ -143,8 +149,12 @@ export function App($app: HTMLElement) {
                 raw: raw,
             }
         }).then(({ data }) => {
-            source = data;
             editor.setValue(data);
         });
+    } else {
+        langStore.set(() => ({
+            data: langs[Math.round(Math.random() * (langs.length - 1))],
+        }))
+        editor.setValue(initCode[langStore.state.data]);
     }
 }
