@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     entry: './src/index.ts',
@@ -23,6 +24,7 @@ module.exports = {
                 exclude: /\.module\.(css|s[ac]ss)$/,
                 use: [
                     'style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
                     {
                         loader: 'sass-loader',
@@ -36,6 +38,7 @@ module.exports = {
                 test: /\.module\.(css|s[ac]ss)$/,
                 use: [
                     'style-loader',
+                    MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         options: {
@@ -61,6 +64,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: 'templates/index.html'
         }),
+        new MiniCssExtractPlugin(),
     ],
     target: ['web', 'es5'],
     output: {
