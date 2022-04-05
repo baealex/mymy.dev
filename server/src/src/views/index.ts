@@ -86,7 +86,7 @@ export async function getGitHubRaw(req: Request, res: Response) {
 
     const { data } = await axios.request({
         method: 'GET',
-        url: 'https://raw.githubusercontent.com' + decodeURIComponent(raw)
+        url: encodeURI('https://raw.githubusercontent.com' + raw)
     })
 
     res.send(data).end()

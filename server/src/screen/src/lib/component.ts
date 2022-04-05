@@ -1,4 +1,4 @@
-export class Component {
+export default class Component {
     $el: HTMLDivElement;
     isMounted: boolean;
 

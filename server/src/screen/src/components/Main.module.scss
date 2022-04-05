@@ -1,0 +1,52 @@
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: calc(100% - 48px);
+
+    :global(.CodeMirror) {
+        flex: 1;
+    }
+
+    .tools {
+        border-top: 1px solid #363636;
+        background: #212121;
+        padding: 8px;
+
+        select, button {
+            font-size: 14px;
+            background: #212121;
+            border: none;
+            color: #ccc;
+        }
+
+        button:hover {
+            border-bottom: 1px solid #8e44ad;
+        }
+    }
+
+    .terminal {
+        font-family: Menlo, Monaco, 'Courier New', monospace;
+        white-space: pre-wrap;
+        word-break: break-all;
+        overflow-y: scroll;
+        height: 200px;
+        padding: 8px;
+        color: #ccc;
+        background: #212121;
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        background: #fff;
+        color: #fff;
+        background: #8e44ad;
+
+        div {
+            padding: 4px 12px;
+        }
+    }
+}
