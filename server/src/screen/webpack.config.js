@@ -23,7 +23,6 @@ module.exports = {
                 test: /\.(css|s[ac]ss)$/,
                 exclude: /\.module\.(css|s[ac]ss)$/,
                 use: [
-                    'style-loader',
                     MiniCssExtractPlugin.loader,
                     'css-loader',
                     {
@@ -37,7 +36,6 @@ module.exports = {
             {
                 test: /\.module\.(css|s[ac]ss)$/,
                 use: [
-                    'style-loader',
                     MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
