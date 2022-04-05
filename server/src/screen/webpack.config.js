@@ -64,7 +64,10 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: 'templates/index.html'
         }),
-        new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin({
+            filename: '[name].[contenthash].css',
+            chunkFilename: '[id].[contenthash].css',
+        }),
     ],
     target: ['web', 'es5'],
     output: {
