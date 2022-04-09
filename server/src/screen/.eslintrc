@@ -1,9 +1,10 @@
 {
     "root": true,
     "env": {
+        "browser": true,
         "es6": true,
+        "jest": true,
         "node": true,
-        "browser": true
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {

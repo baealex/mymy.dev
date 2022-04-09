@@ -1,9 +1,23 @@
+interface ComponentProps {
+    id?: string;
+    className?: string;
+}
+
 export default class Component {
     $el: HTMLDivElement;
     isMounted: boolean;
 
-    constructor($parent: HTMLElement) {
+    constructor($parent: HTMLElement, props?: ComponentProps) {
         this.$el = document.createElement('div');
+
+        if (props?.id) {
+            this.$el.id = props.id;
+        }
+
+        if (props?.className) {
+            this.$el.className = props.className;
+        }
+        
         $parent.appendChild(this.$el);
         this.rerender();
         this.isMounted = true;

@@ -1,8 +1,9 @@
-import Component from '../lib/component';
-import ModalGitHubContent from './ModalGitHubContent';
-import ModalSettingContent from './ModalSettingContent';
+import Component from '@lib/component';
 
-import { modalStore } from '../store/modal';
+import ModalGitHubContent from './ContentGitHub';
+import ModalSettingContent from './ContentSetting';
+
+import { modalStore } from '@stores/modal';
 
 export default class Modal extends Component {
     mount() {
@@ -28,8 +29,8 @@ export default class Modal extends Component {
             });
         });
 
-        new ModalGitHubContent($modal.github);
-        new ModalSettingContent($modal.setting);
+        new ModalGitHubContent($modal.github, { className: 'content' });
+        new ModalSettingContent($modal.setting, { className: 'content' });
     }
 
     render() {

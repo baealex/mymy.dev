@@ -2,14 +2,13 @@ import style from './Side.module.scss';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(style);
 
-import Component from '../lib/component';
+import Component from '@lib/component';
 
-import { modalStore } from '../store/modal';
+import { modalStore } from '@stores/modal';
 
 export default class Side extends Component {
     constructor($parent: HTMLElement) {
-        super($parent);
-        this.$el.className = cx('side');
+        super($parent, { className: cx('side') });
     }
 
     mount() {
@@ -32,6 +31,7 @@ export default class Side extends Component {
             });
         }
     }
+
     render() {
         return `
             <div class="${cx('icons')}">

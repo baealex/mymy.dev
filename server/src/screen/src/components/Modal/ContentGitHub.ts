@@ -1,13 +1,8 @@
-import Component from '../lib/component';
+import Component from '@lib/component';
 
 let sourcePath = '';
 
 export default class ModalSettingContent extends Component {
-    constructor($parent: HTMLElement) {
-        super($parent);
-        this.$el.className = 'content';
-    }
-
     mount() {
         this.$el.querySelector('input')?.addEventListener('input', (e: any) => {
             sourcePath = e.target.value;

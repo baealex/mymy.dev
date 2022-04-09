@@ -1,13 +1,8 @@
-import Component from '../lib/component';
+import Component from '@lib/component';
 
-import { configureStore } from '../store/configure';
+import { configureStore } from '@stores/configure';
 
 export default class ModalSettingContent extends Component {
-    constructor($parent: HTMLElement) {
-        super($parent);
-        this.$el.className = 'content';
-    }
-
     mount() {
         this.$el.querySelectorAll('input').forEach($input => {
             $input.addEventListener('input', (e: any) => {

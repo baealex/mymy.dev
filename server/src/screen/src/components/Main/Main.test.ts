@@ -1,7 +1,7 @@
-import Main from './Main';
+import Main from '.';
 
-describe('Main Component Test', () => {
-    test('Render Test', () => {
+describe('메인 컴포넌트 테스트', () => {
+    beforeAll(() => {
         document.createRange = () => {
             const range = new Range();
     
@@ -17,7 +17,9 @@ describe('Main Component Test', () => {
     
             return range;
         };
-        
+    });
+
+    test('렌더링 테스트', () => {
         new Main(document.body);
         expect(document.body.innerHTML).toBeTruthy();
         expect(document.body.innerHTML).toContain('main');

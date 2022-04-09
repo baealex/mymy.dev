@@ -6,6 +6,11 @@
         "target": "ES2015",
         "esModuleInterop": true,
         "moduleResolution": "node",
+        "baseUrl": "src",
+        "paths": {
+            "@lib/*": ["lib/*"],
+            "@stores/*": ["stores/*"]
+        }
     },
     "include": [
         "src",

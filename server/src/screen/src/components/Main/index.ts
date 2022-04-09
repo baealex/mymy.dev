@@ -2,16 +2,16 @@ import style from './Main.module.scss';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(style);
 
-import Component from '../lib/component';
+import Component from '@lib/component';
 
-import * as API from '../lib/api';
-import { initCode, Lang, langs } from '../lib/code';
-import { getParameter } from '../lib/query';
+import * as API from '@lib/api';
+import { initCode, Lang, langs } from '@lib/code';
+import { getParameter } from '@lib/query';
 
-import { langStore } from '../store/lang';
-import { configureStore } from '../store/configure';
-import { sourceStore } from '../store/source';
-import { terminalStore } from '../store/terminal';
+import { langStore } from '@stores/lang';
+import { configureStore } from '@stores/configure';
+import { sourceStore } from '@stores/source';
+import { terminalStore } from '@stores/terminal';
 
 import * as CodeMirror from 'codemirror';
 import 'codemirror/mode/clike/clike';
@@ -44,8 +44,7 @@ const runCode = (() => {
 
 export default class Side extends Component {
     constructor($parent: HTMLElement) {
-        super($parent);
-        this.$el.className = cx('main');
+        super($parent, { className: cx('main') });
     }
 
     mount() {
