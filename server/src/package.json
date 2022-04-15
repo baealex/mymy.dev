@@ -1,15 +1,13 @@
 {
-  "name": "codebean",
+  "name": "mymydev",
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "screen-init": "cd screen && npm i && npm run build && cd ..",
-    "screen-build": "cd screen && npm run build && cd ..",
-    "screen-dev": "nodemon --watch screen/src --delay 5 --exec npm run screen-build",
-    "server-dev": "nodemon --watch src --delay 5 --exec ts-node src/index.ts",
-    "server-build": "tsc",
-    "dev": "concurrently \"npm run server-dev\" \"npm run screen-dev\"",
-    "start": "node dist"
+    "build:screen": "cd screen && npm run build && cd ..",
+    "dev:screen": "cd screen &8 npm run start",
+    "dev:server": "nodemon --watch src --delay 5 --exec ts-node src/index.ts",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:screen\"",
+    "start": "ts-node src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -25,6 +23,7 @@
   },
   "homepage": "https://github.com/baealex/codebean#readme",
   "dependencies": {
+    "@mymydev/screen": "file:screen",
     "axios": "^0.24.0",
     "express": "^4.17.1",
     "socket.io": "^4.4.0",
