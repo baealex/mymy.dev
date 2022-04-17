@@ -77,6 +77,10 @@ export default class Side extends Component {
                         _editor.setOption('mode', 'javascript');
                         return;
                     }
+                    if (lang === 'ts') {
+                        _editor.setOption('mode', 'javascript');
+                        return;
+                    }
                     if (lang === 'py') {
                         _editor.setOption('mode', 'python');
                         return;
@@ -132,6 +136,7 @@ export default class Side extends Component {
                 lang === 'c' ||
                 lang === 'cpp' ||
                 lang === 'js' ||
+                lang === 'ts' ||
                 lang === 'py' ||
                 lang === 'rs'
             ) {
@@ -162,6 +167,7 @@ export default class Side extends Component {
                     <option value="cpp">C++</option>
                     <option value="rs">Rust</option>
                     <option value="js">JavaScript</option>
+                    <option value="ts">TypeScript</option>
                     <option value="py">Python3</option>
                 </select>
                 <button>Run</button>

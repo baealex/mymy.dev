@@ -44,6 +44,18 @@ fn main() {
 `,
 
 
+
+    ts:
+`function hello(): string {
+    return 'Hello World!'
+}
+
+(function main() {
+    console.log(hello())
+})()
+`,
+
+
     py:
 `def hello():
     return 'Hello World!'

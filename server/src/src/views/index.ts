@@ -16,8 +16,9 @@ import axios from 'axios'
 export async function runLanguage(req: Request, res: Response) {
     const { language } = req.params
 
-    if (!['c', 'cpp', 'rs', 'py', 'js'].includes(language)) {
+    if (!['c', 'cpp', 'rs', 'py', 'js', 'ts'].includes(language)) {
         res.status(404).send('Not Found').end()
+        return
     }
 
     let { source } = req.body
@@ -73,6 +74,13 @@ export async function runLanguage(req: Request, res: Response) {
             fs.writeFileSync(filename, source)
 
             res.send(runCode(['node', filename])).end()
+        }
+
+        if (language === 'ts') {
+            source = safety(source, ['require', 'import'])
+            fs.writeFileSync(filename, source)
+
+            res.send(runCode(['ts-node', filename])).end()
         }
     } catch(e) {
 

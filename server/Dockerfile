@@ -42,6 +42,7 @@ ENV PATH $NVM_INSTALL_PATH/bin:$PATH
 
 # install TypeScript
 RUN npm i -g typescript
+RUN npm i -g ts-node
 
 WORKDIR /app
 
