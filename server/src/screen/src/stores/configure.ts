@@ -1,3 +1,4 @@
+import { iRemember } from '@lib/i-remember';
 import { createStore } from 'badland';
 
 export const configureStore = createStore({
@@ -6,3 +7,5 @@ export const configureStore = createStore({
     terminalFontSize: '16',
     terminalFontFamily: 'Menlo, Monaco, \'Courier New\', monospace',
 });
+
+iRemember('mymydev__configure', configureStore);

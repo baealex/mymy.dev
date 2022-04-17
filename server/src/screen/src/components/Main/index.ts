@@ -153,6 +153,11 @@ export default class Side extends Component {
             return;
         }
 
+        if (sourceStore.state.data !== '') {
+            editor.setValue(sourceStore.state.data);
+            return;
+        }
+
         langStore.set(() => ({
             data: langs[Math.round(Math.random() * (langs.length - 1))],
         }));
