@@ -48,8 +48,8 @@ WORKDIR /app
 
 COPY ./src/package.json ./
 COPY ./src/package-lock.json ./
-COPY ./src/screen/package.json ./
-COPY ./src/screen/package-lock.json ./
+COPY ./src/screen/package.json ./screen/
+COPY ./src/screen/package-lock.json ./screen/
 
 RUN npm i
 
