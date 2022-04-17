@@ -19,6 +19,38 @@ export default class Modal extends Component {
                     [key]: false,
                 }));
             });
+
+            let isMoveable = false;
+            let prevClientX = 0;
+            let prevClientY = 0;
+            let lastClientX = 0;
+            let lastClientY = 0;
+            window.addEventListener('mousedown', (e: any) => {
+                if (e.target === $modal[key].querySelector('.header')) {
+                    document.body.style.userSelect = 'none';
+                    prevClientX = e.clientX - lastClientX;
+                    prevClientY = e.clientY - lastClientY;
+                    isMoveable = true;
+                }
+            });
+            window.addEventListener('mouseup', (e) => {
+                document.body.style.userSelect = 'default';
+                prevClientX = 0;
+                prevClientY = 0;
+                isMoveable = false;
+                $modal[key].style.opacity = '1';
+            });
+            window.addEventListener('mousemove', (e: any) => {
+                if (isMoveable) {
+                    const clientX = e.clientX - prevClientX;
+                    const clientY = e.clientY - prevClientY;
+                    lastClientX = clientX;
+                    lastClientY = clientY;
+                    $modal[key].style.transform = `translate(-50%, -50%) translate(${clientX}px, ${clientY}px)`;
+                    $modal[key].style.border = '1px dashed #ccc;';
+                    $modal[key].style.opacity = '0.5';
+                }
+            });
         });
         modalStore.subscribe((state) => {
             Object.keys(state).forEach(_key => {
