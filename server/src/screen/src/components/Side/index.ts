@@ -20,11 +20,12 @@ export default class Side extends Component {
             $icon.addEventListener('click', (e: any) => {
                 const modalName = e.currentTarget.dataset['on'];
                 modalStore.set((prevState) => {
-                    Object.keys(prevState).forEach((key) => {
-                        prevState[key as keyof typeof prevState] = false;
-                    });
+                    const nextState = Object.keys(prevState).reduce((acc, key) => ({
+                        ...acc,
+                        [key]: false,
+                    }), {});
                     return {
-                        ...prevState,
+                        ...nextState,
                         [modalName]: true,
                     };
                 });
