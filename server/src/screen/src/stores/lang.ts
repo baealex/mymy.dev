@@ -1,4 +1,4 @@
-import { createStore } from '../lib/store';
+import { createStore } from 'badland';
 
 import type { Lang } from '../types';
 

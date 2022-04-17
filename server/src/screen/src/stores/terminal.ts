@@ -1,4 +1,4 @@
-import { createStore } from '../lib/store';
+import { createStore } from 'badland';
 
 export const terminalStore = createStore({
     data: '',
