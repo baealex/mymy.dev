@@ -1,11 +1,10 @@
 {
-  "name": "mymydev-screen",
+  "name": "mymydev-client",
   "version": "1.0.0",
   "scripts": {
     "start": "webpack-dev-server --mode development --port 3000",
     "build": "webpack --mode production && cp -r ./public/* ./dist",
-    "test": "jest",
-    "watch": "jest --watch"
+    "test": "jest"
   },
   "author": "baealex",
   "license": "MIT",

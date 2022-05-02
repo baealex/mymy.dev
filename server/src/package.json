@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build:screen": "cd screen && npm run build && cd ..",
-    "dev:screen": "nodemon --watch screen/src --delay 5 --exec npm run build:screen",
-    "dev:server": "nodemon --watch src --delay 5 --exec ts-node src/index.ts",
-    "dev": "concurrently \"npm run dev:server\" \"npm run dev:screen\"",
-    "start": "tsc && node dist"
+    "client": "npm start --prefix client",
+    "server": "nodemon --watch src --delay 1 --exec ts-node src/index.ts",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "npm run build --prefix client && tsc && node dist"
   },
   "repository": {
     "type": "git",

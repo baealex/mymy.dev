@@ -78,5 +78,8 @@ module.exports = {
     devServer: {
         static: path.join(__dirname, 'dist'),
         allowedHosts: 'all',
+        proxy: {
+            '/api': 'http://localhost:5000',
+        }
     },
 };
