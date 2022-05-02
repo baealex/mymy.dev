@@ -48,14 +48,12 @@ WORKDIR /app
 
 COPY ./src/package.json ./
 COPY ./src/package-lock.json ./
-COPY ./src/screen/package.json ./screen/
-COPY ./src/screen/package-lock.json ./screen/
+COPY ./src/client/package.json ./client/
+COPY ./src/client/package-lock.json ./client/
 
 RUN npm i
 
 COPY ./src/ ./
-
-RUN npm run build:screen
 
 ENTRYPOINT ["npm", "run"]
 CMD ["start"]

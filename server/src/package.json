@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/baealex/codebean#readme",
   "dependencies": {
-    "@mymydev/screen": "file:screen",
+    "@mymydev/client": "file:client",
     "axios": "^0.24.0",
     "express": "^4.17.1",
     "socket.io": "^4.4.0",
