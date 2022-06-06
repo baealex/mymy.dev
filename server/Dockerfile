@@ -49,7 +49,6 @@ WORKDIR /app
 COPY ./src/package.json ./
 COPY ./src/package-lock.json ./
 COPY ./src/client/package.json ./client/
-COPY ./src/client/package-lock.json ./client/
 
 RUN npm i
 
