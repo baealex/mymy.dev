@@ -98,7 +98,7 @@ export default class Side extends Component {
         });
         langStore.subscribe(({ data }) => {
             editor.setEditorMode(data);
-        });
+        }, { initialize: true });
         
         const $select = this.$el.querySelector('select') as HTMLSelectElement;
         $select.addEventListener('change', (e: any) => {
@@ -108,7 +108,7 @@ export default class Side extends Component {
             $select.selectedIndex = langs.findIndex((name) => {
                 return name === data;
             });
-        });
+        }, { initialize: true });
 
         const $button = this.$el.querySelector('button') as HTMLElement;
         $button.addEventListener('click', runCode);
@@ -116,14 +116,14 @@ export default class Side extends Component {
         const $terminal = this.$el.querySelector(`.${cx('terminal')}`) as HTMLElement;
         terminalStore.subscribe(({ data }) => {
             $terminal.textContent = data;
-        });
+        }, { initialize: true });
 
         configureStore.subscribe((state) => {
             $terminal.style.fontSize = state.terminalFontSize + 'px';
             $terminal.style.fontFamily = state.terminalFontFamily;
             editor.$.style.fontSize = state.editorFontSize + 'px';
             editor.refresh();
-        });
+        }, { initialize: true });
 
         const raw = decodeURIComponent(getParameter('raw'));
 

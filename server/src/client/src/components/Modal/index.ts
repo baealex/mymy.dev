@@ -59,7 +59,7 @@ export default class Modal extends Component {
                     ? $modal[key].classList.remove('hidden')
                     : $modal[key].classList.add('hidden');
             });
-        });
+        }, { initialize: true });
 
         new ModalGitHubContent($modal.github, { className: 'content' });
         new ModalSettingContent($modal.setting, { className: 'content' });
