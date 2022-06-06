@@ -1,8 +1,8 @@
-import { iRemember } from '@lib/i-remember';
 import { createStore } from 'badland';
+import { rememberOnStorage } from 'badland/dist/plugin';
 
 export const terminalStore = createStore({
     data: '',
 });
 
-iRemember('mymydev__terminal', terminalStore);
+rememberOnStorage('mymydev__terminal', terminalStore);

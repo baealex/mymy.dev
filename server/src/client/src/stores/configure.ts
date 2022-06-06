@@ -1,5 +1,5 @@
-import { iRemember } from '@lib/i-remember';
 import { createStore } from 'badland';
+import { rememberOnStorage } from 'badland/dist/plugin';
 
 export const configureStore = createStore({
     runShortcut: 'F5',
@@ -8,4 +8,4 @@ export const configureStore = createStore({
     terminalFontFamily: 'Menlo, Monaco, \'Courier New\', monospace',
 });
 
-iRemember('mymydev__configure', configureStore);
+rememberOnStorage('mymydev__configure', configureStore);
