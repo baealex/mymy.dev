@@ -1,0 +1,3 @@
+FROM baealex/mymydev
+
+CMD ["start"]
