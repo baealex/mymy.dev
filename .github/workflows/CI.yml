@@ -1,4 +1,4 @@
-name: CI FE
+name: CI
 
 on:
   pull_request:

@@ -2,10 +2,10 @@ const handler = {
     get() {
         return new Proxy({}, {
             get(_, prop) {
-                return prop;
+                return prop
             }
-        });
+        })
     }
-};
+}
 
-module.exports = new Proxy({}, handler);
+module.exports = new Proxy({}, handler)
