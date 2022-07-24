@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "client": "npm start --prefix client",
-    "server": "nodemon --watch src --delay 1 --exec ts-node src/index.ts",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "start": "npm run build --prefix client && tsc && node dist",
+    "start": "npm run build --prefix client && ts-node src/index.ts",
+    "dev": "nodemon --watch src --delay 1 --exec ts-node src/index.ts",
+    "dev:client": "npm start --prefix client",
+    "dev:concurrently": "concurrently \"npm run server\" \"npm run client\"",
     "lint": "eslint"
   },
   "repository": {
