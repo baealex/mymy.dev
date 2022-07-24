@@ -26,7 +26,6 @@ const runCode = (() => {
     let isRunning = false
 
     socket.on('code-runner-result', ({ result: data }) => {
-        console.log(data)
         terminalStore.set(() => ({ data }))
         isRunning = false
     })
