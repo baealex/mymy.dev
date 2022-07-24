@@ -7,7 +7,7 @@
     "dev": "nodemon --watch src --delay 1 --exec ts-node src/index.ts",
     "dev:client": "npm start --prefix client",
     "dev:concurrently": "concurrently \"npm run server\" \"npm run client\"",
-    "lint": "eslint",
+    "lint": "eslint src",
     "test": "jest",
     "build": "tsc"
   },

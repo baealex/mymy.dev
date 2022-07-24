@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "webpack-dev-server --mode development --port 3000",
-    "lint": "eslint",
+    "lint": "eslint src",
     "test": "jest",
     "build": "webpack --mode production && cp -r ./public/* ./dist"
   },
