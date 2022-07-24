@@ -1,6 +1,6 @@
-import Component from '@lib/component';
+import Component from '@lib/component'
 
-import { configureStore } from '@stores/configure';
+import { configureStore } from '@stores/configure'
 
 export default class ModalSettingContent extends Component {
     mount() {
@@ -8,15 +8,15 @@ export default class ModalSettingContent extends Component {
             $input.addEventListener('input', (e: any) => {
                 if (e.target.min) {
                     if (parseInt(e.target.value) < parseInt(e.target.min)) {
-                        e.target.value = '' + e.target.min;
+                        e.target.value = '' + e.target.min
                     }
                 }
                 configureStore.set((prevState) => ({
                     ...prevState,
                     [e.target.name]: e.target.value,
-                }));
-            });
-        });
+                }))
+            })
+        })
     }
 
     render() {
@@ -40,6 +40,6 @@ export default class ModalSettingContent extends Component {
                 <p class="subtitle">Controls the font family of the terminal.</p>
                 <input name="terminalFontFamily" value="${configureStore.state.terminalFontFamily}"/>
             </div>
-        `;
+        `
     }
 }

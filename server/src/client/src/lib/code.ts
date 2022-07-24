@@ -63,8 +63,8 @@ fn main() {
 if __name__ == '__main__':
     print(hello())
 `,
-};
+}
 
 export type Lang = keyof typeof initCode;
 
-export const langs = Object.keys(initCode) as Lang[];
+export const langs = Object.keys(initCode) as Lang[]

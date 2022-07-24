@@ -1,1 +1,1 @@
-export type { Lang } from './lib/code';
+export type { Lang } from './lib/code'
