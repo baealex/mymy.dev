@@ -2,8 +2,9 @@ version: "2.0"
 
 services:
   app:
-    build:
-      context: ./server
-      dockerfile: ./Dockerfile
+    image: baealex/mymydev
+    # build:
+    #   context: ./server
+    #   dockerfile: ./Dockerfile
     ports:
-      - 3000:3000
+      - 5000:5000
