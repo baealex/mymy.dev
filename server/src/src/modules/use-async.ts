@@ -4,7 +4,7 @@ import {
     NextFunction,
 } from 'express'
 
-export default function asyncWrap(callback: (req: Request, res: Response, next: NextFunction) => Promise<any>) {
+export function useAsync(callback: (req: Request, res: Response, next: NextFunction) => Promise<void>) {
     return function (req: Request, res: Response, next: NextFunction) {
         callback(req, res, next)
             .catch((e: Error) => {

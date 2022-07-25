@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import * as views from './views'
-
-import asyncWrap from './modules/async-wrap'
+import { useAsync } from './modules/use-async'
 
 export default Router()
-    .post('/api/github/raw', asyncWrap(views.getGitHubRaw))
+    .post('/api/github/raw', useAsync(views.getGitHubRaw))
