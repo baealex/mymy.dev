@@ -7,10 +7,15 @@ import {
     runCode,
     cleaner,
 } from '../modules/ide'
+import {
+    SOCKET_EVENT_NAME,
+    CodeRunnerEventParams,
+    CodeRunnerResultEventParams
+} from '../../socket-event'
 
 export default function useSocket(io: Server) {
     io.on('connection', (socket) => {
-        socket.on('code-runner', ({ language, source }) => {
+        socket.on(SOCKET_EVENT_NAME.CODE_RUNNER, ({ language, source }: CodeRunnerEventParams) => {
             if (!['c', 'cpp', 'rs', 'py', 'js', 'ts'].includes(language)) {
                 return
             }
@@ -26,9 +31,9 @@ export default function useSocket(io: Server) {
 
                     const compileFailed = runCode(['gcc', filename, '-o', uuid], { isCompile: true })
                     if (compileFailed) {
-                        socket.emit('code-runner-result', { result: compileFailed })
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: compileFailed }))
                     } else {
-                        socket.emit('code-runner-result', { result: runCode(['./' + uuid]) })
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: runCode(['./' + uuid])}))
                     }
                 }
 
@@ -39,9 +44,9 @@ export default function useSocket(io: Server) {
 
                     const compileFailed = runCode(['g++', filename, '-o', uuid], { isCompile: true })
                     if (compileFailed) {
-                        socket.emit('code-runner-result', { result: compileFailed })
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: compileFailed }))
                     } else {
-                        socket.emit('code-runner-result', { result: runCode(['./' + uuid]) })
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: runCode(['./' + uuid]) }))
                     }
                 }
 
@@ -51,9 +56,9 @@ export default function useSocket(io: Server) {
 
                     const compileFailed = runCode(['rustc', filename], { isCompile: true })
                     if (compileFailed) {
-                        socket.emit('code-runner-result', { result: compileFailed })
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: compileFailed }))
                     } else {
-                        socket.emit('code-runner-result', { result: runCode(['./' + uuid]) })
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: runCode(['./' + uuid]) }))
                     }
                 }
 
@@ -61,24 +66,24 @@ export default function useSocket(io: Server) {
                     source = safety(source, ['import', 'open'])
                     fs.writeFileSync(filename, source)
 
-                    socket.emit('code-runner-result', { result: runCode(['python', filename]) })
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: runCode(['python', filename]) }))
                 }
 
                 if (language === 'js') {
                     source = safety(source, ['require', 'import'])
                     fs.writeFileSync(filename, source)
 
-                    socket.emit('code-runner-result', { result: runCode(['node', filename]) })
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: runCode(['node', filename]) }))
                 }
 
                 if (language === 'ts') {
                     source = safety(source, ['require', 'import'])
                     fs.writeFileSync(filename, source)
 
-                    socket.emit('code-runner-result', { result: runCode(['ts-node', filename]) })
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: runCode(['ts-node', filename]) }))
                 }
             } catch(e) {
-                socket.emit('code-runner-error')
+                socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_ERROR)
                 console.log(e)
             } finally {
                 cleaner(filename)

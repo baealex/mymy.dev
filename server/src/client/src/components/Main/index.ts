@@ -21,16 +21,21 @@ import 'codemirror/mode/python/python'
 import 'codemirror/mode/rust/rust'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/material-darker.css'
+import {
+    SOCKET_EVENT_NAME,
+    CodeRunnerEventParams,
+    CodeRunnerResultEventParams,
+} from '../../../../socket-event'
 
 const runCode = (() => {
     let isRunning = false
 
-    socket.on('code-runner-result', ({ result: data }) => {
+    socket.on(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, ({ result: data }: CodeRunnerResultEventParams) => {
         terminalStore.set(() => ({ data }))
         isRunning = false
     })
 
-    socket.on('code-runner-error', () => {
+    socket.on(SOCKET_EVENT_NAME.CODE_RUNNER_ERROR, () => {
         terminalStore.set(() => ({ data: 'Error!' }))
         isRunning = false
     })
@@ -40,10 +45,10 @@ const runCode = (() => {
             isRunning = true
             terminalStore.set(() => ({ data: 'Running...' }))
 
-            socket.emit('code-runner', {
+            socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER, CodeRunnerEventParams({
                 language: langStore.state.data,
                 source: sourceStore.state.data
-            })
+            }))
         }
     }
 })()
