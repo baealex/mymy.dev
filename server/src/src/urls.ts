@@ -1,6 +1,5 @@
 import { Router } from 'express'
-import * as views from './views'
-import { useAsync } from './modules/use-async'
+import * as views from '~/views'
 
 export default Router()
-    .post('/api/github/raw', useAsync(views.getGitHubRaw))
+    .post('/api/github/raw', views.getGitHubRaw)

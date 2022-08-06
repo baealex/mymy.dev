@@ -6,7 +6,7 @@
     "start": "npm run build --prefix client && ts-node src/index.ts",
     "dev": "nodemon --watch src --delay 1 --exec ts-node src/index.ts",
     "dev:client": "npm start --prefix client",
-    "dev:concurrently": "concurrently \"npm run server\" \"npm run client\"",
+    "dev:with": "concurrently \"npm run dev\" \"npm run dev:client\"",
     "lint": "eslint src",
     "test": "jest",
     "build": "tsc"
@@ -48,6 +48,7 @@
     "supertest": "^6.2.4",
     "ts-jest": "^28.0.7",
     "ts-node": "^9.1.1",
+    "tsconfig-paths": "^4.1.0",
     "typescript": "^4.5.2"
   }
 }

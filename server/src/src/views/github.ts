@@ -1,11 +1,12 @@
-import {
+import type {
     Request,
     Response,
 } from 'express'
-
 import axios from 'axios'
 
-export async function getGitHubRaw(req: Request, res: Response) {
+import { useAsync } from '~/modules/use-async'
+
+export const getGitHubRaw = useAsync(async (req: Request, res: Response) => {
     const { raw } = req.body
 
     if (!raw) {
@@ -19,4 +20,4 @@ export async function getGitHubRaw(req: Request, res: Response) {
     })
     
     res.send(data).end()
-}
+})
