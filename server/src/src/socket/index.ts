@@ -1,6 +1,7 @@
 import { Server } from 'socket.io'
 import { v4 as uuidv4 } from 'uuid'
 import fs from 'fs'
+import axios from 'axios'
 
 import {
     safety,
@@ -10,7 +11,9 @@ import {
 import {
     SOCKET_EVENT_NAME,
     CodeRunnerEventParams,
-    CodeRunnerResultEventParams
+    CodeRunnerResultEventParams,
+    GetGitHubRawEventParams,
+    GetGitHubRawResultEventParams
 } from '../../socket-event'
 
 export default function useSocket(io: Server) {
@@ -31,9 +34,9 @@ export default function useSocket(io: Server) {
 
                     const compileFailed = runCode(['gcc', filename, '-o', uuid], { isCompile: true })
                     if (compileFailed) {
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: compileFailed }))
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: compileFailed }))
                     } else {
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: runCode(['./' + uuid])}))
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['./' + uuid])}))
                     }
                 }
 
@@ -44,9 +47,9 @@ export default function useSocket(io: Server) {
 
                     const compileFailed = runCode(['g++', filename, '-o', uuid], { isCompile: true })
                     if (compileFailed) {
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: compileFailed }))
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: compileFailed }))
                     } else {
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: runCode(['./' + uuid]) }))
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['./' + uuid]) }))
                     }
                 }
 
@@ -56,9 +59,9 @@ export default function useSocket(io: Server) {
 
                     const compileFailed = runCode(['rustc', filename], { isCompile: true })
                     if (compileFailed) {
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: compileFailed }))
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: compileFailed }))
                     } else {
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: runCode(['./' + uuid]) }))
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['./' + uuid]) }))
                     }
                 }
 
@@ -66,27 +69,43 @@ export default function useSocket(io: Server) {
                     source = safety(source, ['import', 'open'])
                     fs.writeFileSync(filename, source)
 
-                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: runCode(['python', filename]) }))
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['python', filename]) }))
                 }
 
                 if (language === 'js') {
                     source = safety(source, ['require', 'import'])
                     fs.writeFileSync(filename, source)
 
-                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: runCode(['node', filename]) }))
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['node', filename]) }))
                 }
 
                 if (language === 'ts') {
                     source = safety(source, ['require', 'import'])
                     fs.writeFileSync(filename, source)
 
-                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ result: runCode(['ts-node', filename]) }))
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['ts-node', filename]) }))
                 }
             } catch(e) {
                 socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_ERROR)
                 console.log(e)
             } finally {
                 cleaner(filename)
+            }
+        })
+
+        socket.on(SOCKET_EVENT_NAME.GET_GITHUB_RAW, async ({ raw }: GetGitHubRawEventParams) => {
+            if (!raw) {
+                socket.emit(SOCKET_EVENT_NAME.GET_GITHUB_RAW_ERROR)
+            }
+            
+            try {
+                const { data } = await axios.request({
+                    method: 'GET',
+                    url: encodeURI('https://raw.githubusercontent.com' + raw)
+                })
+                socket.emit(SOCKET_EVENT_NAME.GET_GITHUB_RAW_RESULT, GetGitHubRawResultEventParams({ data }))
+            } catch {
+                socket.emit(SOCKET_EVENT_NAME.GET_GITHUB_RAW_ERROR)
             }
         })
     })

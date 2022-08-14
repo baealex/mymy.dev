@@ -17,22 +17,32 @@ class SourceStore extends Store<SourceStoreState> {
         }
     }
 
-    createNewFile(lang?: Lang) {
-        const newFileName = 'New_File_' + Math.random().toFixed(5).replace('0.', '') + (lang ? '.' + lang : '')
+    exists(fileName: string): boolean {
+        return Object.keys(this.state.files).includes(fileName)
+    }
+
+    createNewFile(options?: {
+        lang?: Lang,
+        fileName?: string;
+        fileData?: string;
+    }) {
+        const newFileName = options?.fileName
+            ? options.fileName
+            : 'New_File_' + Math.random().toFixed(5).replace('0.', '') + (options?.lang ? '.' + options.lang : '')
         this.set((state) => ({
             ...state,
             activeFile: newFileName,
             files: {
                 ...state.files,
-                [newFileName]: lang ? initCode[lang] : ''
+                [newFileName]: options?.fileData
+                    ? options.fileData
+                    : options?.lang ? initCode[options.lang] : ''
             }
         }))
-        return lang ? initCode[lang] : ''
+        return options?.lang ? initCode[options?.lang] : ''
     }
 
     removeActiveFile() {
-        console.log(Object.keys(this.state.files).length)
-
         if (Object.keys(this.state.files).length <= 1) {
             alert('Cannot delete because have a single file')
             return
@@ -59,7 +69,7 @@ class SourceStore extends Store<SourceStoreState> {
     }
 
     renameActiveFile(fileName: string) {
-        if (fileName !== this.state.activeFile && Object.keys(this.state.files).includes(fileName)) {
+        if (fileName !== this.state.activeFile && this.exists(fileName)) {
             alert('Cannot rename because already exists')
             return
         }

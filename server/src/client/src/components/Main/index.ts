@@ -104,7 +104,9 @@ export default class Side extends Component {
             data: langs[Math.round(Math.random() * (langs.length - 1))],
         }))
 
-        const source = sourceStore.createNewFile(langStore.state.data)
+        const source = sourceStore.createNewFile({
+            lang: langStore.state.data,
+        })
         editor.setValue(source)
     }
 

@@ -21,7 +21,7 @@ import {
 const runCode = (() => {
     let isRunning = false
 
-    socket.on(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, ({ result: data }: CodeRunnerResultEventParams) => {
+    socket.on(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, ({ data }: CodeRunnerResultEventParams) => {
         terminalStore.set(() => ({ data }))
         isRunning = false
     })
@@ -58,13 +58,22 @@ export default class Tools extends Component {
         })
 
         const $select = this.$el.querySelector('select') as HTMLSelectElement
+        
         $select.addEventListener('change', (e: any) => {
             langStore.set(() => ({ data: e.target.value as Lang}))
         })
+
         langStore.subscribe(({ data }) => {
             $select.selectedIndex = langs.findIndex((name) => {
                 return name === data
             })
+        }, { initialize: true })
+
+        sourceStore.subscribe(({ activeFile }) => {
+            const lang = activeFile.split('.').slice(-1)[0] as Lang
+            if (langs.includes(lang)) {
+                langStore.set({ data: lang})
+            }
         }, { initialize: true })
     
         const $button = this.$el.querySelector('button') as HTMLElement
