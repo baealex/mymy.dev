@@ -27,6 +27,61 @@
         }
     }
 
+    .files {
+        display: flex;
+        flex-direction: column;
+        background: #353535;
+        color: #bababa;
+        width: 250px;
+        font-size: 14px;
+        
+        .top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 4px 8px;
+            border-bottom: 1px solid #555;
+            
+            span {
+                font-weight: 900;
+            }
+
+            .action {
+                & > * {
+                    cursor: pointer;
+                    margin: 0 4px;
+                }
+            }
+        }
+
+        ul {
+            list-style: none;
+            overflow-y: auto;
+            user-select: none;
+
+            li {
+                cursor: pointer;
+                padding: 2px 4px;
+                border: 1px solid rgba(0, 0, 0, 0);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                &.active {
+                    border: 1px solid #d56aff;
+                    background: rgb(126, 44, 108);
+                }
+
+                input {
+                    border: none;
+                    outline: none;
+                    color: #bababa;
+                    background: rgba(0, 0, 0, 0);
+                }
+            }
+        }
+    }
+
     .directory {
         background: #ccc;
     }

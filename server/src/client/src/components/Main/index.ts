@@ -47,7 +47,7 @@ const runCode = (() => {
 
             socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER, CodeRunnerEventParams({
                 language: langStore.state.data,
-                source: sourceStore.state.data
+                source: sourceStore.state.files[sourceStore.state.activeFile]
             }))
         }
     }
@@ -105,7 +105,18 @@ export default class Side extends Component {
             })
         })()
         editor.on('change', (editor) => {
-            sourceStore.set(() => ({ data: editor.getValue() }))
+            sourceStore.set((state) => ({
+                ...state,
+                files: {
+                    ...state.files,
+                    [state.activeFile]: editor.getValue(),
+                }
+            }))
+        })
+        sourceStore.subscribe(({ activeFile, files }) => {
+            if (files[activeFile] !== editor.getValue()) {
+                editor.setValue(files[activeFile])
+            }
         })
         langStore.subscribe(({ data }) => {
             editor.setEditorMode(data)
@@ -164,16 +175,19 @@ export default class Side extends Component {
             return
         }
 
-        if (sourceStore.state.data !== '') {
-            editor.setValue(sourceStore.state.data)
+        if (sourceStore.state.activeFile) {
+            editor.setValue(sourceStore.state.files[sourceStore.state.activeFile])
             return
         }
 
         langStore.set(() => ({
             data: langs[Math.round(Math.random() * (langs.length - 1))],
         }))
-        editor.setValue(initCode[langStore.state.data])
+
+        const source = sourceStore.createNewFile(langStore.state.data)
+        editor.setValue(source)
     }
+
     render() {
         return `
             <textarea></textarea>

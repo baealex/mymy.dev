@@ -26,6 +26,14 @@ export default class ModalSettingContent extends Component {
                 <input disabled name="runShortcut" value="${configureStore.state.runShortcut}"/>
             </div>
             <div class="section">
+                <p class="title">Shortcut: Active File Rename</p>
+                <input disabled name="runShortcut" value="${configureStore.state.activeFileRenameShortcut}"/>
+            </div>
+            <div class="section">
+                <p class="title">Shortcut: Active File Delete</p>
+                <input disabled name="runShortcut" value="${configureStore.state.activeFileDeleteShortcut}"/>
+            </div>
+            <div class="section">
                 <p class="title">Editor: Font Size</p>
                 <p class="subtitle">Controls the font size in pixels.</p>
                 <input name="editorFontSize" type="number" min="8" value="${configureStore.state.editorFontSize}"/>
