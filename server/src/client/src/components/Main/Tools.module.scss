@@ -1,0 +1,16 @@
+.tools {
+    border-top: 1px solid #363636;
+    background: #212121;
+    padding: 8px;
+
+    select, button {
+        font-size: 14px;
+        background: #212121;
+        border: none;
+        color: #ccc;
+    }
+
+    button:hover {
+        border-bottom: 1px solid #8e44ad;
+    }
+}
