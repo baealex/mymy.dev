@@ -1,4 +1,4 @@
-import style from './FileManagement.module.scss'
+import style from './FileManager.module.scss'
 import classNames from 'classnames/bind'
 const cx = classNames.bind(style)
 
@@ -9,12 +9,20 @@ import { configureStore } from '@stores/configure'
 
 let hasFocusedFileList = false
 
-export default class FileManagement extends Component {
+export default class FileManager extends Component {
     constructor($parent: HTMLElement) {
         super($parent, { className: cx('files') })
     }
 
     mount() {
+        configureStore.subscribe(({ visibleFileManager }) => {
+            if (visibleFileManager) {
+                this.$el.style.width = '250px'
+            } else {
+                this.$el.style.width = '0px'
+            }
+        }, { initialize: true })
+        
         const $fileList = this.$el.querySelector('ul') as HTMLUListElement
 
         document.addEventListener('click', e => {

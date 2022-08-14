@@ -1,17 +1,19 @@
 .files {
     display: flex;
     flex-direction: column;
-    background: #353535;
+    background: #262626;
     color: #bababa;
-    width: 250px;
+    width: 249px;
     font-size: 14px;
+    border-left: 1px solid #444;
+    transition: width 0.5s ease;
     
     .top {
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 4px 4px 8px;
-        border-bottom: 1px solid #555;
+        border-bottom: 1px solid #444;
         
         span {
             font-weight: 900;

@@ -4,7 +4,7 @@ const cx = classNames.bind(style)
 
 import Component from '@lib/component'
 import Functions from './Functions'
-import FileManagement from './FileManagement'
+import FileManager from './FileManager'
 
 export default class Side extends Component {
     constructor($parent: HTMLElement) {
@@ -13,7 +13,7 @@ export default class Side extends Component {
 
     mount() {
         new Functions(this.$el)
-        new FileManagement(this.$el)
+        new FileManager(this.$el)
     }
 
     render() {

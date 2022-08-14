@@ -8,6 +8,7 @@ export const configureStore = createStore({
     editorFontSize: '16',
     terminalFontSize: '16',
     terminalFontFamily: 'Menlo, Monaco, \'Courier New\', monospace',
+    visibleFileManager: window.innerWidth > 560 ? true : false,
 })
 
 rememberOnStorage('mymydev__configure', configureStore)
