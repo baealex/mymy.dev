@@ -23,7 +23,7 @@ export default class Functions extends Component {
 
                 if (eventName === 'modal') {
                     const modalName = e.currentTarget.dataset[eventName]
-                    modalStore.set((prevState) => {
+                    modalStore.set((prevState: any) => {
                         const nextState = Object.keys(prevState).reduce((acc, key) => ({
                             ...acc,
                             [key]: false,
@@ -31,7 +31,7 @@ export default class Functions extends Component {
                         
                         return {
                             ...nextState,
-                            [modalName]: true,
+                            [modalName]: !prevState[modalName],
                         }
                     })
                 }
