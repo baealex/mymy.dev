@@ -103,7 +103,8 @@ export default function useSocket(io: Server) {
                     method: 'GET',
                     url: encodeURI('https://raw.githubusercontent.com' + raw)
                 })
-                socket.emit(SOCKET_EVENT_NAME.GET_GITHUB_RAW_RESULT, GetGitHubRawResultEventParams({ data }))
+                const name = raw.split('/').slice(-1)[0]
+                socket.emit(SOCKET_EVENT_NAME.GET_GITHUB_RAW_RESULT, GetGitHubRawResultEventParams({ name, data }))
             } catch {
                 socket.emit(SOCKET_EVENT_NAME.GET_GITHUB_RAW_ERROR)
             }

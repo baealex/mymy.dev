@@ -33,6 +33,7 @@ export function GetGitHubRawEventParams(params: GetGitHubRawEventParams) {
 }
 
 export interface GetGitHubRawResultEventParams {
+    name: string;
     data: string;
 }
 

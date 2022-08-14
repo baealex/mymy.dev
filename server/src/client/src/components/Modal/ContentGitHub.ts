@@ -1,63 +1,71 @@
 import Component from '@lib/component'
+import { getParameter } from '@lib/query'
 import socket from '@lib/socket'
 import { sourceStore } from '@stores/source'
 import { GetGitHubRawEventParams, GetGitHubRawResultEventParams, SOCKET_EVENT_NAME } from '../../../../socket-event'
 
-let sourcePath = ''
+const getGitHubRaw = (sourcePath: string, validate=true) => {
+    if (validate) {
+        if (!sourcePath) {
+            alert('Path is empty')
+            return
+        }
+
+        if (
+            !sourcePath.startsWith('https://github.com') &&
+            !sourcePath.startsWith('https://raw.githubusercontent.com')
+        ) {
+            alert('Path is not from GitHub')
+            return
+        }
+    }
+
+    if (sourcePath.startsWith('https://raw.githubusercontent.com')) {
+        sourcePath = sourcePath.replace('https://raw.githubusercontent.com', '')
+    }
+
+    if (sourcePath.startsWith('https://github.com')) {
+        sourcePath = sourcePath.replace('https://github.com', '')
+        sourcePath = sourcePath.replace('blob/', '')
+    }
+
+    const fileName = sourcePath.split('/').slice(-1)[0]
+
+    if (sourceStore.exists(fileName)) {
+        alert('Already exists. Retry after rename active file')
+        sourceStore.set({ activeFile: fileName })
+        return
+    }
+
+    socket.emit(SOCKET_EVENT_NAME.GET_GITHUB_RAW, GetGitHubRawEventParams({ raw: sourcePath }))
+}
 
 export default class ModalSettingContent extends Component {
     mount() {
         const $input = this.$el.querySelector('input') as HTMLInputElement
 
-        $input.addEventListener('input', (e: any) => {
-            sourcePath = e.target.value
-        })
-
         socket.on(SOCKET_EVENT_NAME.GET_GITHUB_RAW_ERROR, () => {
-            alert('Something wrong! 🙀')
+            alert('Something wrong!')
         })
 
-        socket.on(SOCKET_EVENT_NAME.GET_GITHUB_RAW_RESULT, ({ data }: GetGitHubRawResultEventParams) => {
+        socket.on(SOCKET_EVENT_NAME.GET_GITHUB_RAW_RESULT, ({ name, data }: GetGitHubRawResultEventParams) => {
             sourceStore.createNewFile({
-                fileName: sourcePath.split('/').slice(-1)[0],
+                fileName: name,
                 fileData: data,
             })
 
-            sourcePath = ''
             $input.value = ''
         })
 
         this.$el.querySelector('button')?.addEventListener('click', (e: any) => {
-            if (!sourcePath) {
-                alert('Path is empty 🙀')
-                return
-            }
-
-            if (
-                !sourcePath.startsWith('https://github.com') &&
-                !sourcePath.startsWith('https://raw.githubusercontent.com')
-            ) {
-                alert('Path is not from GitHub 🙀')
-                return
-            }
-
-            if (sourcePath.startsWith('https://raw.githubusercontent.com')) {
-                sourcePath = sourcePath.replace('https://raw.githubusercontent.com', '')
-            }
-
-            if (sourcePath.startsWith('https://github.com')) {
-                sourcePath = sourcePath.replace('https://github.com', '')
-                sourcePath = sourcePath.replace('blob/', '')
-            }
-
-            const fileName = sourcePath.split('/').slice(-1)[0]
-
-            if (sourceStore.exists(fileName)) {
-                sourceStore.set({ activeFile: fileName })
-            } else {
-                socket.emit(SOCKET_EVENT_NAME.GET_GITHUB_RAW, GetGitHubRawEventParams({ raw: sourcePath }))
-            }
+            getGitHubRaw($input.value)
         })
+
+        const raw = decodeURIComponent(getParameter('raw'))
+
+        if (raw && raw.startsWith('/')) {
+            getGitHubRaw(raw, false)
+        }
     }
 
     render() {
