@@ -1,6 +1,6 @@
 import style from './App.module.scss'
 import classNames from 'classnames/bind'
-const cx = classNames.bind(style)
+const cn = classNames.bind(style)
 
 import Component from '@lib/component'
 
@@ -15,7 +15,7 @@ export default class App extends Component {
     
     mount() {
         const $container = this.$el.querySelector(
-            `.${cx('container')}`
+            `.${cn('container')}`
         ) as HTMLElement
         
         new Side($container)
@@ -25,7 +25,7 @@ export default class App extends Component {
 
     render() {
         return `
-            <div class="${cx('container')}"></div>
+            <div class="${cn('container')}"></div>
         `
     }
 }

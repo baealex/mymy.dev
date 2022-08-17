@@ -1,6 +1,6 @@
 import style from './FileManager.module.scss'
 import classNames from 'classnames/bind'
-const cx = classNames.bind(style)
+const cn = classNames.bind(style)
 
 import Component from '@lib/component'
 
@@ -11,7 +11,7 @@ let hasFocusedFileList = false
 
 export default class FileManager extends Component {
     constructor($parent: HTMLElement) {
-        super($parent, { className: cx('files') })
+        super($parent, { className: cn('files') })
     }
 
     mount() {
@@ -56,7 +56,7 @@ export default class FileManager extends Component {
                     sourceStore.removeActiveFile()
                 }
                 if (e.key === configureStore.state.activeFileRenameShortcut) {
-                    const $active = $fileList.querySelector(`.${cx('active')}`) as HTMLDListElement
+                    const $active = $fileList.querySelector(`.${cn('active')}`) as HTMLDListElement
                     $active.innerHTML = `<input id="rename" type="text" value="${sourceStore.state.activeFile}">`
   
                     const $rename = document.getElementById('rename') as HTMLInputElement
@@ -64,7 +64,6 @@ export default class FileManager extends Component {
                     const endSelection = $rename.value.lastIndexOf('.')
                     $rename.setSelectionRange(0, endSelection)
                     $rename.addEventListener('keydown', (e: any) => {
-                        console.log(e.key)
                         if (e.key === 'Escape') {
                             sourceStore.set({})
                         }
@@ -78,13 +77,13 @@ export default class FileManager extends Component {
 
         sourceStore.subscribe((state) => {
             $fileList.innerHTML = Object.keys(state.files).map((file) => `
-                <li data-name="${file}" class="${cx(file === state.activeFile && 'active')}">
+                <li data-name="${file}" class="${cn(file === state.activeFile && 'active')}">
                     ${file}
                 </li>
             `).join('')
         }, { initialize: true })
 
-        const $fileAction = this.$el.querySelector(`.${cx('files')} .${cx('action')}`) as HTMLDivElement
+        const $fileAction = this.$el.querySelector(`.${cn('files')} .${cn('action')}`) as HTMLDivElement
 
         $fileAction.addEventListener('click', (e: any) => {
             const actionType = e.target.dataset['type']
@@ -98,9 +97,9 @@ export default class FileManager extends Component {
 
     render() {
         return `
-            <div class="${cx('top')}">
+            <div class="${cn('top')}">
                 <span>FILES</span>
-                <div class="${cx('action')}">
+                <div class="${cn('action')}">
                     <i data-type="create" class="fas fa-file-code"></i>
                 </div>
             </div>

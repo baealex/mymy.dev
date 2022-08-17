@@ -1,12 +1,12 @@
 import style from './Footer.module.scss'
 import classNames from 'classnames/bind'
-const cx = classNames.bind(style)
+const cn = classNames.bind(style)
 
 import Component from '@lib/component'
 
 export default class Footer extends Component {
     constructor($parent: HTMLElement) {
-        super($parent, { className: cx('footer') })
+        super($parent, { className: cn('footer') })
     }
 
     render() {

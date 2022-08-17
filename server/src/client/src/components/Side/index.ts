@@ -1,6 +1,6 @@
 import style from './Side.module.scss'
 import classNames from 'classnames/bind'
-const cx = classNames.bind(style)
+const cn = classNames.bind(style)
 
 import Component from '@lib/component'
 import Functions from './Functions'
@@ -8,7 +8,7 @@ import FileManager from './FileManager'
 
 export default class Side extends Component {
     constructor($parent: HTMLElement) {
-        super($parent, { className: cx('side') })
+        super($parent, { className: cn('side') })
     }
 
     mount() {

@@ -1,6 +1,6 @@
 import style from './Functions.module.scss'
 import classNames from 'classnames/bind'
-const cx = classNames.bind(style)
+const cn = classNames.bind(style)
 
 import Component from '@lib/component'
 
@@ -9,13 +9,13 @@ import { configureStore } from '@stores/configure'
 
 export default class Functions extends Component {
     constructor($parent: HTMLElement) {
-        super($parent, { className: cx('functions') })
+        super($parent, { className: cn('functions') })
     }
 
     mount() {
         const $icons = this.$el.querySelectorAll(
-            `.${cx('top')} > div,` +
-            `.${cx('bottom')} > div` 
+            `.${cn('top')} > div,` +
+            `.${cn('bottom')} > div` 
         )
         for (const $icon of $icons) {
             $icon.addEventListener('click', (e: any) => {
@@ -48,7 +48,7 @@ export default class Functions extends Component {
 
     render() {
         return `
-            <div class="${cx('top')}">
+            <div class="${cn('top')}">
                 <div data-on="file">
                     <i class="fas fa-copy"></i>
                 </div>
@@ -56,7 +56,7 @@ export default class Functions extends Component {
                     <i class="fab fa-github"></i>
                 </div>
             </div>
-            <div class="${cx('bottom')}">
+            <div class="${cn('bottom')}">
                 <div data-on="modal" data-modal="setting">
                     <i class="fas fa-cog"></i>
                 </div>

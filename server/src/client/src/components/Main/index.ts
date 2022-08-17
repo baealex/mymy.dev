@@ -1,6 +1,6 @@
 import style from './Main.module.scss'
 import classNames from 'classnames/bind'
-const cx = classNames.bind(style)
+const cn = classNames.bind(style)
 
 import Component from '@lib/component'
 import Terminal from './Terminal'
@@ -23,7 +23,7 @@ import 'codemirror/theme/material-darker.css'
 
 export default class Side extends Component {
     constructor($parent: HTMLElement) {
-        super($parent, { className: cx('main') })
+        super($parent, { className: cn('main') })
     }
 
     mount() {

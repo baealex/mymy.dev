@@ -1,6 +1,6 @@
 import style from './Tools.module.scss'
 import classNames from 'classnames/bind'
-const cx = classNames.bind(style)
+const cn = classNames.bind(style)
 
 import Component from '@lib/component'
 
@@ -46,7 +46,7 @@ const runCode = (() => {
 
 export default class Tools extends Component {
     constructor($parent: HTMLElement) {
-        super($parent, { className: cx('tools') })
+        super($parent, { className: cn('tools') })
     }
 
     mount() {
