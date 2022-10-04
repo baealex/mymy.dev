@@ -5,5 +5,5 @@ export default {
     moduleNameMapper: {
         '~/(.*)$': '<rootDir>/src/$1'
     },
-    testPathIgnorePatterns: ['/src/client/'],
+    testPathIgnorePatterns: ['/src/client/', '/dist/'],
 } as Config
