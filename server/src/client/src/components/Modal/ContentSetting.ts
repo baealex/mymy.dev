@@ -1,6 +1,6 @@
-import Component from '@lib/component'
+import Component from '~/modules/component'
 
-import { configureStore } from '@stores/configure'
+import { configureStore } from '~/stores/configure'
 
 export default class ModalSettingContent extends Component {
     mount() {

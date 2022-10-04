@@ -1,6 +1,6 @@
 import Modal from '.'
 
-import { modalStore } from '@stores/modal'
+import { modalStore } from '~/stores/modal'
 
 describe('앱 컴포넌트 테스트', () => {
     test('렌더링 테스트', () => {

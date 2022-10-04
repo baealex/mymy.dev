@@ -2,15 +2,15 @@ import style from './Tools.module.scss'
 import classNames from 'classnames/bind'
 const cn = classNames.bind(style)
 
-import Component from '@lib/component'
+import Component from '~/modules/component'
 
-import socket from '@lib/socket'
-import { Lang, langs } from '@lib/code'
+import socket from '~/modules/socket'
+import { Lang, langs } from '~/modules/code'
 
-import { configureStore } from '@stores/configure'
-import { langStore } from '@stores/lang'
-import { terminalStore } from '@stores/terminal'
-import { sourceStore } from '@stores/source'
+import { configureStore } from '~/stores/configure'
+import { langStore } from '~/stores/lang'
+import { terminalStore } from '~/stores/terminal'
+import { sourceStore } from '~/stores/source'
 
 import {
     SOCKET_EVENT_NAME,

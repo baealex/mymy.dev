@@ -1,7 +1,9 @@
-import Component from '@lib/component'
-import { getParameter } from '@lib/query'
-import socket from '@lib/socket'
-import { sourceStore } from '@stores/source'
+import Component from '~/modules/component'
+import { getParameter } from '~/modules/query'
+import socket from '~/modules/socket'
+
+import { sourceStore } from '~/stores/source'
+
 import { GetGitHubRawEventParams, GetGitHubRawResultEventParams, SOCKET_EVENT_NAME } from '../../../../socket-event'
 
 const getGitHubRaw = (sourcePath: string, validate=true) => {

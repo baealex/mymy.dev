@@ -1,4 +1,4 @@
-import { initCode } from '@lib/code'
+import { initCode } from '~/modules/code'
 import Store from 'badland'
 import { rememberOnStorage } from 'badland/dist/plugin'
 import type { Lang } from 'types'

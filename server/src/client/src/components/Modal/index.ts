@@ -1,9 +1,9 @@
-import Component from '@lib/component'
+import Component from '~/modules/component'
 
 import ModalGitHubContent from './ContentGitHub'
 import ModalSettingContent from './ContentSetting'
 
-import { modalStore } from '@stores/modal'
+import { modalStore } from '~/stores/modal'
 
 export default class Modal extends Component {
     mount() {

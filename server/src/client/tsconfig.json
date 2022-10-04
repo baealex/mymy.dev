@@ -1,19 +1,19 @@
 {
     "compilerOptions": {
         "sourceMap": true,
-        "allowJs": true,
-        "strict": true,
         "target": "ES2015",
         "esModuleInterop": true,
-        "moduleResolution": "node",
+        "moduleResolution": "Node",
         "baseUrl": "src",
         "paths": {
-            "@lib/*": ["lib/*"],
-            "@stores/*": ["stores/*"]
+            "~/*": ["./*"]
         }
     },
     "include": [
         "src",
-        "declarations.d.ts"
+        "types/*.d.ts"
+    ],
+    "exclude": [
+        "public",
     ]
 }

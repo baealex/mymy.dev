@@ -6,7 +6,6 @@ module.exports = {
         '\\.(css|scss)$': '<rootDir>/__mocks__/styleMock.js',
         '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js',
         'socket.io-client': '<rootDir>/__mocks__/socketMock.js',
-        '^@lib/(.*)$': '<rootDir>/src/lib/$1',
-        '^@stores/(.*)$': '<rootDir>/src/stores/$1'
+        '^~/(.*)$': '<rootDir>/src/$1',
     }
 }

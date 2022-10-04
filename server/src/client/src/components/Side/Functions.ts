@@ -2,10 +2,10 @@ import style from './Functions.module.scss'
 import classNames from 'classnames/bind'
 const cn = classNames.bind(style)
 
-import Component from '@lib/component'
+import Component from '~/modules/component'
 
-import { modalStore } from '@stores/modal'
-import { configureStore } from '@stores/configure'
+import { modalStore } from '~/stores/modal'
+import { configureStore } from '~/stores/configure'
 
 export default class Functions extends Component {
     constructor($parent: HTMLElement) {
@@ -23,7 +23,7 @@ export default class Functions extends Component {
 
                 if (eventName === 'modal') {
                     const modalName = e.currentTarget.dataset[eventName]
-                    modalStore.set((prevState: any) => {
+                    modalStore.set((prevState) => {
                         const nextState = Object.keys(prevState).reduce((acc, key) => ({
                             ...acc,
                             [key]: false,

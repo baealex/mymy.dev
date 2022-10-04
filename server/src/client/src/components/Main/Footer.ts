@@ -2,7 +2,7 @@ import style from './Footer.module.scss'
 import classNames from 'classnames/bind'
 const cn = classNames.bind(style)
 
-import Component from '@lib/component'
+import Component from '~/modules/component'
 
 export default class Footer extends Component {
     constructor($parent: HTMLElement) {

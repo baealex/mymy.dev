@@ -1,28 +1,22 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
+import path from 'path'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 
-module.exports = {
+import type { Configuration } from 'webpack'
+
+export default {
     entry: './src/index.ts',
     module: {
         rules: [
             {
-                test: /\.(ts|tsx)?$/,
-                exclude: /node_modules/,
-                use: ['babel-loader', 'ts-loader'],
+                test: /\.(?:ico|gif|png|jpg|jpeg|svg)$/i,
+                type: 'asset/resource',
             },
             {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                },
-            },
-            {
-                test: /\.(css|s[ac]ss)$/,
-                exclude: /\.module\.(css|s[ac]ss)$/,
+                test: /\.(c|s[ac])ss$/,
+                exclude: /\.module\.(c|s[ac])ss$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader',
@@ -35,7 +29,7 @@ module.exports = {
                 ],
             },
             {
-                test: /\.module\.(css|s[ac]ss)$/,
+                test: /\.module\.(c|s[ac])ss$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     {
@@ -54,6 +48,16 @@ module.exports = {
                     },
                 ],
             },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: 'babel-loader',
+            },
+            {
+                test: /\.ts$/,
+                exclude: /node_modules/,
+                use: 'ts-loader',
+            },
         ],
     },
     resolve: {
@@ -62,7 +66,17 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: 'templates/index.html'
+            template: 'public/index.html'
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: 'public',
+                    globOptions: {
+                        ignore: ['**/index.html'],
+                    },
+                },
+            ],
         }),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
@@ -78,9 +92,5 @@ module.exports = {
     devServer: {
         static: path.join(__dirname, 'dist'),
         allowedHosts: 'all',
-        proxy: {
-            '/api': 'http://localhost:5000',
-            '/socket.io': 'http://localhost:5000',
-        }
     },
-}
+} as Configuration

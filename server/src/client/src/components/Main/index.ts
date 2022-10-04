@@ -2,16 +2,16 @@ import style from './Main.module.scss'
 import classNames from 'classnames/bind'
 const cn = classNames.bind(style)
 
-import Component from '@lib/component'
+import Component from '~/modules/component'
 import Terminal from './Terminal'
 import Footer from './Footer'
 import Tools from './Tools'
 
-import { Lang, langs } from '@lib/code'
+import { Lang, langs } from '~/modules/code'
 
-import { langStore } from '@stores/lang'
-import { configureStore } from '@stores/configure'
-import { sourceStore } from '@stores/source'
+import { langStore } from '~/stores/lang'
+import { configureStore } from '~/stores/configure'
+import { sourceStore } from '~/stores/source'
 
 import * as CodeMirror from 'codemirror'
 import 'codemirror/mode/clike/clike'

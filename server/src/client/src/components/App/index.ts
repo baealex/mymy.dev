@@ -2,7 +2,7 @@ import style from './App.module.scss'
 import classNames from 'classnames/bind'
 const cn = classNames.bind(style)
 
-import Component from '@lib/component'
+import Component from '~/modules/component'
 
 import Side from '../Side'
 import Main from '../Main'

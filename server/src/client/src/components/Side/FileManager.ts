@@ -2,10 +2,10 @@ import style from './FileManager.module.scss'
 import classNames from 'classnames/bind'
 const cn = classNames.bind(style)
 
-import Component from '@lib/component'
+import Component from '~/modules/component'
 
-import { sourceStore } from '@stores/source'
-import { configureStore } from '@stores/configure'
+import { sourceStore } from '~/stores/source'
+import { configureStore } from '~/stores/configure'
 
 let hasFocusedFileList = false
 
