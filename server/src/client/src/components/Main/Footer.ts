@@ -12,7 +12,7 @@ export default class Footer extends Component {
     render() {
         return `
             <div>
-                <i class="fas fa-link"></i> mymy.dev
+                <i class="fas fa-link"></i> ${location.host}
             </div>
             <div>
                 Copyright 2022 Jino Bae
