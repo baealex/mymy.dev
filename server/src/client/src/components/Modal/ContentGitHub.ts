@@ -1,5 +1,5 @@
 import Component from '~/modules/component'
-import { getParameter } from '~/modules/query'
+import { getParameter } from '~/modules/location'
 import socket from '~/modules/socket'
 
 import { sourceStore } from '~/stores/source'
