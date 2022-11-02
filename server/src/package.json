@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "node dist",
+    "start": "node dist/src/main.js",
     "dev": "nodemon --watch src --delay 1 --exec ts-node src/main.ts",
     "dev:client": "npm run dev --prefix client",
     "dev:with": "concurrently \"npm run dev\" \"npm run dev:client\"",
