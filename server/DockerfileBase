@@ -43,16 +43,3 @@ ENV PATH $NVM_INSTALL_PATH/bin:$PATH
 # install TypeScript
 RUN npm i -g typescript
 RUN npm i -g ts-node
-
-WORKDIR /app
-
-COPY ./src/package.json ./
-COPY ./src/package-lock.json ./
-COPY ./src/client/package.json ./client/
-
-RUN npm i
-
-COPY ./src/ ./
-
-ENTRYPOINT ["npm", "run"]
-CMD ["start"]
