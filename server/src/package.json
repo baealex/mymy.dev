@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "npm run build --prefix client && ts-node src/main.ts",
+    "start": "node dist",
     "dev": "nodemon --watch src --delay 1 --exec ts-node src/main.ts",
     "dev:client": "npm run dev --prefix client",
     "dev:with": "concurrently \"npm run dev\" \"npm run dev:client\"",
     "lint": "eslint src",
     "test": "jest",
-    "build": "tsc"
+    "build": "tsc",
+    "build:client": "npm run build --prefix client"
   },
   "repository": {
     "type": "git",
