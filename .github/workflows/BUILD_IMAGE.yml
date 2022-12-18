@@ -1,15 +1,17 @@
 name: BUILD IMAGE
 
 on:
-  push:
+  workflow_run:
+    workflows: ["BUILD BASE IMAGE", "CI"]
+    types:
+      - completed
     branches:
       - main
-    paths:
-      - 'server/**'
   workflow_dispatch:
 
 jobs:
   build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
