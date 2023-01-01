@@ -6,6 +6,7 @@ import Component from '~/modules/component'
 
 import { sourceStore } from '~/stores/source'
 import { configureStore } from '~/stores/configure'
+import { contextMenu } from '~/modules/context-menu'
 
 let hasFocusedFileList = false
 
@@ -24,6 +25,24 @@ export default class FileManager extends Component {
         }, { initialize: true })
         
         const $fileList = this.$el.querySelector('ul') as HTMLUListElement
+
+        const changeElementActiveFileForRename = () => {
+            const $active = $fileList.querySelector(`.${cn('active')}`) as HTMLDListElement
+            $active.innerHTML = `<input id="rename" type="text" value="${sourceStore.state.activeFile}">`
+  
+            const $rename = document.getElementById('rename') as HTMLInputElement
+            $rename?.focus()
+            const endSelection = $rename.value.lastIndexOf('.')
+            $rename.setSelectionRange(0, endSelection)
+            $rename.addEventListener('keydown', (e: any) => {
+                if (e.key === 'Escape') {
+                    sourceStore.set({})
+                }
+                if (e.key === 'Enter') {
+                    sourceStore.renameActiveFile(e.target.value)
+                }
+            })
+        }
 
         document.addEventListener('click', e => {
             const { left, width, top, height } = $fileList.getBoundingClientRect()
@@ -50,27 +69,38 @@ export default class FileManager extends Component {
             }
         })
 
+        $fileList.addEventListener('contextmenu', async (e: any) => {
+            const fileName = e.target.dataset['name']
+            if (fileName) {
+                await sourceStore.set((state) => ({
+                    ...state,
+                    activeFile: fileName,
+                }))
+            }
+
+            contextMenu.create({
+                top: e.clientY,
+                left: e.clientX,
+                menus: [
+                    {
+                        label: `Rename (${configureStore.state.activeFileRenameShortcut})`,
+                        click: changeElementActiveFileForRename
+                    },
+                    {
+                        label: `Delete (${configureStore.state.activeFileDeleteShortcut})`,
+                        click: sourceStore.removeActiveFile.bind(sourceStore)
+                    }
+                ]
+            })
+        })
+
         window.addEventListener('keydown', (e) => {
             if (hasFocusedFileList) {
                 if (e.key === configureStore.state.activeFileDeleteShortcut) {
                     sourceStore.removeActiveFile()
                 }
                 if (e.key === configureStore.state.activeFileRenameShortcut) {
-                    const $active = $fileList.querySelector(`.${cn('active')}`) as HTMLDListElement
-                    $active.innerHTML = `<input id="rename" type="text" value="${sourceStore.state.activeFile}">`
-  
-                    const $rename = document.getElementById('rename') as HTMLInputElement
-                    $rename?.focus()
-                    const endSelection = $rename.value.lastIndexOf('.')
-                    $rename.setSelectionRange(0, endSelection)
-                    $rename.addEventListener('keydown', (e: any) => {
-                        if (e.key === 'Escape') {
-                            sourceStore.set({})
-                        }
-                        if (e.key === 'Enter') {
-                            sourceStore.renameActiveFile(e.target.value)
-                        }
-                    })
+                    changeElementActiveFileForRename()
                 }
             }
         })

@@ -12,12 +12,12 @@ export default class App extends Component {
     constructor($parent: HTMLElement) {
         super($parent, { id: 'root' })
     }
-    
+
     mount() {
         const $container = this.$el.querySelector(
             `.${cn('container')}`
         ) as HTMLElement
-        
+
         new Side($container)
         new Main($container)
         new Modal($container)
