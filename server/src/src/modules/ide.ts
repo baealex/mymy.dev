@@ -8,7 +8,7 @@ interface RunCodeOption {
 export function runCode(commands: string[], option?: RunCodeOption) {
     try {
         const result = subprocess.execSync(commands.join(' '), {
-            timeout: 5000
+            timeout: 10000
         })
         if (option?.isCompile) {
             return ''
