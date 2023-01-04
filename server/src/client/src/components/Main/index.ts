@@ -2,7 +2,7 @@ import style from './Main.module.scss'
 import classNames from 'classnames/bind'
 const cn = classNames.bind(style)
 
-import Component from '~/modules/component'
+import { Component, html } from '~/modules/core'
 import Terminal from './Terminal'
 import Footer from './Footer'
 import Tools from './Tools'
@@ -22,6 +22,8 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/material-darker.css'
 
 export default class Side extends Component {
+    $textarea?: HTMLTextAreaElement
+
     constructor($parent: HTMLElement) {
         super($parent, { className: cn('main') })
     }
@@ -31,9 +33,10 @@ export default class Side extends Component {
         new Terminal(this.$el)
         new Footer(this.$el)
 
-        const $textarea = this.$el.querySelector('textarea') as HTMLTextAreaElement
+        this.$textarea = this.useSelector('textarea')
+
         const editor = (() => {
-            const _editor = CodeMirror.fromTextArea($textarea, {
+            const _editor = CodeMirror.fromTextArea(this.$textarea, {
                 lineNumbers: true,
                 indentUnit: 4,
                 theme: 'material-darker',
@@ -66,7 +69,7 @@ export default class Side extends Component {
                         return
                     }
                 },
-                $: this.$el.querySelector('.CodeMirror') as HTMLElement,
+                $: this.useSelector('.CodeMirror'),
             })
         })()
 
@@ -111,7 +114,7 @@ export default class Side extends Component {
     }
 
     render() {
-        return `
+        return html`
             <textarea></textarea>
         `
     }

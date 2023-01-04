@@ -1,4 +1,4 @@
-import Component from '~/modules/component'
+import { Component, html } from '~/modules/core'
 
 import ModalGitHubContent from './ContentGitHub'
 import ModalSettingContent from './ContentSetting'
@@ -8,8 +8,8 @@ import { modalStore } from '~/stores/modal'
 export default class Modal extends Component {
     mount() {
         const $modal = {
-            github: this.$el.querySelector('.github.modal') as HTMLElement,
-            setting: this.$el.querySelector('.setting.modal') as HTMLElement,
+            github: this.useSelector('.github.modal'),
+            setting: this.useSelector('.setting.modal'),
         }
         Object.keys($modal).forEach(_key => {
             const key = _key as keyof typeof $modal
@@ -66,7 +66,7 @@ export default class Modal extends Component {
     }
 
     render() {
-        return `
+        return html`
             <div class="github modal hidden">
                 <div class="header">
                     <div class="title">

@@ -1,4 +1,4 @@
-import Component from '~/modules/component'
+import { Component, html } from '~/modules/core'
 
 import { configureStore } from '~/stores/configure'
 
@@ -20,7 +20,7 @@ export default class ModalSettingContent extends Component {
     }
 
     render() {
-        return `
+        return html`
             <div class="section">
                 <p class="title">Shortcut: Run</p>
                 <input disabled name="runShortcut" value="${configureStore.state.runShortcut}"/>

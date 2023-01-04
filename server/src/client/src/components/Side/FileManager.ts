@@ -2,7 +2,7 @@ import style from './FileManager.module.scss'
 import classNames from 'classnames/bind'
 const cn = classNames.bind(style)
 
-import Component from '~/modules/component'
+import { Component, html } from '~/modules/core'
 
 import { sourceStore } from '~/stores/source'
 import { configureStore } from '~/stores/configure'
@@ -126,7 +126,7 @@ export default class FileManager extends Component {
     }
 
     render() {
-        return `
+        return html`
             <div class="${cn('top')}">
                 <span>FILES</span>
                 <div class="${cn('action')}">

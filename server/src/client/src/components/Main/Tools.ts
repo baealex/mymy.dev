@@ -2,7 +2,7 @@ import style from './Tools.module.scss'
 import classNames from 'classnames/bind'
 const cn = classNames.bind(style)
 
-import Component from '~/modules/component'
+import { Component, html } from '~/modules/core'
 
 import socket from '~/modules/socket'
 import { Lang, langs } from '~/modules/code'
@@ -17,6 +17,10 @@ import {
     CodeRunnerEventParams,
     CodeRunnerResultEventParams,
 } from '../../../../socket-event'
+
+interface SelectChangeEvent extends Event {
+    target: HTMLSelectElement
+}
 
 const runCode = (() => {
     let isRunning = false
@@ -45,11 +49,17 @@ const runCode = (() => {
 })()
 
 export default class Tools extends Component {
+    $select?: HTMLSelectElement
+    $button?: HTMLButtonElement
+
     constructor($parent: HTMLElement) {
         super($parent, { className: cn('tools') })
     }
 
     mount() {
+        this.$select = this.useSelector('select')
+        this.$button = this.useSelector('button')
+
         window.addEventListener('keydown', (e) => {
             if (e.key === configureStore.state.runShortcut) {
                 e.preventDefault()
@@ -57,14 +67,13 @@ export default class Tools extends Component {
             }
         })
 
-        const $select = this.$el.querySelector('select') as HTMLSelectElement
-        
-        $select.addEventListener('change', (e: any) => {
-            langStore.set(() => ({ data: e.target.value as Lang}))
+        this.$select.addEventListener('change', (e: SelectChangeEvent) => {
+            const value = e.target.value as Lang
+            langStore.set(() => ({ data: value }))
         })
 
         langStore.subscribe(({ data }) => {
-            $select.selectedIndex = langs.findIndex((name) => {
+            this.$select.selectedIndex = langs.findIndex((name) => {
                 return name === data
             })
         }, { initialize: true })
@@ -76,12 +85,11 @@ export default class Tools extends Component {
             }
         }, { initialize: true })
     
-        const $button = this.$el.querySelector('button') as HTMLElement
-        $button.addEventListener('click', runCode)
+        this.$button.addEventListener('click', runCode)
     }
 
     render() {
-        return `
+        return html`
             <select>
                 <option selected value="c">C</option>
                 <option value="cpp">C++</option>

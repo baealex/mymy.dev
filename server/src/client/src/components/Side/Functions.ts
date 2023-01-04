@@ -2,7 +2,7 @@ import style from './Functions.module.scss'
 import classNames from 'classnames/bind'
 const cn = classNames.bind(style)
 
-import Component from '~/modules/component'
+import { Component, html } from '~/modules/core'
 
 import { modalStore } from '~/stores/modal'
 import { configureStore } from '~/stores/configure'
@@ -17,7 +17,7 @@ export default class Functions extends Component {
             `.${cn('top')} > div,` +
             `.${cn('bottom')} > div` 
         )
-        for (const $icon of $icons) {
+        for (const $icon of Array.from($icons)) {
             $icon.addEventListener('click', (e: any) => {
                 const eventName = e.currentTarget.dataset['on']
 
@@ -47,7 +47,7 @@ export default class Functions extends Component {
     }
 
     render() {
-        return `
+        return html`
             <div class="${cn('top')}">
                 <div data-on="file">
                     <i class="fas fa-copy"></i>

@@ -1,4 +1,4 @@
-import Component from '~/modules/component'
+import { Component, html } from '~/modules/core'
 import { getParameter } from '~/modules/location'
 import socket from '~/modules/socket'
 
@@ -43,8 +43,12 @@ const getGitHubRaw = (sourcePath: string, validate=true) => {
 }
 
 export default class ModalSettingContent extends Component {
+    $input?: HTMLInputElement
+    $button?: HTMLButtonElement
+
     mount() {
-        const $input = this.$el.querySelector('input') as HTMLInputElement
+        this.$input = this.useSelector('input')
+        this.$button = this.useSelector('button[aria-label="load"]')
 
         socket.on(SOCKET_EVENT_NAME.GET_GITHUB_RAW_ERROR, () => {
             alert('Something wrong!')
@@ -56,11 +60,11 @@ export default class ModalSettingContent extends Component {
                 fileData: data,
             })
 
-            $input.value = ''
+            this.$input.value = ''
         })
 
-        this.$el.querySelector('button')?.addEventListener('click', (e: any) => {
-            getGitHubRaw($input.value)
+        this.$button.addEventListener('click', () => {
+            getGitHubRaw(this.$input.value)
         })
 
         const raw = decodeURIComponent(getParameter('raw'))
@@ -71,11 +75,11 @@ export default class ModalSettingContent extends Component {
     }
 
     render() {
-        return `
+        return html`
             <div class="section">
                 <div class="split">
                     <p class="title">Source from GitHub</p>
-                    <button>LOAD</button>
+                    <button aria-label="load">LOAD</button>
                 </div>
                 <input placeholder="https://github.com/user/repo/source" value=""/>
             </div>

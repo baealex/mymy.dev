@@ -2,7 +2,7 @@ import style from './Footer.module.scss'
 import classNames from 'classnames/bind'
 const cn = classNames.bind(style)
 
-import Component from '~/modules/component'
+import { Component, html } from '~/modules/core'
 
 export default class Footer extends Component {
     constructor($parent: HTMLElement) {
@@ -10,7 +10,7 @@ export default class Footer extends Component {
     }
 
     render() {
-        return `
+        return html`
             <div>
                 <i class="fas fa-link"></i> ${location.host}
             </div>

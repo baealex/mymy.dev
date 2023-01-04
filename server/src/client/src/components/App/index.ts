@@ -2,29 +2,29 @@ import style from './App.module.scss'
 import classNames from 'classnames/bind'
 const cn = classNames.bind(style)
 
-import Component from '~/modules/component'
+import { Component, html } from '~/modules/core'
 
 import Side from '../Side'
 import Main from '../Main'
 import Modal from '../Modal'
 
 export default class App extends Component {
+    $container?: HTMLDivElement
+
     constructor($parent: HTMLElement) {
         super($parent, { id: 'root' })
     }
 
     mount() {
-        const $container = this.$el.querySelector(
-            `.${cn('container')}`
-        ) as HTMLElement
+        this.$container = this.useSelector(`.${cn('container')}`)
 
-        new Side($container)
-        new Main($container)
-        new Modal($container)
+        new Side(this.$container)
+        new Main(this.$container)
+        new Modal(this.$container)
     }
 
     render() {
-        return `
+        return html`
             <div class="${cn('container')}"></div>
         `
     }

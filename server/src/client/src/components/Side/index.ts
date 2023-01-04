@@ -2,7 +2,7 @@ import style from './Side.module.scss'
 import classNames from 'classnames/bind'
 const cn = classNames.bind(style)
 
-import Component from '~/modules/component'
+import { Component, html } from '~/modules/core'
 import Functions from './Functions'
 import FileManager from './FileManager'
 

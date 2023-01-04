@@ -1,11 +1,11 @@
 interface ComponentProps {
-    id?: string;
-    className?: string;
+  id?: string;
+  className?: string;
 }
 
-export default class Component {
+export class Component {
     $el: HTMLDivElement
-    isMounted: boolean
+    _isMounted: boolean
 
     constructor($parent: HTMLElement, props?: ComponentProps) {
         this.$el = document.createElement('div')
@@ -17,14 +17,18 @@ export default class Component {
         if (props?.className) {
             this.$el.className = props.className
         }
-        
+      
         $parent.appendChild(this.$el)
         this.rerender()
-        this.isMounted = true
+        this._isMounted = true
+    }
+
+    useSelector<T extends HTMLElement>(selector: string): T {
+        return this.$el.querySelector(selector) as T
     }
 
     rerender() {
-        if (this.isMounted) {
+        if (this._isMounted) {
             this.unmount()
         }
         this.$el.innerHTML = this.render()
@@ -38,7 +42,7 @@ export default class Component {
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     unmount() {
-        
+      
     }
 
     render() {
