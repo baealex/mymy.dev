@@ -74,7 +74,7 @@ export default function useSocket(io: Server) {
 
                 if (language === 'js') {
                     source = safety(source, ['require', 'import'])
-                    source = 'const process = {};\n' + source
+                    source = 'global = {};\nprocess = {};\n' + source
                     fs.writeFileSync(filename, source)
 
                     socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['node', filename]) }))
@@ -82,7 +82,7 @@ export default function useSocket(io: Server) {
 
                 if (language === 'ts') {
                     source = safety(source, ['require', 'import'])
-                    source = 'process = {};\n' + source
+                    source = 'global = {};\nprocess = {};\n' + source
                     fs.writeFileSync(filename, source)
 
                     socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['ts-node', filename]) }))
