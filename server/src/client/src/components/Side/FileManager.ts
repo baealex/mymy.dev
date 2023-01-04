@@ -7,15 +7,22 @@ import { Component, html } from '~/modules/core'
 import { sourceStore } from '~/stores/source'
 import { configureStore } from '~/stores/configure'
 import { contextMenu } from '~/modules/context-menu'
+import { initCode } from '~/modules/code'
+
+import type { EventListener } from '~/types'
 
 let hasFocusedFileList = false
 
 export default class FileManager extends Component {
+    $fileList: HTMLUListElement
+
     constructor($parent: HTMLElement) {
         super($parent, { className: cn('files') })
     }
 
     mount() {
+        this.$fileList = this.$el.querySelector('ul')
+        
         configureStore.subscribe(({ visibleFileManager }) => {
             if (visibleFileManager) {
                 this.$el.style.width = '250px'
@@ -23,18 +30,16 @@ export default class FileManager extends Component {
                 this.$el.style.width = '0px'
             }
         }, { initialize: true })
-        
-        const $fileList = this.$el.querySelector('ul') as HTMLUListElement
 
         const changeElementActiveFileForRename = () => {
-            const $active = $fileList.querySelector(`.${cn('active')}`) as HTMLDListElement
+            const $active = this.$fileList.querySelector(`.${cn('active')}`) as HTMLDListElement
             $active.innerHTML = `<input id="rename" type="text" value="${sourceStore.state.activeFile}">`
   
             const $rename = document.getElementById('rename') as HTMLInputElement
             $rename?.focus()
             const endSelection = $rename.value.lastIndexOf('.')
             $rename.setSelectionRange(0, endSelection)
-            $rename.addEventListener('keydown', (e: any) => {
+            $rename.addEventListener('keydown', (e: EventListener<KeyboardEvent, HTMLInputElement>) => {
                 if (e.key === 'Escape') {
                     sourceStore.set({})
                 }
@@ -44,8 +49,8 @@ export default class FileManager extends Component {
             })
         }
 
-        document.addEventListener('click', e => {
-            const { left, width, top, height } = $fileList.getBoundingClientRect()
+        document.addEventListener('click', (e) => {
+            const { left, width, top, height } = this.$fileList.getBoundingClientRect()
 
             if (
                 e.clientX > left && e.clientX < left + width &&
@@ -57,7 +62,7 @@ export default class FileManager extends Component {
             }
         })
 
-        $fileList.addEventListener('click', (e: any) => {
+        this.$fileList.addEventListener('click', (e: EventListener<MouseEvent>) => {
             hasFocusedFileList = true
           
             const fileName = e.target.dataset['name']
@@ -69,29 +74,86 @@ export default class FileManager extends Component {
             }
         })
 
-        $fileList.addEventListener('contextmenu', async (e: any) => {
+        this.$el.addEventListener('contextmenu', async (e: EventListener<MouseEvent>) => {
             const fileName = e.target.dataset['name']
             if (fileName) {
                 await sourceStore.set((state) => ({
                     ...state,
                     activeFile: fileName,
                 }))
+                contextMenu.create({
+                    top: e.clientY,
+                    left: e.clientX,
+                    menus: [
+                        {
+                            label: `Rename (${configureStore.state.activeFileRenameShortcut})`,
+                            click: changeElementActiveFileForRename
+                        },
+                        {
+                            label: `Delete (${configureStore.state.activeFileDeleteShortcut})`,
+                            click: sourceStore.removeActiveFile.bind(sourceStore)
+                        }
+                    ]
+                })
+            } else {
+                contextMenu.create({
+                    top: e.clientY,
+                    left: e.clientX,
+                    menus: [
+                        {
+                            label: 'Create File',
+                            subMenus: [
+                                {
+                                    label: 'C',
+                                    click: () => sourceStore.createNewFile({
+                                        lang: 'c',
+                                        fileData: initCode['c']
+                                    })
+                                },
+                                {
+                                    label: 'C++',
+                                    click: () => sourceStore.createNewFile({
+                                        lang: 'cpp',
+                                        fileData: initCode['cpp']
+                                    })
+                                },
+                                {
+                                    label: 'Rust',
+                                    click: () => sourceStore.createNewFile({
+                                        lang: 'rs',
+                                        fileData: initCode['rs']
+                                    })
+                                },
+                                {
+                                    label: 'JavaScript',
+                                    click: () => sourceStore.createNewFile({
+                                        lang: 'js',
+                                        fileData: initCode['js']
+                                    })
+                                },
+                                {
+                                    label: 'TypeScript',
+                                    click: () => sourceStore.createNewFile({
+                                        lang: 'ts',
+                                        fileData: initCode['ts']
+                                    })
+                                },
+                                {
+                                    label: 'Python',
+                                    click: () => sourceStore.createNewFile({
+                                        lang: 'py',
+                                        fileData: initCode['py']
+                                    })
+                                },
+                                {
+                                    label: 'Empty',
+                                    click: () => sourceStore.createNewFile()
+                                },
+                            ]
+                        },
+                    ]
+                })
             }
-
-            contextMenu.create({
-                top: e.clientY,
-                left: e.clientX,
-                menus: [
-                    {
-                        label: `Rename (${configureStore.state.activeFileRenameShortcut})`,
-                        click: changeElementActiveFileForRename
-                    },
-                    {
-                        label: `Delete (${configureStore.state.activeFileDeleteShortcut})`,
-                        click: sourceStore.removeActiveFile.bind(sourceStore)
-                    }
-                ]
-            })
         })
 
         window.addEventListener('keydown', (e) => {
@@ -106,7 +168,7 @@ export default class FileManager extends Component {
         })
 
         sourceStore.subscribe((state) => {
-            $fileList.innerHTML = Object.keys(state.files).map((file) => `
+            this.$fileList.innerHTML = Object.keys(state.files).map((file) => `
                 <li data-name="${file}" class="${cn(file === state.activeFile && 'active')}">
                     ${file}
                 </li>

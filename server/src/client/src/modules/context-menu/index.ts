@@ -4,7 +4,8 @@ const cn = classNames.bind(style)
 
 interface Menu {
   label: string;
-  click: () => void;
+  click?: () => void;
+  subMenus?: Pick<Menu, 'label' | 'click'>[];
 }
 
 interface ContextMenuOptions {
@@ -47,15 +48,40 @@ function createContextMenu() {
         
             const contextBox = document.createElement('ul')
             contextBox.className = cn('context-menu')
-            contextBox.style.top = `${options.top}px`
-            contextBox.style.left = `${options.left}px`
+            contextBox.style.top = `${options.top + 4}px`
+            contextBox.style.left = `${options.left + 4}px`
             
             options.menus.forEach(menu => {
                 const menuItem = document.createElement('li')
                 menuItem.className = cn('context-menu-item')
                 menuItem.innerText = menu.label
-                menuItem.addEventListener('click', menu.click)
-                contextBox.appendChild(menuItem)
+
+                if (menu.subMenus) {
+                    menuItem.classList.add(cn('sub-menu'))
+                    menuItem.addEventListener('mouseenter', () => {
+                        document.querySelectorAll(`.${cn('context-menu-sub')}`).forEach(sub => sub.remove())
+
+                        const subContentBox = document.createElement('ul')
+                        subContentBox.className = cn('context-menu-sub')
+                        subContentBox.style.top = '0px'
+                        subContentBox.style.left = 'calc(100% + 2px)'
+                        menu.subMenus.forEach(subMenu => {
+                            const subMenuItem = document.createElement('li')
+                            subMenuItem.className = cn('context-menu-item')
+                            subMenuItem.innerText = subMenu.label
+                            subMenuItem.addEventListener('click', subMenu.click)
+                            subContentBox.appendChild(subMenuItem)
+                        })
+                        menuItem.appendChild(subContentBox)
+                    })
+                    contextBox.appendChild(menuItem)
+                } else {
+                    menuItem.addEventListener('mouseenter', () => {
+                        document.querySelectorAll(`.${cn('context-menu-sub')}`).forEach(sub => sub.remove())
+                    })
+                    menuItem.addEventListener('click', menu.click)
+                    contextBox.appendChild(menuItem)
+                }
             })
           
             document.body.appendChild(contextBox)

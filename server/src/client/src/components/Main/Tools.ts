@@ -12,15 +12,14 @@ import { langStore } from '~/stores/lang'
 import { terminalStore } from '~/stores/terminal'
 import { sourceStore } from '~/stores/source'
 
+import type { EventListener } from '~/types'
+
 import {
     SOCKET_EVENT_NAME,
     CodeRunnerEventParams,
     CodeRunnerResultEventParams,
 } from '../../../../socket-event'
 
-interface SelectChangeEvent extends Event {
-    target: HTMLSelectElement
-}
 
 const runCode = (() => {
     let isRunning = false
@@ -67,7 +66,7 @@ export default class Tools extends Component {
             }
         })
 
-        this.$select.addEventListener('change', (e: SelectChangeEvent) => {
+        this.$select.addEventListener('change', (e: EventListener<Event, HTMLSelectElement>) => {
             const value = e.target.value as Lang
             langStore.set(() => ({ data: value }))
         })
