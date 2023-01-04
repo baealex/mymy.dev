@@ -57,7 +57,7 @@ fn main() {
 
 
     py:
-`def hello():
+`def hello() -> str:
     return 'Hello World!'
 
 if __name__ == '__main__':

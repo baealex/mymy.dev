@@ -15,6 +15,9 @@ export function runCode(commands: string[], option?: RunCodeOption) {
         }
         return(result.toString())
     } catch(e: any) {
+        if (e.signal === 'SIGTERM' || e.signal === 'SIGKILL') {
+            return 'Timeout'
+        }
         if (e.stderr) {
             return e.stderr.toString()
         }
