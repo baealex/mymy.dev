@@ -1,4 +1,4 @@
-import Main from '.'
+import Main from './Main'
 
 describe('메인 컴포넌트 테스트', () => {
     beforeAll(() => {

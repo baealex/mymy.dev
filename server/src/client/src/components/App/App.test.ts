@@ -1,4 +1,4 @@
-import App from '.'
+import App from './App'
 
 describe('앱 컴포넌트 테스트', () => {
     beforeAll(() => {

@@ -18,7 +18,7 @@ import {
     SOCKET_EVENT_NAME,
     CodeRunnerEventParams,
     CodeRunnerResultEventParams,
-} from '../../../../socket-event'
+} from '../../../../../socket-event'
 
 
 const runCode = (() => {

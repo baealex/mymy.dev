@@ -1,4 +1,4 @@
-import Side from '.'
+import Side from './Side'
 
 import { modalStore } from '~/stores/modal'
 

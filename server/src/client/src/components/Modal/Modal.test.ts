@@ -1,4 +1,4 @@
-import Modal from '.'
+import Modal from './Modal'
 
 import { modalStore } from '~/stores/modal'
 

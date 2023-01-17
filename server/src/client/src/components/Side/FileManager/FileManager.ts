@@ -177,7 +177,7 @@ export default class FileManager extends Component {
 
         const $fileAction = this.$el.querySelector(`.${cn('files')} .${cn('action')}`) as HTMLDivElement
 
-        $fileAction.addEventListener('click', (e: any) => {
+        $fileAction.addEventListener('click', (e: EventListener) => {
             const actionType = e.target.dataset['type']
             if (actionType) {
                 if (actionType === 'create') {
