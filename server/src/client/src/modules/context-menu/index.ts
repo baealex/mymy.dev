@@ -58,8 +58,12 @@ function createContextMenu() {
 
                 if (menu.subMenus) {
                     menuItem.classList.add(cn('sub-menu'))
-                    menuItem.addEventListener('mouseenter', () => {
-                        document.querySelectorAll(`.${cn('context-menu-sub')}`).forEach(sub => sub.remove())
+                    menuItem.addEventListener('mouseenter', (e) => {
+                        if (e.target !== menuItem) {
+                            document
+                                .querySelectorAll(`.${cn('context-menu-sub')}`)
+                                .forEach(sub => sub.remove())
+                        }
 
                         const subContentBox = document.createElement('ul')
                         subContentBox.className = cn('context-menu-sub')
