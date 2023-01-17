@@ -13,13 +13,17 @@ import { langStore } from '~/stores/lang'
 import { configureStore } from '~/stores/configure'
 import { sourceStore } from '~/stores/source'
 
-import * as CodeMirror from 'codemirror'
+import CodeMirror from 'codemirror'
 import 'codemirror/mode/clike/clike'
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/mode/python/python'
 import 'codemirror/mode/rust/rust'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/material-darker.css'
+import 'codemirror/addon/hint/show-hint'
+import 'codemirror/addon/hint/anyword-hint'
+import 'codemirror/addon/hint/javascript-hint'
+import 'codemirror/addon/hint/show-hint.css'
 
 export default class Side extends Component {
     $textarea?: HTMLTextAreaElement
@@ -42,6 +46,61 @@ export default class Side extends Component {
                 lineNumbers: true,
                 matchBrackets: true,
                 theme: 'material-darker',
+            })
+
+            let prevCurWord = ''
+
+            _editor.on('keyup', (editor, event) => {
+                const cursor = editor.getCursor()
+                const token = editor.getTokenAt(cursor)
+                const start = token.start
+                const end = cursor.ch
+                const curWord: string = token.string.slice(0, end - start)
+
+                if (
+                    event.key === 'ArrowLeft' ||
+                    event.key === 'ArrowRight' ||
+                    event.key === 'ArrowUp' ||
+                    event.key === 'ArrowDown'
+                ) {
+                    return
+                }
+
+                if (prevCurWord === curWord) {
+                    return
+                }
+
+                if (!curWord.match(/[a-zA-Z0-9_]/)) {
+                    return
+                }
+
+                if (curWord.trim().length > 0) {
+                    CodeMirror.showHint(editor, () => {
+                        const { list } = CodeMirror.hint.anyword(editor)
+
+                        if (langStore.state.data === 'js') {
+                            const obj = CodeMirror.hint.javascript(editor)
+                            return {
+                                ...obj,
+                                list: [...list, ...obj.list],
+                            }
+                        }
+
+                        if (langStore.state.data === 'ts') {
+                            const obj = CodeMirror.hint.javascript(editor)
+                            return {
+                                ...obj,
+                                list: [...list, ...obj.list],
+                            }
+                        }
+
+                        return CodeMirror.hint.anyword(editor)
+                    }, {
+                        completeSingle: false,
+                    })
+                }
+
+                prevCurWord = curWord
             })
 
             return Object.assign(_editor, {
