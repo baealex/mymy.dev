@@ -37,8 +37,10 @@ export default class Side extends Component {
 
         const editor = (() => {
             const _editor = CodeMirror.fromTextArea(this.$textarea, {
-                lineNumbers: true,
                 indentUnit: 4,
+                autofocus: true,
+                lineNumbers: true,
+                matchBrackets: true,
                 theme: 'material-darker',
             })
 
