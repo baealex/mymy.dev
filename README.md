@@ -24,7 +24,7 @@ Programming became exciting for me when I saw the results of my code. However, f
 Requires `docker` and `docker-compose`.
 
 ```bash
-docker-compose up
+docker run -p 5000:5000 baealex/mymydev:latest
 ```
 
 Visit `http://localhost:5000` to access it!
