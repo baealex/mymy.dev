@@ -1,15 +1,15 @@
-FROM ubuntu:20.04
-  
+FROM ubuntu:22.04
+
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 
 # install C, C++
 RUN apt-get install -y \
-    gcc g++ build-essential libssl-dev zlib1g-dev libbz2-dev \
+    build-essential libssl-dev zlib1g-dev libbz2-dev \
     libreadline-dev libsqlite3-dev wget curl llvm \
     libncurses5-dev libncursesw5-dev xz-utils tk-dev \
-    libffi-dev liblzma-dev python-openssl git
+    libffi-dev liblzma-dev git
 
 # install Rust
 RUN apt-get install -y rustc cargo
@@ -20,7 +20,7 @@ ENV LANG="C.UTF-8" \
     PATH="/root/.pyenv/shims:/root/.pyenv/bin:$PATH" \
     PYENV_ROOT="/root/.pyenv" \
     PYENV_SHELL="bash"
-ENV PYTHON_VERSION=3.9.7
+ENV PYTHON_VERSION=3.11.3
 RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT \
     && pyenv install $PYTHON_VERSION \
     && pyenv global $PYTHON_VERSION
@@ -29,14 +29,14 @@ ENV PYTHONIOENCODING=utf-8
 # install Node
 RUN mkdir /usr/local/nvm
 ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 16.13.1
+ENV NODE_VERSION 18.16.0
 ENV NVM_INSTALL_PATH $NVM_DIR/versions/node/v$NODE_VERSION
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 RUN source $NVM_DIR/nvm.sh \
-   && nvm install $NODE_VERSION \
-   && nvm alias default $NODE_VERSION \
-   && nvm use default
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default
 ENV NODE_PATH $NVM_INSTALL_PATH/lib/node_modules
 ENV PATH $NVM_INSTALL_PATH/bin:$PATH
 
