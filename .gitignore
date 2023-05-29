@@ -1,3 +1,4 @@
 mvenv
 __pycache__
 key.json
+.DS_Store
