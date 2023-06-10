@@ -1,3 +1,5 @@
+import 'core-js'
+
 export function mockRequestAnimationFrame() {
     window.requestAnimationFrame = (callback) => {
         callback(0)
