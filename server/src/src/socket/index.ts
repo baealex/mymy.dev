@@ -25,6 +25,7 @@ export default function useSocket(io: Server) {
 
             const uuid = uuidv4()
             const filename = uuid + '.' + language
+            let outputFilename = ''
 
             try {
                 if (language === 'c') {
@@ -36,7 +37,8 @@ export default function useSocket(io: Server) {
                     if (compileFailed) {
                         socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: compileFailed }))
                     } else {
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['./' + uuid])}))
+                        outputFilename = uuid
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['./' + outputFilename]) }))
                     }
                 }
 
@@ -49,7 +51,8 @@ export default function useSocket(io: Server) {
                     if (compileFailed) {
                         socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: compileFailed }))
                     } else {
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['./' + uuid]) }))
+                        outputFilename = uuid
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['./' + outputFilename]) }))
                     }
                 }
 
@@ -61,7 +64,8 @@ export default function useSocket(io: Server) {
                     if (compileFailed) {
                         socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: compileFailed }))
                     } else {
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['./' + uuid]) }))
+                        outputFilename = uuid
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['./' + outputFilename]) }))
                     }
                 }
 
@@ -85,13 +89,22 @@ export default function useSocket(io: Server) {
                     source = 'global = {};\nprocess = {};\n' + source
                     fs.writeFileSync(filename, source)
 
-                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['ts-node', filename]) }))
+                    const compileFailed = runCode(['tsc', filename], { isCompile: true })
+                    if (compileFailed) {
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: compileFailed }))
+                    } else {
+                        outputFilename = uuid + '.js'
+                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['node', outputFilename]) }))
+                    }
                 }
-            } catch(e) {
+            } catch (e) {
                 socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_ERROR)
                 console.log(e)
             } finally {
                 cleaner(filename)
+                if (outputFilename) {
+                    cleaner(outputFilename)
+                }
             }
         })
 
@@ -99,7 +112,7 @@ export default function useSocket(io: Server) {
             if (!raw) {
                 socket.emit(SOCKET_EVENT_NAME.GET_GITHUB_RAW_ERROR)
             }
-            
+
             try {
                 const { data } = await axios.request({
                     method: 'GET',

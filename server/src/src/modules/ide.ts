@@ -13,8 +13,8 @@ export function runCode(commands: string[], option?: RunCodeOption) {
         if (option?.isCompile) {
             return ''
         }
-        return(result.toString())
-    } catch(e: any) {
+        return (result.toString())
+    } catch (e: any) {
         if (e.signal === 'SIGTERM' || e.signal === 'SIGKILL') {
             return 'Timeout'
         }
@@ -32,11 +32,7 @@ export function safety(source: string, keywords: string[]) {
 }
 
 export function cleaner(filename: string) {
-    const [ uuid ] = filename.split('.')
     if (fs.existsSync(filename)) {
         fs.unlinkSync(filename)
-    }
-    if (fs.existsSync(uuid)) {
-        fs.unlinkSync(uuid)
     }
 }
