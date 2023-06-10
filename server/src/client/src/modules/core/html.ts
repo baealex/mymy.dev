@@ -1,7 +1,3 @@
-export function html(strings: TemplateStringsArray, ...values: unknown[]) {
-    let str = ''
-    strings.forEach((string, i) => {
-        str += string + (values[i] || '')
-    })
-    return str
+export function html(texts: TemplateStringsArray, ...values: unknown[]) {
+    return texts.map((text, i) => text + (values[i] || '')).join('')
 }
