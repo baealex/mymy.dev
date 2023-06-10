@@ -41,4 +41,4 @@ ENV NODE_PATH $NVM_INSTALL_PATH/lib/node_modules
 ENV PATH $NVM_INSTALL_PATH/bin:$PATH
 
 # install TypeScript
-RUN npm i -g typescript@5.1.3
+RUN npm i -g typescript@4.3.5
