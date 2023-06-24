@@ -31,6 +31,25 @@ Visit `http://localhost:5000` to access it!
 
 <br>
 
+## Demo site
+
+[mymy.dev](https://mymy.dev/)
+
+<br>
+
+## Self-host
+
+### use Docker
+
+```
+git clone https://github.com/baealex/mymy.dev
+cd mymy.dev && git pull && docker-compose pull && docker-compose up -d
+```
+
+connect to `http://localhost:5000`
+
+<br>
+
 ## Contributors
 
 <a href="https://github.com/baealex/MymyDev/graphs/contributors">
