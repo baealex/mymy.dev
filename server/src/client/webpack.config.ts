@@ -23,7 +23,7 @@ export default {
                     {
                         loader: 'sass-loader',
                         options: {
-                            implementation: require('node-sass'),
+                            implementation: require('sass'),
                         },
                     },
                 ],
@@ -43,7 +43,7 @@ export default {
                     {
                         loader: 'sass-loader',
                         options: {
-                            implementation: require('node-sass'),
+                            implementation: require('sass'),
                         },
                     },
                 ],
