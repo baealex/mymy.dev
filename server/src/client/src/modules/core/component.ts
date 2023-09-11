@@ -47,6 +47,7 @@ export default class Component<T extends HTMLElement = HTMLDivElement, K = unkno
     }
 
     setState(nextState: K | ((prevState: K) => K)) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let newState: any = nextState
 
         if (typeof newState === 'function') {

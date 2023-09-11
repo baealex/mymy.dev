@@ -5,15 +5,16 @@ import { configureStore } from '~/stores/configure'
 export default class ModalSettingContent extends Component {
     mount() {
         this.$el.querySelectorAll('input').forEach($input => {
-            $input.addEventListener('input', (e: any) => {
-                if (e.target.min) {
-                    if (parseInt(e.target.value) < parseInt(e.target.min)) {
-                        e.target.value = '' + e.target.min
+            $input.addEventListener('input', (e) => {
+                const target = e.target as HTMLInputElement
+                if (target.min) {
+                    if (parseInt(target.value) < parseInt(target.min)) {
+                        target.value = '' + target.min
                     }
                 }
                 configureStore.set((prevState) => ({
                     ...prevState,
-                    [e.target.name]: e.target.value,
+                    [target.name]: target.value,
                 }))
             })
         })

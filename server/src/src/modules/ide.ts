@@ -1,9 +1,14 @@
 import fs from 'fs'
 import subprocess from 'child_process'
+import type { ExecException } from 'child_process'
 
 interface RunCodeOption {
     isCompile: boolean;
 }
+
+type Error = ExecException & {
+    stderr: string;
+};
 
 export function runCode(commands: string[], option?: RunCodeOption) {
     try {
@@ -14,13 +19,18 @@ export function runCode(commands: string[], option?: RunCodeOption) {
             return ''
         }
         return (result.toString())
-    } catch (e: any) {
-        if (e.signal === 'SIGTERM' || e.signal === 'SIGKILL') {
+    } catch (e: unknown) {
+        const error = e as Error
+
+        if (error.signal === 'SIGTERM' || error.signal === 'SIGKILL') {
             return 'Timeout'
         }
-        if (e.stderr) {
-            return e.stderr.toString()
+        if (error.stderr) {
+            return error.stderr.toString()
         }
+
+        console.log(error)
+        return 'Error'
     }
 }
 

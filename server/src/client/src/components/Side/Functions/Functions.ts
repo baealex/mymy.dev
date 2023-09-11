@@ -15,20 +15,21 @@ export default class Functions extends Component {
     mount() {
         const $icons = this.$el.querySelectorAll(
             `.${cn('top')} > div,` +
-            `.${cn('bottom')} > div` 
+            `.${cn('bottom')} > div`
         )
         for (const $icon of Array.from($icons)) {
-            $icon.addEventListener('click', (e: any) => {
-                const eventName = e.currentTarget.dataset['on']
+            $icon.addEventListener('click', (e) => {
+                const currentTarget = e.currentTarget as HTMLElement
+                const eventName = currentTarget.dataset['on']
 
                 if (eventName === 'modal') {
-                    const modalName = e.currentTarget.dataset[eventName]
+                    const modalName = currentTarget.dataset[eventName]
                     modalStore.set((prevState) => {
                         const nextState = Object.keys(prevState).reduce((acc, key) => ({
                             ...acc,
                             [key]: false,
                         }), {})
-                        
+
                         return {
                             ...nextState,
                             [modalName]: !prevState[modalName],

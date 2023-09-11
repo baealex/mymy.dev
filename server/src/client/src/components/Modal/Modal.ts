@@ -25,7 +25,7 @@ export default class Modal extends Component {
             let prevClientY = 0
             let lastClientX = 0
             let lastClientY = 0
-            window.addEventListener('mousedown', (e: any) => {
+            window.addEventListener('mousedown', (e) => {
                 if (e.target === $modal[key].querySelector('.header')) {
                     document.body.style.userSelect = 'none'
                     prevClientX = e.clientX - lastClientX
@@ -33,14 +33,14 @@ export default class Modal extends Component {
                     isMoveable = true
                 }
             })
-            window.addEventListener('mouseup', (e) => {
+            window.addEventListener('mouseup', () => {
                 document.body.style.userSelect = 'default'
                 prevClientX = 0
                 prevClientY = 0
                 isMoveable = false
                 $modal[key].style.opacity = '1'
             })
-            window.addEventListener('mousemove', (e: any) => {
+            window.addEventListener('mousemove', (e) => {
                 if (isMoveable) {
                     const clientX = e.clientX - prevClientX
                     const clientY = e.clientY - prevClientY
