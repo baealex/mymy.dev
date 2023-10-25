@@ -20,7 +20,7 @@ ENV LANG="C.UTF-8" \
     PATH="/root/.pyenv/shims:/root/.pyenv/bin:$PATH" \
     PYENV_ROOT="/root/.pyenv" \
     PYENV_SHELL="bash"
-ENV PYTHON_VERSION=3.11.3
+ENV PYTHON_VERSION=3.12.0
 RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT \
     && pyenv install $PYTHON_VERSION \
     && pyenv global $PYTHON_VERSION
@@ -29,7 +29,7 @@ ENV PYTHONIOENCODING=utf-8
 # install Node
 RUN mkdir /usr/local/nvm
 ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 18.16.0
+ENV NODE_VERSION 20.9.0
 ENV NVM_INSTALL_PATH $NVM_DIR/versions/node/v$NODE_VERSION
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
@@ -41,4 +41,4 @@ ENV NODE_PATH $NVM_INSTALL_PATH/lib/node_modules
 ENV PATH $NVM_INSTALL_PATH/bin:$PATH
 
 # install TypeScript
-RUN npm i -g typescript@4.3.5
+RUN npm i -g typescript@5.2.2
