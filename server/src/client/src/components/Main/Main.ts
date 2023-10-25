@@ -24,6 +24,8 @@ import 'codemirror/addon/hint/show-hint'
 import 'codemirror/addon/hint/anyword-hint'
 import 'codemirror/addon/hint/javascript-hint'
 import 'codemirror/addon/hint/show-hint.css'
+import { loadFromUrl } from '~/modules/data-on-url'
+import { terminalStore } from '~/stores/terminal'
 
 export default class Side extends Component {
     $textarea?: HTMLTextAreaElement
@@ -149,11 +151,56 @@ export default class Side extends Component {
                 editor.setValue(files[activeFile])
             }
         })
-        
+
+        const dataLoadFromUrl = () => {
+            const urlData = loadFromUrl() as {
+                lang: Lang
+                source: string
+                terminal: string
+                fileName: string
+            } | null
+
+            if (urlData) {
+                langStore.set(() => ({
+                    data: urlData.lang,
+                }))
+                sourceStore.set((state) => {
+                    if (state.files[urlData.fileName] === urlData.source) {
+                        return state
+                    }
+
+                    if (state.files[urlData.fileName]) {
+                        let fileName = urlData.fileName
+                        let i = 1
+                        while (state.files[fileName]) {
+                            fileName = `${'copy_'.repeat(i++)}${urlData.fileName}`
+                        }
+                        urlData.fileName = fileName
+                    }
+
+                    return {
+                        ...state,
+                        activeFile: urlData.fileName,
+                        files: {
+                            ...state.files,
+                            [urlData.fileName]: urlData.source,
+                        }
+                    }
+                })
+                terminalStore.set(() => ({
+                    data: urlData.terminal,
+                }))
+                return
+            }
+        }
+
+        dataLoadFromUrl()
+        window.addEventListener('hashchange', dataLoadFromUrl)
+
         langStore.subscribe(({ data }) => {
             editor.setEditorMode(data)
         }, { initialize: true })
-        
+
         configureStore.subscribe((state) => {
             editor.$.style.fontSize = state.editorFontSize + 'px'
             editor.refresh()

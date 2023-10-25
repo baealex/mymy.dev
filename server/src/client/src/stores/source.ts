@@ -5,7 +5,7 @@ import type { Lang } from 'types'
 
 interface SourceStoreState {
     activeFile: string;
-    files: {[key: string]: string};
+    files: { [key: string]: string };
 }
 
 class SourceStore extends Store<SourceStoreState> {
@@ -44,7 +44,7 @@ class SourceStore extends Store<SourceStoreState> {
 
     removeActiveFile() {
         if (Object.keys(this.state.files).length <= 1) {
-            alert('Cannot delete because have a single file')
+            alert('You cannot delete the last file')
             return
         }
 
@@ -70,7 +70,7 @@ class SourceStore extends Store<SourceStoreState> {
 
     renameActiveFile(fileName: string) {
         if (fileName !== this.state.activeFile && this.exists(fileName)) {
-            alert('Cannot rename because already exists')
+            alert('File name already exists')
             return
         }
 
