@@ -16,6 +16,7 @@ Programming became exciting for me when I saw the results of my code. However, f
 - [x] Provides an environment to work with multiple source codes.
 - [x] Allows fetching of `GitHub` code.
 - [x] Supports code auto-completion.
+- [x] Easy code share with url.
 
 <br>
 
