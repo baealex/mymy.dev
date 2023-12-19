@@ -15,7 +15,7 @@ export default class Footer extends Component {
                 <i class="fas fa-link"></i> ${location.host}
             </div>
             <div>
-                <i class="fas fa-code"></i> Created by <a href="https://baejino.com>" target="_blank">Jino Bae</a>
+                <i class="fas fa-code"></i> Created by <a href="https://baejino.com" target="_blank">Jino Bae</a>
             </div>
         `
     }
