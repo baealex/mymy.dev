@@ -19,7 +19,7 @@ import {
 export default function useSocket(io: Server) {
     io.on('connection', (socket) => {
         socket.on(SOCKET_EVENT_NAME.CODE_RUNNER, ({ language, source }: CodeRunnerEventParams) => {
-            if (!['c', 'cpp', 'rs', 'py', 'js', 'ts'].includes(language)) {
+            if (!['c', 'cpp', 'rs', 'py', 'js'].includes(language)) {
                 return
             }
 
@@ -82,20 +82,6 @@ export default function useSocket(io: Server) {
                     fs.writeFileSync(filename, source)
 
                     socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['node', filename]) }))
-                }
-
-                if (language === 'ts') {
-                    source = safety(source, ['require', 'import'])
-                    source = 'global = {};\nprocess = {};\n' + source
-                    fs.writeFileSync(filename, source)
-
-                    const compileFailed = runCode(['tsc', filename], { isCompile: true })
-                    if (compileFailed) {
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: compileFailed }))
-                    } else {
-                        outputFilename = uuid + '.js'
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['node', outputFilename]) }))
-                    }
                 }
             } catch (e) {
                 socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_ERROR)

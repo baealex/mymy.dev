@@ -39,6 +39,3 @@ RUN source $NVM_DIR/nvm.sh \
     && nvm use default
 ENV NODE_PATH $NVM_INSTALL_PATH/lib/node_modules
 ENV PATH $NVM_INSTALL_PATH/bin:$PATH
-
-# install TypeScript
-RUN npm i -g typescript@5.2.2

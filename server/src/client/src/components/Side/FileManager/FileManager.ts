@@ -22,7 +22,7 @@ export default class FileManager extends Component {
 
     mount() {
         this.$fileList = this.$el.querySelector('ul')
-        
+
         configureStore.subscribe(({ visibleFileManager }) => {
             if (visibleFileManager) {
                 this.$el.style.width = '250px'
@@ -34,7 +34,7 @@ export default class FileManager extends Component {
         const changeElementActiveFileForRename = () => {
             const $active = this.$fileList.querySelector(`.${cn('active')}`) as HTMLDListElement
             $active.innerHTML = `<input id="rename" type="text" value="${sourceStore.state.activeFile}">`
-  
+
             const $rename = document.getElementById('rename') as HTMLInputElement
             $rename?.focus()
             const endSelection = $rename.value.lastIndexOf('.')
@@ -54,7 +54,7 @@ export default class FileManager extends Component {
 
             if (
                 e.clientX > left && e.clientX < left + width &&
-                e.clientY > top  && e.clientY < top + height
+                e.clientY > top && e.clientY < top + height
             ) {
                 hasFocusedFileList = true
             } else {
@@ -64,7 +64,7 @@ export default class FileManager extends Component {
 
         this.$fileList.addEventListener('click', (e: EventListener<MouseEvent>) => {
             hasFocusedFileList = true
-          
+
             const fileName = e.target.dataset['name']
             if (fileName) {
                 sourceStore.set((state) => ({
@@ -82,8 +82,8 @@ export default class FileManager extends Component {
                     activeFile: fileName,
                 }))
                 contextMenu.create({
-                    top: e.clientY,
-                    left: e.clientX,
+                    top: e.clientY + window.scrollY,
+                    left: e.clientX + window.scrollX,
                     menus: [
                         {
                             label: `Rename (${configureStore.state.activeFileRenameShortcut})`,
@@ -97,8 +97,8 @@ export default class FileManager extends Component {
                 })
             } else {
                 contextMenu.create({
-                    top: e.clientY,
-                    left: e.clientX,
+                    top: e.clientY + window.scrollY,
+                    left: e.clientX + window.scrollX,
                     menus: [
                         {
                             label: 'Create File',
@@ -129,13 +129,6 @@ export default class FileManager extends Component {
                                     click: () => sourceStore.createNewFile({
                                         lang: 'js',
                                         fileData: initCode['js']
-                                    })
-                                },
-                                {
-                                    label: 'TypeScript',
-                                    click: () => sourceStore.createNewFile({
-                                        lang: 'ts',
-                                        fileData: initCode['ts']
                                     })
                                 },
                                 {

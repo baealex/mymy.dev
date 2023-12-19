@@ -80,10 +80,10 @@ export default class Tools extends Component {
         sourceStore.subscribe(({ activeFile }) => {
             const lang = activeFile.split('.').slice(-1)[0] as Lang
             if (langs.includes(lang)) {
-                langStore.set({ data: lang})
+                langStore.set({ data: lang })
             }
         }, { initialize: true })
-    
+
         this.$button.addEventListener('click', runCode)
     }
 
@@ -94,7 +94,6 @@ export default class Tools extends Component {
                 <option value="cpp">C++</option>
                 <option value="rs">Rust</option>
                 <option value="js">JavaScript</option>
-                <option value="ts">TypeScript</option>
                 <option value="py">Python3</option>
             </select>
             <button>Run</button>

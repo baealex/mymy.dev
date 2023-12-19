@@ -1,67 +1,50 @@
 export const initCode = {
-    c:
-`char* hello(void) {
+    c: `char* sayHello(void) {
     return "Hello World!";
 }
 
 int main(void) {
-    printf(hello());
+    printf(sayHello());
 }
 `,
 
 
-    cpp:
-`using namespace std;
+    cpp: `using namespace std;
 
-char* hello(void) {
+char* sayHello(void) {
     return "Hello World!";
 }
 
 int main(void) {
-    cout << hello() << endl;
+    cout << sayHello() << endl;
 }`,
 
 
-    rs:
-`fn hello() -> &'static str {
+    rs: `fn say_hello() -> &'static str {
     "Hello World!"
 }
 
 fn main() {
-    println!("{}", hello())
+    println!("{}", say_hello())
 }
 `,
 
 
-    js:
-`function hello() {
+    js: `const sayHello = () => {
     return 'Hello World!'
 }
 
 (function main() {
-    console.log(hello())
+    console.log(sayHello())
 })()
 `,
 
 
-
-    ts:
-`function hello(): string {
-    return 'Hello World!'
-}
-
-(function main() {
-    console.log(hello())
-})()
-`,
-
-
-    py:
-`def hello() -> str:
+    py: `def say_hello() -> str:
     return 'Hello World!'
 
 if __name__ == '__main__':
-    print(hello())
+    print(say_hello())
 `,
 }
 

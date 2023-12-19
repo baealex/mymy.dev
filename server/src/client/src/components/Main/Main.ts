@@ -88,14 +88,6 @@ export default class Side extends Component {
                             }
                         }
 
-                        if (langStore.state.data === 'ts') {
-                            const obj = CodeMirror.hint.javascript(editor)
-                            return {
-                                ...obj,
-                                list: [...list, ...obj.list],
-                            }
-                        }
-
                         return CodeMirror.hint.anyword(editor)
                     }, {
                         completeSingle: false,
@@ -116,10 +108,6 @@ export default class Side extends Component {
                         return
                     }
                     if (lang === 'js') {
-                        _editor.setOption('mode', 'javascript')
-                        return
-                    }
-                    if (lang === 'ts') {
                         _editor.setOption('mode', 'javascript')
                         return
                     }
