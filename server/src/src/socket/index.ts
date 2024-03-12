@@ -50,7 +50,7 @@ export default function useSocket(io: Server) {
                     socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(createDockerRunCommand({
                         filename,
                         env: 'cpp',
-                        command: `gcc -o ${uuid} /temp/${filename} && ${uuid}`
+                        command: `gcc -o /temp/${uuid} /temp/${filename} && /temp/${uuid}`
                     }))}))
                 }
 
@@ -60,7 +60,7 @@ export default function useSocket(io: Server) {
                     socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(createDockerRunCommand({
                         filename,
                         env: 'cpp',
-                        command: `g++ -o /temp/${filename.split('.').at(0)} /temp/${filename} && /temp/${filename.split('.').at(0)}`
+                        command: `g++ -o /temp/${uuid} /temp/${filename} && /temp/${uuid}`
                     }))}))
                 }
 
@@ -70,7 +70,7 @@ export default function useSocket(io: Server) {
                     socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(createDockerRunCommand({
                         filename,
                         env: 'rust',
-                        command: `rustc /temp/${filename} && /temp/${uuid}`
+                        command: `rustc -o /temp/${uuid} /temp/${filename} && /temp/${uuid}`
                     }))}))
                 }
 
