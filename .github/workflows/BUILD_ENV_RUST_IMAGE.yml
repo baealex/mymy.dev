@@ -1,4 +1,4 @@
-name: BUILD BASE IMAGE
+name: BUILD ENV (RUST) IMAGE
 
 on:
   push:
