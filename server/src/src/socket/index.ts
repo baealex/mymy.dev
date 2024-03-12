@@ -23,10 +23,10 @@ interface CreateDockerRunCommandProps {
 
 function createDockerRunCommand({ env, filename, command }: CreateDockerRunCommandProps) {
     return [
-        `docker run`,
-        `--rm`,
-        `--platform linux/amd64`,
-        `-i`,
+        'docker run',
+        '--rm',
+        '--platform linux/amd64',
+        '-i',
         `-v ./${filename}:/temp/${filename}`,
         `baealex/mymydev-env-${env}`,
         `/bin/bash -c "${command}"`,
@@ -51,7 +51,7 @@ export default function useSocket(io: Server) {
                         filename,
                         env: 'cpp',
                         command: `gcc -o ${uuid} /temp/${filename} && ${uuid}`
-                     }))}))
+                    }))}))
                 }
 
                 if (language === 'cpp') {
@@ -61,7 +61,7 @@ export default function useSocket(io: Server) {
                         filename,
                         env: 'cpp',
                         command: `g++ -o /temp/${filename.split('.').at(0)} /temp/${filename} && /temp/${filename.split('.').at(0)}`
-                     }))}))
+                    }))}))
                 }
 
                 if (language === 'rs') {

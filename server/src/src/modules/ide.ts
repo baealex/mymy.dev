@@ -2,10 +2,6 @@ import fs from 'fs'
 import subprocess from 'child_process'
 import type { ExecException } from 'child_process'
 
-interface RunCodeOption {
-    isCompile: boolean;
-}
-
 type Error = ExecException & {
     stderr: string;
 };
