@@ -4,7 +4,6 @@ import fs from 'fs'
 import axios from 'axios'
 
 import {
-    safety,
     runCode,
     cleaner,
 } from '../modules/ide'
