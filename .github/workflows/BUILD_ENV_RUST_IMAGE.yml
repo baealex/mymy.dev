@@ -28,7 +28,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./server
-          file: ./server/container/rust/Dockerfile
+          file: ./server/containers/rust/Dockerfile
           platforms: linux/amd64
           push: true
           tags: baealex/mymydev-env-rust:latest
