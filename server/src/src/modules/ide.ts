@@ -10,14 +10,12 @@ type Error = ExecException & {
     stderr: string;
 };
 
-export function runCode(commands: string[], option?: RunCodeOption) {
+export function runCode(commands: string[]) {
     try {
         const result = subprocess.execSync(commands.join(' '), {
-            timeout: 10000
+            timeout: 10000,
+            shell: '/bin/bash'
         })
-        if (option?.isCompile) {
-            return ''
-        }
         return (result.toString())
     } catch (e: unknown) {
         const error = e as Error

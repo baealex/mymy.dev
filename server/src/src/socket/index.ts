@@ -16,6 +16,24 @@ import {
     GetGitHubRawResultEventParams
 } from '../../socket-event'
 
+interface CreateDockerRunCommandProps {
+    env: string
+    filename: string
+    command: string
+}
+
+function createDockerRunCommand({ env, filename, command }: CreateDockerRunCommandProps) {
+    return [
+        `docker run`,
+        `--rm`,
+        `--platform linux/amd64`,
+        `-i`,
+        `-v ./${filename}:/temp/${filename}`,
+        `baealex/mymydev-env-${env}`,
+        `/bin/bash -c "${command}"`,
+    ]
+}
+
 export default function useSocket(io: Server) {
     io.on('connection', (socket) => {
         socket.on(SOCKET_EVENT_NAME.CODE_RUNNER, ({ language, source }: CodeRunnerEventParams) => {
@@ -25,72 +43,62 @@ export default function useSocket(io: Server) {
 
             const uuid = uuidv4()
             const filename = uuid + '.' + language
-            let outputFilename = ''
 
             try {
                 if (language === 'c') {
-                    source = safety(source, ['#include', '<stdio.h>'])
-                    source = '#include <stdio.h>\n' + source
                     fs.writeFileSync(filename, source)
 
-                    const compileFailed = runCode(['gcc', filename, '-o', uuid], { isCompile: true })
-                    if (compileFailed) {
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: compileFailed }))
-                    } else {
-                        outputFilename = uuid
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['./' + outputFilename]) }))
-                    }
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(createDockerRunCommand({
+                        filename,
+                        env: 'cpp',
+                        command: `gcc -o ${uuid} /temp/${filename} && ${uuid}`
+                     }))}))
                 }
 
                 if (language === 'cpp') {
-                    source = safety(source, ['#include', '<iostream>'])
-                    source = '#include <iostream>\n' + source
                     fs.writeFileSync(filename, source)
 
-                    const compileFailed = runCode(['g++', filename, '-o', uuid], { isCompile: true })
-                    if (compileFailed) {
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: compileFailed }))
-                    } else {
-                        outputFilename = uuid
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['./' + outputFilename]) }))
-                    }
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(createDockerRunCommand({
+                        filename,
+                        env: 'cpp',
+                        command: `g++ -o /temp/${filename.split('.').at(0)} /temp/${filename} && /temp/${filename.split('.').at(0)}`
+                     }))}))
                 }
 
                 if (language === 'rs') {
-                    source = safety(source, ['std::'])
                     fs.writeFileSync(filename, source)
 
-                    const compileFailed = runCode(['rustc', filename], { isCompile: true })
-                    if (compileFailed) {
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: compileFailed }))
-                    } else {
-                        outputFilename = uuid
-                        socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['./' + outputFilename]) }))
-                    }
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(createDockerRunCommand({
+                        filename,
+                        env: 'rust',
+                        command: `rustc /temp/${filename} && /temp/${uuid}`
+                    }))}))
                 }
 
                 if (language === 'py') {
-                    source = safety(source, ['import', 'open'])
                     fs.writeFileSync(filename, source)
 
-                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['python', filename]) }))
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(createDockerRunCommand({
+                        filename,
+                        env: 'python',
+                        command: `python /temp/${filename}`
+                    }))}))
                 }
 
                 if (language === 'js') {
-                    source = safety(source, ['require', 'import'])
-                    source = 'global = {};\nprocess = {};\n' + source
                     fs.writeFileSync(filename, source)
 
-                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(['node', filename]) }))
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(createDockerRunCommand({
+                        filename,
+                        env: 'node',
+                        command: `node /temp/${filename}`
+                    }))}))
                 }
             } catch (e) {
                 socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_ERROR)
                 console.log(e)
             } finally {
                 cleaner(filename)
-                if (outputFilename) {
-                    cleaner(outputFilename)
-                }
             }
         })
 
