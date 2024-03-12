@@ -1,0 +1,1 @@
+FROM baealex/mymydev-base
