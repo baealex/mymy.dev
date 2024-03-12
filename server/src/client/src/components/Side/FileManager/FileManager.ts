@@ -9,8 +9,6 @@ import { configureStore } from '~/stores/configure'
 import { contextMenu } from '~/modules/context-menu'
 import { initCode } from '~/modules/code'
 
-import type { EventListener } from '~/types'
-
 let hasFocusedFileList = false
 
 export default class FileManager extends Component {
@@ -18,10 +16,11 @@ export default class FileManager extends Component {
 
     constructor($parent: HTMLElement) {
         super($parent, { className: cn('files') })
+        this.$fileList = this.$el.querySelector('ul')!
     }
 
     mount() {
-        this.$fileList = this.$el.querySelector('ul')
+        this.$fileList = this.$el.querySelector('ul')!
 
         configureStore.subscribe(({ visibleFileManager }) => {
             if (visibleFileManager) {
@@ -39,12 +38,12 @@ export default class FileManager extends Component {
             $rename?.focus()
             const endSelection = $rename.value.lastIndexOf('.')
             $rename.setSelectionRange(0, endSelection)
-            $rename.addEventListener('keydown', (e: EventListener<KeyboardEvent, HTMLInputElement>) => {
+            $rename.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     sourceStore.set({})
                 }
                 if (e.key === 'Enter') {
-                    sourceStore.renameActiveFile(e.target.value)
+                    sourceStore.renameActiveFile((e.target as HTMLInputElement).value)
                 }
             })
         }
@@ -62,10 +61,10 @@ export default class FileManager extends Component {
             }
         })
 
-        this.$fileList.addEventListener('click', (e: EventListener<MouseEvent>) => {
+        this.$fileList.addEventListener('click', (e) => {
             hasFocusedFileList = true
 
-            const fileName = e.target.dataset['name']
+            const fileName = (e.target as HTMLElement).dataset['name']
             if (fileName) {
                 sourceStore.set((state) => ({
                     ...state,
@@ -74,8 +73,8 @@ export default class FileManager extends Component {
             }
         })
 
-        this.$el.addEventListener('contextmenu', async (e: EventListener<MouseEvent>) => {
-            const fileName = e.target.dataset['name']
+        this.$el.addEventListener('contextmenu', async (e) => {
+            const fileName = (e.target as HTMLElement).dataset['name']
             if (fileName) {
                 await sourceStore.set((state) => ({
                     ...state,
@@ -170,8 +169,8 @@ export default class FileManager extends Component {
 
         const $fileAction = this.$el.querySelector(`.${cn('files')} .${cn('action')}`) as HTMLDivElement
 
-        $fileAction.addEventListener('click', (e: EventListener) => {
-            const actionType = e.target.dataset['type']
+        $fileAction.addEventListener('click', (e) => {
+            const actionType = (e.target as HTMLElement).dataset['type']
             if (actionType) {
                 if (actionType === 'create') {
                     sourceStore.createNewFile()

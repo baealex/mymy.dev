@@ -1,15 +1,19 @@
 export const initCode = {
-    c: `char* sayHello(void) {
+    c: `#include <stdio.h>
+
+char* sayHello(void) {
     return "Hello World!";
 }
 
 int main(void) {
-    printf(sayHello());
+    printf("%s", sayHello());
 }
 `,
 
 
-    cpp: `using namespace std;
+    cpp: `#include <iostream>
+
+using namespace std;
 
 char* sayHello(void) {
     return "Hello World!";

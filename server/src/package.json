@@ -10,7 +10,8 @@
     "lint": "eslint src",
     "test": "jest",
     "build": "tsc",
-    "build:client": "npm run build --prefix client"
+    "build:client": "npm run build --prefix client",
+    "build:with": "concurrently \"npm run build\" \"npm run build:client\""
   },
   "repository": {
     "type": "git",

@@ -23,7 +23,7 @@ export default class Functions extends Component {
                 const eventName = currentTarget.dataset['on']
 
                 if (eventName === 'modal') {
-                    const modalName = currentTarget.dataset[eventName]
+                    const modalName = currentTarget.dataset[eventName] as 'github' | 'setting'
                     modalStore.set((prevState) => {
                         const nextState = Object.keys(prevState).reduce((acc, key) => ({
                             ...acc,

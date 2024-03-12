@@ -18,7 +18,7 @@ function createContextMenu() {
     let createdContextMenu = false
 
     const destroyContextMenu = () => {
-        document.querySelector(`.${cn('context-menu')}`).remove()
+        document.querySelector(`.${cn('context-menu')}`)?.remove()
         createdContextMenu = false
     }
 
@@ -69,11 +69,11 @@ function createContextMenu() {
                         subContentBox.className = cn('context-menu-sub')
                         subContentBox.style.top = '0px'
                         subContentBox.style.left = 'calc(100% + 2px)'
-                        menu.subMenus.forEach(subMenu => {
+                        menu.subMenus?.forEach(subMenu => {
                             const subMenuItem = document.createElement('li')
                             subMenuItem.className = cn('context-menu-item')
                             subMenuItem.innerText = subMenu.label
-                            subMenuItem.addEventListener('click', subMenu.click)
+                            subMenuItem.addEventListener('click', subMenu.click!)
                             subContentBox.appendChild(subMenuItem)
                         })
                         menuItem.appendChild(subContentBox)
@@ -83,7 +83,7 @@ function createContextMenu() {
                     menuItem.addEventListener('mouseenter', () => {
                         document.querySelectorAll(`.${cn('context-menu-sub')}`).forEach(sub => sub.remove())
                     })
-                    menuItem.addEventListener('click', menu.click)
+                    menuItem.addEventListener('click', menu.click!)
                     contextBox.appendChild(menuItem)
                 }
             })

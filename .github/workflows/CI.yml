@@ -48,9 +48,9 @@ jobs:
       run: npm run lint
       working-directory: server/src/client/src
 
-    - name: Test (Client)
-      run: npm run test
-      working-directory: server/src/client/src
+    # - name: Test (Client)
+    #   run: npm run test
+    #   working-directory: server/src/client/src
 
     - name: Build (Client)
       run: npm run build

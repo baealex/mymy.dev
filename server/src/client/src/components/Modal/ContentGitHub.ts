@@ -60,11 +60,11 @@ export default class ModalSettingContent extends Component {
                 fileData: data,
             })
 
-            this.$input.value = ''
+            this.$input!.value = ''
         })
 
         this.$button.addEventListener('click', () => {
-            getGitHubRaw(this.$input.value)
+            getGitHubRaw(this.$input!.value)
         })
 
         const raw = decodeURIComponent(getParameter('raw'))

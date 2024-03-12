@@ -18,32 +18,20 @@
 
 ## Installation
 
-Requires `docker` and `docker-compose`.
+Requires `node`.
 
 ```bash
-docker run -p 5000:5000 baealex/mymydev:latest
+cd server/src && npm i
+npm run build && npm run build:client && npm run start
 ```
 
-Visit `http://localhost:5000` to access it!
+Visit `http://localhost:3000` to access it!
 
 <br>
 
 ## Demo site
 
 [mymy.dev](https://mymy.dev/)
-
-<br>
-
-## Self-host
-
-### use Docker
-
-```
-git clone https://github.com/baealex/mymy.dev
-cd mymy.dev && git pull && docker-compose pull && docker-compose up -d
-```
-
-connect to `http://localhost:5000`
 
 <br>
 
