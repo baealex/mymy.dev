@@ -117,10 +117,17 @@ export default class FileManager extends Component {
                                     })
                                 },
                                 {
-                                    label: 'Rust',
+                                    label: 'Dart',
                                     click: () => sourceStore.createNewFile({
-                                        lang: 'rs',
-                                        fileData: initCode['rs']
+                                        lang: 'dart',
+                                        fileData: initCode['dart']
+                                    })
+                                },
+                                {
+                                    label: 'TypeScript',
+                                    click: () => sourceStore.createNewFile({
+                                        lang: 'ts',
+                                        fileData: initCode['ts']
                                     })
                                 },
                                 {
@@ -135,6 +142,20 @@ export default class FileManager extends Component {
                                     click: () => sourceStore.createNewFile({
                                         lang: 'py',
                                         fileData: initCode['py']
+                                    })
+                                },
+                                {
+                                    label: 'Ruby',
+                                    click: () => sourceStore.createNewFile({
+                                        lang: 'rb',
+                                        fileData: initCode['rb']
+                                    })
+                                },
+                                {
+                                    label: 'Rust',
+                                    click: () => sourceStore.createNewFile({
+                                        lang: 'rs',
+                                        fileData: initCode['rs']
                                     })
                                 },
                                 {

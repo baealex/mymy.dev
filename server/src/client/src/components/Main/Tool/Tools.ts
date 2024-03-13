@@ -92,9 +92,12 @@ export default class Tools extends Component {
             <select>
                 <option selected value="c">C</option>
                 <option value="cpp">C++</option>
-                <option value="rs">Rust</option>
-                <option value="js">JavaScript</option>
+                <option value="dart">Dart</option>
+                <option value="ts">Deno</option>
+                <option value="js">NodeJS</option>
                 <option value="py">Python3</option>
+                <option value="rb">Ruby</option>
+                <option value="rs">Rust</option>
             </select>
             <button>Run</button>
         `

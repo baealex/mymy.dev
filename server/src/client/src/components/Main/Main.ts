@@ -16,7 +16,9 @@ import { sourceStore } from '~/stores/source'
 import CodeMirror from 'codemirror'
 import 'codemirror/mode/clike/clike'
 import 'codemirror/mode/javascript/javascript'
+import 'codemirror/mode/dart/dart'
 import 'codemirror/mode/python/python'
+import 'codemirror/mode/ruby/ruby'
 import 'codemirror/mode/rust/rust'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/material-darker.css'
@@ -107,12 +109,24 @@ export default class Side extends Component {
                         _editor.setOption('mode', 'clike')
                         return
                     }
+                    if (lang === 'dart') {
+                        _editor.setOption('mode', 'javascript')
+                        return
+                    }
+                    if (lang === 'ts') {
+                        _editor.setOption('mode', 'javascript')
+                        return
+                    }
                     if (lang === 'js') {
                         _editor.setOption('mode', 'javascript')
                         return
                     }
                     if (lang === 'py') {
                         _editor.setOption('mode', 'python')
+                        return
+                    }
+                    if (lang === 'rb') {
+                        _editor.setOption('mode', 'ruby')
                         return
                     }
                     if (lang === 'rs') {

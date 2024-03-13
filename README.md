@@ -8,7 +8,7 @@
 
 ## Feature Overview
 
-- [x] Supports `C`, `C++`, `Python`, `JavaScript`, and `Rust`.
+- [x] Supports `C`, `C++`, `Dart`, `Deno`, `NodeJS`, `Python`, `Ruby` and `Rust`.
 - [x] Provides an environment to work with multiple source codes.
 - [x] Allows fetching of `GitHub` code.
 - [x] Supports code auto-completion.
@@ -18,11 +18,21 @@
 
 ## Installation
 
-Requires `node`.
+Requires `node`, `docker`.
+
+```bash
+docker pull baealex/mymydev-env-cpp && \
+docker pull baealex/mymydev-env-dart && \
+docker pull baealex/mymydev-env-deno && \
+docker pull baealex/mymydev-env-node && \
+docker pull baealex/mymydev-env-python && \
+docker pull baealex/mymydev-env-ruby && \
+docker pull baealex/mymydev-env-rust
+```
 
 ```bash
 cd server/src && npm i
-npm run build && npm run build:client && npm run start
+npm run build:with && npm run start
 ```
 
 Visit `http://localhost:3000` to access it!

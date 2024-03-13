@@ -15,83 +15,75 @@ import {
     GetGitHubRawResultEventParams
 } from '../../socket-event'
 
-interface CreateDockerRunCommandProps {
-    env: string
-    filename: string
-    command: string
-}
-
-function createDockerRunCommand({ env, filename, command }: CreateDockerRunCommandProps) {
-    return [
-        'docker run',
-        '--rm',
-        '--platform linux/amd64',
-        '-i',
-        `-v ./${filename}:/temp/${filename}`,
-        `baealex/mymydev-env-${env}`,
-        `/bin/bash -c "${command}"`,
-    ]
-}
-
 export default function useSocket(io: Server) {
     io.on('connection', (socket) => {
         socket.on(SOCKET_EVENT_NAME.CODE_RUNNER, ({ language, source }: CodeRunnerEventParams) => {
-            if (!['c', 'cpp', 'rs', 'py', 'js'].includes(language)) {
-                return
-            }
-
             const uuid = uuidv4()
             const filename = uuid + '.' + language
 
             try {
-                if (language === 'c') {
-                    fs.writeFileSync(filename, source)
+                fs.writeFileSync(filename, source)
 
-                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(createDockerRunCommand({
+                switch (language) {
+                case 'c':
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode({
                         filename,
-                        env: 'cpp',
+                        env: 'c',
                         command: `gcc -o /temp/${uuid} /temp/${filename} && /temp/${uuid}`
-                    }))}))
-                }
-
-                if (language === 'cpp') {
-                    fs.writeFileSync(filename, source)
-
-                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(createDockerRunCommand({
+                    })}))
+                    break
+                case 'cpp':
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode({
                         filename,
                         env: 'cpp',
                         command: `g++ -o /temp/${uuid} /temp/${filename} && /temp/${uuid}`
-                    }))}))
-                }
-
-                if (language === 'rs') {
-                    fs.writeFileSync(filename, source)
-
-                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(createDockerRunCommand({
+                    })}))
+                    break
+                case 'dart':
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode({
                         filename,
-                        env: 'rust',
-                        command: `rustc -o /temp/${uuid} /temp/${filename} && /temp/${uuid}`
-                    }))}))
-                }
-
-                if (language === 'py') {
-                    fs.writeFileSync(filename, source)
-
-                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(createDockerRunCommand({
+                        env: 'dart',
+                        command: `dart /temp/${filename}`
+                    })}))
+                    break
+                case 'ts':
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode({
                         filename,
-                        env: 'python',
-                        command: `python /temp/${filename}`
-                    }))}))
-                }
-
-                if (language === 'js') {
-                    fs.writeFileSync(filename, source)
-
-                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode(createDockerRunCommand({
+                        env: 'deno',
+                        command: `deno run /temp/${filename}`
+                    })}))
+                    break
+                case 'js':
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode({
                         filename,
                         env: 'node',
                         command: `node /temp/${filename}`
-                    }))}))
+                    })}))
+                    break
+                case 'py':
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode({
+                        filename,
+                        env: 'python',
+                        command: `python /temp/${filename}`
+                    })}))
+                    break
+                case 'rb':
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode({
+                        filename,
+                        env: 'ruby',
+                        command: `ruby /temp/${filename}`
+                    })}))
+                    break
+                case 'rs':
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode({
+                        filename,
+                        env: 'rust',
+                        command: `rustc -o /temp/${uuid} /temp/${filename} && /temp/${uuid}`
+                    })}))
+                    break
+                default:
+                    socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_ERROR)
+                    break
                 }
             } catch (e) {
                 socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_ERROR)

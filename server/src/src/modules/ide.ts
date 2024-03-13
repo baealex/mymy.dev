@@ -6,9 +6,27 @@ type Error = ExecException & {
     stderr: string;
 };
 
-export function runCode(commands: string[]) {
+interface CreateDockerRunCommandProps {
+    env: string
+    filename: string
+    command: string
+}
+
+function createDockerRunCommand({ env, filename, command }: CreateDockerRunCommandProps) {
+    return [
+        'docker run',
+        '--rm',
+        '--platform linux/amd64',
+        '-i',
+        `-v ./${filename}:/temp/${filename}`,
+        `baealex/mymydev-env-${env}`,
+        `/bin/bash -c "${command}"`,
+    ]
+}
+
+export function runCode(props: CreateDockerRunCommandProps) {
     try {
-        const result = subprocess.execSync(commands.join(' '), {
+        const result = subprocess.execSync(createDockerRunCommand(props).join(' '), {
             timeout: 10000,
             shell: '/bin/bash'
         })
