@@ -20,7 +20,7 @@ function setData(newData: Partial<typeof data>) {
 }
 
 function saveOnUrl(data: string) {
-    const base64 = btoa(data)
+    const base64 = btoa(encodeURIComponent(data))
     window.history.replaceState({}, '', `/#/${base64}`)
 }
 
@@ -29,7 +29,7 @@ export function loadFromUrl(): unknown {
     if (!base64) return
 
     try {
-        return JSON.parse(atob(base64))
+        return JSON.parse(decodeURIComponent(atob(base64)))
     } catch (e) {
         console.error(e)
     }
