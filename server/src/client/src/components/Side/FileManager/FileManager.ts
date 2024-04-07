@@ -85,6 +85,10 @@ export default class FileManager extends Component {
                     left: e.clientX + window.scrollX,
                     menus: [
                         {
+                            label: 'Download',
+                            click: sourceStore.downloadActiveFile.bind(sourceStore)
+                        },
+                        {
                             label: `Rename (${configureStore.state.activeFileRenameShortcut})`,
                             click: changeElementActiveFileForRename
                         },

@@ -91,6 +91,16 @@ class SourceStore extends Store<SourceStoreState> {
             }
         })
     }
+
+    downloadActiveFile() {
+        const file = this.state.files[this.state.activeFile]
+        const blob = new Blob([file], {type: 'text/plain'})
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = this.state.activeFile
+        a.click()
+    }
 }
 
 export const sourceStore = new SourceStore()
