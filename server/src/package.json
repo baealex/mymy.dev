@@ -27,7 +27,6 @@
   },
   "homepage": "https://github.com/baealex/codebean#readme",
   "dependencies": {
-    "@mymydev/client": "file:client",
     "axios": "^1.6.8",
     "express": "^4.19.2",
     "express-winston": "^4.2.0",

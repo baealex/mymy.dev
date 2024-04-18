@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [21.x]
 
     steps:
     - uses: actions/checkout@v3
@@ -28,8 +28,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Install
-      run: npm i
+    - name: Install (Server)
+      run: npx pnpm i
       working-directory: server/src
     
     - name: Lint (Server)
@@ -43,7 +43,11 @@ jobs:
     - name: Build (Server)
       run: npm run build
       working-directory: server/src
-    
+
+    - name: Install (Server)
+      run: npx pnpm i
+      working-directory: server/src/client/src
+
     - name: Lint (Client)
       run: npm run lint
       working-directory: server/src/client/src
