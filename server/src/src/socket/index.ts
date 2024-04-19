@@ -28,7 +28,7 @@ export default function useSocket(io: Server) {
                 case 'c':
                     socket.emit(SOCKET_EVENT_NAME.CODE_RUNNER_RESULT, CodeRunnerResultEventParams({ data: runCode({
                         filename,
-                        env: 'c',
+                        env: 'cpp',
                         command: `gcc -o /temp/${uuid} /temp/${filename} && /temp/${uuid}`
                     })}))
                     break
