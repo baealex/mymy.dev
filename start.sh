@@ -7,4 +7,4 @@ cd client
 npx pnpm i
 
 cd ..
-npm run build:client && npm run start
+npm run build:with && npm run start

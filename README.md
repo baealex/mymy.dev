@@ -31,8 +31,7 @@ docker pull baealex/mymydev-env-rust
 ```
 
 ```bash
-cd server/src && npm i
-npm run build:with && npm run start
+./start.sh
 ```
 
 Visit `http://localhost:3000` to access it!
