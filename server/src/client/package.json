@@ -10,6 +10,12 @@
         "lint": "eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview"
     },
+    "dependencies": {
+        "badland": "^0.2.4",
+        "classnames": "^2.5.1",
+        "codemirror": "^5.65.16",
+        "socket.io-client": "^4.7.5"
+    },
     "devDependencies": {
         "@baejino/eslint": "^0.0.4",
         "@baejino/eslint-react": "^0.0.3",
@@ -18,11 +24,5 @@
         "sass": "^1.75.0",
         "typescript": "^5.4.4",
         "vite": "^5.2.8"
-    },
-    "dependencies": {
-        "badland": "^0.2.4",
-        "classnames": "^2.5.1",
-        "codemirror": "^5.65.16",
-        "socket.io-client": "^4.7.5"
     }
 }

@@ -1,57 +1,55 @@
 {
-  "name": "mymydev",
-  "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "start": "node dist/src/main.js",
-    "dev": "nodemon --watch src --delay 1 --exec ts-node src/main.ts",
-    "dev:client": "npm run dev --prefix client",
-    "dev:with": "concurrently \"npm run dev\" \"npm run dev:client\"",
-    "lint": "eslint src",
-    "test": "jest",
-    "build": "tsc",
-    "build:client": "npm run build --prefix client",
-    "build:with": "concurrently \"npm run build\" \"npm run build:client\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/baealex/codebean.git"
-  },
-  "keywords": [
-    "socket"
-  ],
-  "author": "baealex",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/baealex/codebean/issues"
-  },
-  "homepage": "https://github.com/baealex/codebean#readme",
-  "dependencies": {
-    "axios": "^1.6.8",
-    "express": "^4.19.2",
-    "express-winston": "^4.2.0",
-    "socket.io": "^4.7.5",
-    "uuid": "^9.0.1",
-    "winston": "^3.13.0"
-  },
-  "devDependencies": {
-    "@baejino/eslint": "^0.0.4",
-    "@types/express": "^4.17.21",
-    "@types/jest": "^29.5.12",
-    "@types/node": "^20.12.5",
-    "@types/supertest": "^6.0.2",
-    "@types/uuid": "^9.0.8",
-    "@typescript-eslint/eslint-plugin": "^7.5.0",
-    "@typescript-eslint/parser": "^7.5.0",
-    "concurrently": "^8.2.2",
-    "eslint": "^8.57.0",
-    "eslint-plugin-jest": "^28.5.0",
-    "jest": "^29.7.0",
-    "nodemon": "^3.1.0",
-    "supertest": "^6.3.4",
-    "ts-jest": "^29.1.2",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.4.4"
-  }
+    "name": "mymydev",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "start": "node dist/src/main.js",
+        "dev": "nodemon --watch src --delay 1 --exec ts-node src/main.ts",
+        "dev:client": "npm run dev --prefix client",
+        "dev:with": "concurrently \"npm run dev\" \"npm run dev:client\"",
+        "lint": "eslint src",
+        "test": "jest",
+        "build": "tsc",
+        "build:client": "npm run build --prefix client",
+        "build:with": "concurrently \"npm run build\" \"npm run build:client\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/baealex/codebean.git"
+    },
+    "keywords": [
+        "socket"
+    ],
+    "author": "baealex",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/baealex/codebean/issues"
+    },
+    "homepage": "https://github.com/baealex/codebean#readme",
+    "dependencies": {
+        "axios": "^1.6.8",
+        "express": "^4.19.2",
+        "express-winston": "^4.2.0",
+        "socket.io": "^4.7.5",
+        "uuid": "^9.0.1",
+        "winston": "^3.13.0"
+    },
+    "devDependencies": {
+        "@baejino/eslint": "^0.0.4",
+        "@types/express": "^4.17.21",
+        "@types/jest": "^29.5.12",
+        "@types/node": "^20.12.5",
+        "@types/supertest": "^6.0.2",
+        "@types/uuid": "^9.0.8",
+        "concurrently": "^8.2.2",
+        "eslint": "^8.57.0",
+        "eslint-plugin-jest": "^28.5.0",
+        "jest": "^29.7.0",
+        "nodemon": "^3.1.0",
+        "supertest": "^6.3.4",
+        "ts-jest": "^29.1.2",
+        "ts-node": "^10.9.2",
+        "tsconfig-paths": "^4.2.0",
+        "typescript": "^5.4.4"
+    }
 }
