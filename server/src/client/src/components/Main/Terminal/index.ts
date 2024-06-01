@@ -1,1 +1,1 @@
-export { default } from './Terminal'
+export { default } from './Terminal';

@@ -1,7 +1,5 @@
-import { createStore } from 'badland'
+import { createStore } from 'badland';
 
-import type { Lang } from '../types'
+import type { Lang } from '../types';
 
-export const langStore = createStore({
-    data: 'c' as Lang,
-})
+export const langStore = createStore({ data: 'c' as Lang });

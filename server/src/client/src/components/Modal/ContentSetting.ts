@@ -1,23 +1,23 @@
-import { Component, html } from '~/modules/core'
+import { Component, html } from '~/modules/core';
 
-import { configureStore } from '~/stores/configure'
+import { configureStore } from '~/stores/configure';
 
 export default class ModalSettingContent extends Component {
     mount() {
         this.$el.querySelectorAll('input').forEach($input => {
             $input.addEventListener('input', (e) => {
-                const target = e.target as HTMLInputElement
+                const target = e.target as HTMLInputElement;
                 if (target.min) {
                     if (parseInt(target.value) < parseInt(target.min)) {
-                        target.value = '' + target.min
+                        target.value = '' + target.min;
                     }
                 }
                 configureStore.set((prevState) => ({
                     ...prevState,
-                    [target.name]: target.value,
-                }))
-            })
-        })
+                    [target.name]: target.value
+                }));
+            });
+        });
     }
 
     render() {
@@ -49,6 +49,6 @@ export default class ModalSettingContent extends Component {
                 <p class="subtitle">Controls the font family of the terminal.</p>
                 <input name="terminalFontFamily" value="${configureStore.state.terminalFontFamily}"/>
             </div>
-        `
+        `;
     }
 }

@@ -1,1 +1,1 @@
-export { default } from './Functions'
+export { default } from './Functions';

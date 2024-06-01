@@ -1,1 +1,1 @@
-export { default } from './FileManager'
+export { default } from './FileManager';

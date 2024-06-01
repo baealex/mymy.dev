@@ -1,20 +1,20 @@
-import 'core-js'
+import 'core-js';
 
 export function mockRequestAnimationFrame() {
     window.requestAnimationFrame = (callback) => {
-        callback(0)
-        return 0
-    }
+        callback(0);
+        return 0;
+    };
 }
 
 export function restoreRequestAnimationFrame() {
-    delete window.requestAnimationFrame
+    delete window.requestAnimationFrame;
 }
 
 beforeAll(() => {
-    mockRequestAnimationFrame()
-})
+    mockRequestAnimationFrame();
+});
 
 afterAll(() => {
-    restoreRequestAnimationFrame()
-})
+    restoreRequestAnimationFrame();
+});

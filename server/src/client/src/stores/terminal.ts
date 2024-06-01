@@ -1,5 +1,3 @@
-import { createStore } from 'badland'
+import { createStore } from 'badland';
 
-export const terminalStore = createStore({
-    data: '',
-})
+export const terminalStore = createStore({ data: '' });

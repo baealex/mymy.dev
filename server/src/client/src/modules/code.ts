@@ -10,7 +10,6 @@ int main(void) {
 }
 `,
 
-
     cpp: `#include <iostream>
 
 using namespace std;
@@ -23,7 +22,6 @@ int main(void) {
     cout << sayHello() << endl;
 }`,
 
-
     dart: `String sayHello() {
     return "Hello, World!";
 }
@@ -32,7 +30,6 @@ void main() {
     print(sayHello());
 }
 `,
-
 
     ts: `const sayHello = (): string => {
     return 'Hello, World!'
@@ -43,7 +40,6 @@ void main() {
 })()
 `,
 
-
     js: `const sayHello = () => {
     return 'Hello, World!'
 }
@@ -53,14 +49,12 @@ void main() {
 })()
 `,
 
-
     py: `def say_hello() -> str:
     return 'Hello, World!'
 
 if __name__ == '__main__':
     print(say_hello())
 `,
-
 
     rb: `def say_hello()
     puts "Hello, World!"
@@ -73,7 +67,6 @@ end
 at_exit { main }
 `,
 
-
     rs: `fn say_hello() -> &'static str {
     "Hello, World!"
 }
@@ -81,9 +74,9 @@ at_exit { main }
 fn main() {
     println!("{}", say_hello())
 }
-`,
-}
+`
+};
 
 export type Lang = keyof typeof initCode;
 
-export const langs = Object.keys(initCode) as Lang[]
+export const langs = Object.keys(initCode) as Lang[];

@@ -1,1 +1,1 @@
-export { default } from './Side'
+export { default } from './Side';

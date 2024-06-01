@@ -1,49 +1,49 @@
-import style from './Functions.module.scss'
-import classNames from 'classnames/bind'
-const cn = classNames.bind(style)
+import style from './Functions.module.scss';
+import classNames from 'classnames/bind';
+const cn = classNames.bind(style);
 
-import { Component, html } from '~/modules/core'
+import { Component, html } from '~/modules/core';
 
-import { modalStore } from '~/stores/modal'
-import { configureStore } from '~/stores/configure'
+import { modalStore } from '~/stores/modal';
+import { configureStore } from '~/stores/configure';
 
 export default class Functions extends Component {
     constructor($parent: HTMLElement) {
-        super($parent, { className: cn('functions') })
+        super($parent, { className: cn('functions') });
     }
 
     mount() {
         const $icons = this.$el.querySelectorAll(
             `.${cn('top')} > div,` +
             `.${cn('bottom')} > div`
-        )
+        );
         for (const $icon of Array.from($icons)) {
             $icon.addEventListener('click', (e) => {
-                const currentTarget = e.currentTarget as HTMLElement
-                const eventName = currentTarget.dataset['on']
+                const currentTarget = e.currentTarget as HTMLElement;
+                const eventName = currentTarget.dataset['on'];
 
                 if (eventName === 'modal') {
-                    const modalName = currentTarget.dataset[eventName] as 'github' | 'setting'
+                    const modalName = currentTarget.dataset[eventName] as 'github' | 'setting';
                     modalStore.set((prevState) => {
                         const nextState = Object.keys(prevState).reduce((acc, key) => ({
                             ...acc,
-                            [key]: false,
-                        }), {})
+                            [key]: false
+                        }), {});
 
                         return {
                             ...nextState,
-                            [modalName]: !prevState[modalName],
-                        }
-                    })
+                            [modalName]: !prevState[modalName]
+                        };
+                    });
                 }
 
                 if (eventName === 'file') {
                     configureStore.set((state) => ({
                         ...state,
-                        visibleFileManager: !state.visibleFileManager,
-                    }))
+                        visibleFileManager: !state.visibleFileManager
+                    }));
                 }
-            })
+            });
         }
     }
 
@@ -62,6 +62,6 @@ export default class Functions extends Component {
                     <i class="fas fa-cog"></i>
                 </div>
             </div>
-      `
+      `;
     }
 }

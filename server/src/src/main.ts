@@ -1,8 +1,8 @@
-import socketio from 'socket.io'
-import socketManager from './socket'
+import socketio from 'socket.io';
+import socketManager from './socket';
 
-import app from './app'
+import app from './app';
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5000;
 
-socketManager(new socketio.Server(app.listen(port, () => console.log(`listen on :${port}`))))
+socketManager(new socketio.Server(app.listen(port, () => console.log(`listen on :${port}`))));

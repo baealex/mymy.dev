@@ -1,5 +1,5 @@
-import App from './components/App/App'
+import App from './components/App/App';
 
-import './main.scss'
+import './main.scss';
 
-new App(document.body)
+new App(document.body);

@@ -1,15 +1,15 @@
-import fs from 'fs'
-import subprocess from 'child_process'
-import type { ExecException } from 'child_process'
+import fs from 'fs';
+import subprocess from 'child_process';
+import type { ExecException } from 'child_process';
 
 type Error = ExecException & {
     stderr: string;
 };
 
 interface CreateDockerRunCommandProps {
-    env: string
-    filename: string
-    command: string
+    env: string;
+    filename: string;
+    command: string;
 }
 
 function createDockerRunCommand({ env, filename, command }: CreateDockerRunCommandProps) {
@@ -20,8 +20,8 @@ function createDockerRunCommand({ env, filename, command }: CreateDockerRunComma
         '-i',
         `-v ./${filename}:/temp/${filename}`,
         `baealex/mymydev-env-${env}`,
-        `/bin/bash -c "${command}"`,
-    ]
+        `/bin/bash -c "${command}"`
+    ];
 }
 
 export function runCode(props: CreateDockerRunCommandProps) {
@@ -29,32 +29,32 @@ export function runCode(props: CreateDockerRunCommandProps) {
         const result = subprocess.execSync(createDockerRunCommand(props).join(' '), {
             timeout: 10000,
             shell: '/bin/bash'
-        })
-        return (result.toString())
+        });
+        return (result.toString());
     } catch (e: unknown) {
-        const error = e as Error
+        const error = e as Error;
 
         if (error.signal === 'SIGTERM' || error.signal === 'SIGKILL') {
-            return 'Timeout'
+            return 'Timeout';
         }
         if (error.stderr) {
-            return error.stderr.toString()
+            return error.stderr.toString();
         }
 
-        console.log(error)
-        return 'Error'
+        console.log(error);
+        return 'Error';
     }
 }
 
 export function safety(source: string, keywords: string[]) {
     for (const keyword of keywords) {
-        source = source.replace(new RegExp(keyword), '')
+        source = source.replace(new RegExp(keyword), '');
     }
-    return source
+    return source;
 }
 
 export function cleaner(filename: string) {
     if (fs.existsSync(filename)) {
-        fs.unlinkSync(filename)
+        fs.unlinkSync(filename);
     }
 }
